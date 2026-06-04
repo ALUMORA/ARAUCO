@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>{% block title %}Arauco — Exposure Research 2026{% endblock %}</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#080d17;--bg2:#0f1623;--bg3:#161f30;--bg4:#1c2842;
+  --border:#1e2d45;--border2:#263650;
+  --accent:#00c8ff;--accent2:#7c3aed;
+  --green:#10b981;--red:#ef4444;--yellow:#f59e0b;--orange:#f97316;
+  --text:#e2e8f0;--muted:#64748b;--muted2:#94a3b8;
+  --glow-blue:0 0 30px rgba(0,200,255,.12);
+  --glow-purple:0 0 30px rgba(124,58,237,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* NAV */
+.nav{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:.75rem 2rem;gap:1.2rem;
+  position:sticky;top:0;z-index:100;flex-wrap:wrap;
+}
+.nav-logo{font-weight:900;font-size:1.05rem;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  text-decoration:none;margin-right:.3rem;}
+.nl{font-size:.75rem;color:var(--muted);text-decoration:none;padding:.28rem .55rem;
+  border-radius:.35rem;transition:all .2s;text-transform:uppercase;letter-spacing:.8px}
+.nl:hover{color:var(--text);background:var(--bg3)}
+.nl.on{color:var(--accent)}
+.ns{flex:1}
+.nd{font-size:.7rem;color:var(--muted)}
+.live{display:inline-block;width:7px;height:7px;background:var(--green);border-radius:50%;
+  margin-right:.35rem;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.5)}50%{box-shadow:0 0 0 6px rgba(16,185,129,0)}}
+
+/* BODY */
+.page-body{padding:1.4rem 2rem 3rem;overflow-y:auto;min-height:calc(100vh - 56px - 36px)}
+
+/* SECTION TITLE */
+h2.sec{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted);
+  margin:1.8rem 0 .9rem;display:flex;align-items:center;gap:.6rem}
+h2.sec::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* KPI */
+.kpi-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.85rem}
+.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:.7rem;
+  padding:1rem 1.2rem;position:relative;overflow:hidden;transition:transform .2s}
+.kpi:hover{transform:translateY(-3px);box-shadow:var(--glow-blue)}
+.kpi::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--bc,var(--accent))}
+.kl{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px}
+.kv{font-size:1.8rem;font-weight:800;margin:.22rem 0 .08rem}
+.ks{font-size:.72rem;color:var(--muted)}
+.bx{font-size:.65rem;font-weight:600;padding:.1rem .48rem;border-radius:9999px;display:inline-block;margin-top:.3rem}
+.bu{background:rgba(16,185,129,.15);color:var(--green)}
+.bd{background:rgba(239,68,68,.15);color:var(--red)}
+.bw{background:rgba(245,158,11,.15);color:var(--yellow)}
+.bb{background:rgba(0,200,255,.12);color:var(--accent)}
+
+/* CHARTS */
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem}
+.cc{background:var(--bg2);border:1px solid var(--border);border-radius:.7rem;padding:1.1rem 1.3rem}
+.cc h3{font-size:.72rem;color:var(--muted);margin-bottom:.85rem;letter-spacing:.4px;text-transform:uppercase}
+.cc canvas{max-height:205px}
+
+/* TABLE */
+.tw{background:var(--bg2);border:1px solid var(--border);border-radius:.7rem;overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+thead th{background:var(--bg3);padding:.65rem .9rem;text-align:left;font-size:.65rem;
+  text-transform:uppercase;letter-spacing:1.5px;color:var(--muted)}
+tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
+tbody tr:hover{background:var(--bg3)}
+tbody td{padding:.65rem .9rem;vertical-align:top}
+.tag{font-size:.65rem;padding:.12rem .45rem;border-radius:9999px;font-weight:600}
+.tr2{background:rgba(239,68,68,.15);color:#fca5a5}
+.to2{background:rgba(16,185,129,.15);color:#6ee7b7}
+.tn2{background:rgba(100,116,139,.15);color:#94a3b8}
+.th2{background:rgba(245,158,11,.15);color:#fcd34d}
+
+/* RISK CARDS */
+.rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:.95rem}
+.rc{background:var(--bg2);border:1px solid var(--border);border-radius:.7rem;padding:1.2rem;transition:all .2s}
+.rc:hover{transform:translateY(-3px)}
+.rh{display:flex;align-items:center;gap:.7rem;margin-bottom:.7rem}
+.ri{font-size:1.7rem}
+.rt{font-size:.9rem;font-weight:700}
+.rl{font-size:.65rem;padding:.18rem .55rem;border-radius:9999px;font-weight:700;margin-left:auto;white-space:nowrap}
+.rla{background:rgba(239,68,68,.2);color:#fca5a5;border:1px solid rgba(239,68,68,.4)}
+.rlm{background:rgba(245,158,11,.2);color:#fcd34d;border:1px solid rgba(245,158,11,.4)}
+.rlo{background:rgba(0,200,255,.15);color:var(--accent);border:1px solid rgba(0,200,255,.3)}
+.rb{font-size:.8rem;color:var(--muted2);line-height:1.65}
+.rim{margin-top:.65rem;padding:.55rem .75rem;background:var(--bg3);border-radius:.45rem;
+  border-left:3px solid var(--border2);font-size:.75rem;color:var(--muted)}
+.rim span{color:var(--text);font-weight:600}
+
+/* GAUGE */
+.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:.85rem}
+.gc{background:var(--bg2);border:1px solid var(--border);border-radius:.7rem;padding:1rem;text-align:center}
+.gc canvas{max-height:95px;margin:0 auto;display:block}
+.gl{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:.4rem}
+.gv{font-size:1.15rem;font-weight:800;margin-top:.1rem}
+
+/* HEDGE */
+.hg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:.95rem}
+.hc{background:var(--bg2);border:1px solid var(--border);border-radius:.7rem;padding:1.2rem}
+.hc.especial{border-color:rgba(0,200,255,.3)}
+.hn{font-size:.62rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:.35rem}
+.ht{font-size:.95rem;font-weight:700;margin-bottom:.7rem;color:var(--accent)}
+.hb{font-size:.8rem;color:var(--muted2);line-height:1.7}
+.hb li{margin-bottom:.35rem;margin-left:1rem}
+.ht2{display:inline-block;font-size:.65rem;margin:.15rem .2rem 0 0;padding:.12rem .45rem;border-radius:9999px}
+.hp{background:rgba(16,185,129,.12);color:#6ee7b7}
+.hc2{background:rgba(239,68,68,.12);color:#fca5a5}
+
+/* TIMELINE */
+.tl{position:relative;padding-left:1.8rem}
+.tl::before{content:'';position:absolute;left:.5rem;top:0;bottom:0;width:2px;background:var(--border)}
+.ti{position:relative;margin-bottom:1.2rem}
+.tdot{position:absolute;left:-1.4rem;top:.28rem;width:9px;height:9px;border-radius:50%;border:2px solid var(--bg);background:var(--accent)}
+.tdot.w{background:var(--yellow)}.tdot.r{background:var(--red)}.tdot.g{background:var(--green)}
+.tdate{font-size:.65rem;color:var(--muted);letter-spacing:1px;margin-bottom:.18rem}
+.ttitle{font-size:.85rem;font-weight:700;margin-bottom:.22rem}
+.tbody2{font-size:.78rem;color:var(--muted);line-height:1.6}
+
+/* FOOTER */
+.ft{padding:.6rem 2rem;background:var(--bg2);border-top:1px solid var(--border);
+  font-size:.65rem;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.3rem}
+
+/* Chart defaults */
+</style>
+</head>
+<body>
+
+{% block nav %}
+<nav class="nav">
+  <a href="/menu" class="nav-logo">ARAUCO</a>
+  <a href="/menu" class="nl {% if request.path == '/menu' %}on{% endif %}">Menú</a>
+  <a href="/macro" class="nl {% if request.path == '/macro' %}on{% endif %}">Variables Macro</a>
+  <a href="/riesgos" class="nl {% if request.path == '/riesgos' %}on{% endif %}">Riesgos</a>
+  <a href="/cobertura" class="nl {% if request.path == '/cobertura' %}on{% endif %}">Cobertura</a>
+  <a href="/calculadora" class="nl {% if request.path == '/calculadora' %}on{% endif %}" style="color:var(--accent)">Calculadora</a>
+  <div class="ns"></div>
+  <div class="nd"><span class="live"></span><span id="nav-date"></span></div>
+  <a href="/logout" class="nl" style="color:var(--red)">Salir</a>
+</nav>
+{% endblock %}
+
+{% block content %}{% endblock %}
+
+{% block footer %}
+<div class="ft">
+  <span>Fuentes: Banxico · BLS (USDL-26-0721) · INEGI ENOE · OECD · Vanguard · ExchangeRates.org · Fed FOMC Apr-29-2026 · BBVA Research</span>
+  <span>Equipo 1 TEC GDL · International Financial Management · Mayo 2026</span>
+</div>
+{% endblock %}
+
+<script>
+Chart.defaults.color='#64748b';
+Chart.defaults.borderColor='#1e2d45';
+Chart.defaults.font.family='Segoe UI,system-ui,sans-serif';
+Chart.defaults.plugins.legend.labels.boxWidth=10;
+document.getElementById('nav-date').textContent =
+  new Date().toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});
+{% block scripts %}{% endblock %}
+</script>
+</body>
+</html>

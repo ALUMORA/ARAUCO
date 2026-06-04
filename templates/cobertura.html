@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Arauco — Estrategia de Cobertura{% endblock %}
+
+{% block content %}
+<div class="page-body">
+
+  <h2 class="sec">Contexto de Exposición FX</h2>
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:.7rem;padding:1.3rem 1.6rem;margin-bottom:1rem">
+    <p style="font-size:.85rem;color:var(--muted2);line-height:1.8;margin-bottom:.7rem">
+      Arauco opera en un entorno <strong style="color:var(--text)">multi-divisa estructural</strong>: costos operativos en México en <strong style="color:var(--yellow)">MXN</strong> (mano de obra, energía, insumos locales), ingresos de exportación y deuda (~$7.2B) denominados en <strong style="color:var(--accent)">USD</strong>.
+    </p>
+    <p style="font-size:.85rem;color:var(--muted2);line-height:1.8">
+      El entorno de mayo 2026 exige una estrategia que <strong style="color:var(--green)">proteja los flujos MXN</strong> y <strong style="color:var(--green)">gestione el servicio de la deuda USD</strong>, balanceando costo de cobertura vs. riesgo de depreciación.
+    </p>
+  </div>
+
+  <h2 class="sec">Instrumentos de Cobertura</h2>
+  <div class="hg">
+    {% for h in hedging %}
+    <div class="hc{% if h.especial %} especial{% endif %}">
+      <div class="hn">INSTRUMENTO {{ h.num }}</div>
+      <div class="ht">{{ h.titulo }}</div>
+      <div class="hb">
+        {{ h.descripcion }}
+        <ul style="margin-top:.55rem">
+          {% for b in h.bullets %}
+          <li>{{ b }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div style="margin-top:.7rem">
+        {% for pro in h.pros %}<span class="ht2 hp">✓ {{ pro }}</span>{% endfor %}
+        {% for con in h.cons %}<span class="ht2 hc2">✗ {{ con }}</span>{% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <h2 class="sec">Impacto de Escenarios FX</h2>
+  <div class="cg">
+    <div class="cc" style="grid-column:1/-1">
+      <h3>Costo de Deuda por Escenario USD/MXN — Índice Base 100 (Mayo 2026)</h3>
+      <canvas id="c-scen" style="max-height:230px"></canvas>
+    </div>
+  </div>
+
+  <h2 class="sec">Matriz de Decisión</h2>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Instrumento</th><th>Protección</th><th>Costo</th><th>Horizonte</th><th>Escenario Ideal</th><th>Prioridad</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Forward USD/MXN</strong></td><td>Alta — tipo fijo</td><td>Ninguno</td><td>3–12 meses</td><td>Flujos de exportación proyectados</td><td><span class="bx bu">ALTA</span></td></tr>
+        <tr><td><strong>USD Call Options</strong></td><td>Alta asimétrica</td><td>Prima 0.8–1.2%</td><td>6–12 meses</td><td>Crisis USMCA o depreciación brusca</td><td><span class="bx bu">ALTA</span></td></tr>
+        <tr><td><strong>Zero-Cost Collar</strong></td><td>Media — rango</td><td>Cero neto</td><td>6–12 meses</td><td>Incertidumbre moderada y budget limitado</td><td><span class="bx bw">MEDIA</span></td></tr>
+        <tr><td><strong>Natural Hedge</strong></td><td>Estructural</td><td>Sin costo directo</td><td>Permanente</td><td>Facturación USD a nearshoring; CAPEX MXN</td><td><span class="bx bu">ALTA</span></td></tr>
+        <tr><td><strong>Cross-Currency Swap</strong></td><td>Alta en deuda</td><td>Spread de swap</td><td>2–5 años</td><td>Vencimientos deuda USD 2026–2028</td><td><span class="bx bw">MEDIA</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+const D = {{ charts|safe }};
+const B='rgba(0,200,255,1)',BF='rgba(0,200,255,.15)';
+const G='rgba(16,185,129,1)',GF='rgba(16,185,129,.15)';
+const R='rgba(239,68,68,1)', RF='rgba(239,68,68,.15)';
+const Y='rgba(245,158,11,1)';
+const OPT={responsive:true,maintainAspectRatio:true,
+  plugins:{legend:{position:'top'},tooltip:{mode:'index',intersect:false}},
+  scales:{x:{grid:{color:'#1e2d45'}},y:{grid:{color:'#1e2d45'},min:97,max:115}}};
+
+new Chart('c-scen',{type:'line',data:{
+  labels:D.escenarios_deuda.labels,
+  datasets:[
+    {label:'Escenario Optimista (17.0→17.5)', data:D.escenarios_deuda.optimista, borderColor:G,backgroundColor:GF,fill:true,tension:.4},
+    {label:'Escenario Base (17.4→18.0)',       data:D.escenarios_deuda.base,      borderColor:B,backgroundColor:BF,fill:true,tension:.4},
+    {label:'Pesimista / USMCA (→19.5)',        data:D.escenarios_deuda.pesimista, borderColor:R,backgroundColor:RF,fill:true,tension:.4},
+    {label:'Con Cobertura 70% Forwards',       data:D.escenarios_deuda.cobertura, borderColor:Y,backgroundColor:'transparent',tension:.4,borderDash:[6,3],borderWidth:2.5}
+  ]
+},options:OPT});
+{% endblock %}

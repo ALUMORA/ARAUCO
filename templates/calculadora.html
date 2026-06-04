@@ -1,0 +1,770 @@
+{% extends 'base.html' %}
+{% block title %}Calculadora FX — Arauco{% endblock %}
+
+{% block content %}
+<style>
+/* ── Layout ──────────────────────────────────────────────────────────── */
+.calc-wrap{display:flex;height:calc(100vh - 92px);overflow:hidden}
+
+/* ── Sidebar ─────────────────────────────────────────────────────────── */
+.cal-sb{width:262px;flex-shrink:0;overflow-y:auto;background:var(--bg2);
+  border-right:1px solid var(--border);padding:.7rem .8rem;font-size:.76rem}
+.sb-section{font-size:.58rem;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--muted);padding:.55rem .1rem .2rem;margin-top:.5rem;
+  border-top:1px solid var(--border)}
+.sb-section:first-of-type{margin-top:0;border-top:none}
+.sb-ctrl{margin:.38rem 0}
+.sb-lbl{display:flex;justify-content:space-between;color:var(--muted2);
+  margin-bottom:.18rem;font-size:.7rem}
+.sb-lbl b{color:var(--accent);font-family:monospace;font-size:.72rem}
+.sb-range{width:100%;accent-color:var(--accent);cursor:pointer;height:4px}
+.sb-num,.sb-sel{width:100%;background:var(--bg3);border:1px solid var(--border);
+  color:var(--text);border-radius:.32rem;padding:.28rem .48rem;font-size:.74rem}
+.calc-btn{width:100%;margin-top:.7rem;padding:.5rem;background:var(--accent);
+  color:#080d17;border:none;border-radius:.42rem;font-weight:800;font-size:.78rem;
+  cursor:pointer;letter-spacing:.5px;transition:opacity .2s}
+.calc-btn:hover{opacity:.85}
+.calc-btn:disabled{opacity:.45;cursor:not-allowed}
+.sb-note{text-align:center;margin-top:.35rem;font-size:.6rem;color:var(--muted)}
+.sb-sub{font-size:.62rem;color:var(--muted);margin:.4rem 0 .2rem}
+
+/* ── Main ────────────────────────────────────────────────────────────── */
+.cal-main{flex:1;overflow-y:auto;padding:1.1rem 1.6rem 2rem}
+.calc-status{display:flex;align-items:center;gap:.45rem;margin-bottom:.9rem;
+  font-size:.7rem;color:var(--muted)}
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0}
+.sdot.loading{background:var(--yellow);animation:pulse 1s infinite}
+.sdot.error{background:var(--red)}
+
+/* ── Section headers ─────────────────────────────────────────────────── */
+.cs-hd{font-size:.58rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted);
+  margin:1.4rem 0 .65rem;display:flex;align-items:center;gap:.5rem}
+.cs-hd::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── KPI cards ───────────────────────────────────────────────────────── */
+.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem;margin-bottom:.5rem}
+.kpi-row.r4{grid-template-columns:repeat(4,1fr)}
+.kc{background:var(--bg2);border:1px solid var(--border);border-radius:.6rem;
+  padding:.75rem .9rem}
+.kc .kl{font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px}
+.kc .kv{font-size:1.3rem;font-weight:800;margin:.12rem 0 .04rem;font-family:monospace}
+.kc .ks{font-size:.64rem;color:var(--muted)}
+
+/* ── Chart cards ─────────────────────────────────────────────────────── */
+.cc{background:var(--bg2);border:1px solid var(--border);border-radius:.6rem;
+  padding:.9rem 1rem}
+.cc h3{font-size:.62rem;color:var(--muted);margin-bottom:.65rem;text-transform:uppercase;
+  letter-spacing:.5px}
+.cc canvas{max-height:230px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.65rem}
+
+/* ── Data table ──────────────────────────────────────────────────────── */
+.tw{background:var(--bg2);border:1px solid var(--border);border-radius:.6rem;overflow:hidden}
+.dt{width:100%;border-collapse:collapse;font-size:.76rem}
+.dt th{background:var(--bg3);color:var(--muted);padding:.45rem .72rem;text-align:left;
+  font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px}
+.dt td{padding:.45rem .72rem;border-bottom:1px solid rgba(30,45,69,.5);color:var(--text)}
+.dt tr:hover td{background:var(--bg3)}
+
+/* ── Shock box ───────────────────────────────────────────────────────── */
+.shock-box{background:var(--bg3);border:1px solid var(--border2);border-radius:.6rem;
+  padding:.9rem 1rem}
+.shock-lbl{font-size:.6rem;color:var(--muted2);letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:.55rem}
+.shock-res{margin-top:.7rem;display:flex;flex-wrap:wrap;gap:.9rem;font-size:.77rem}
+.shock-res span{color:var(--muted2)}
+.shock-res b{font-family:monospace;font-weight:700}
+
+/* ── Instrument tabs ─────────────────────────────────────────────────── */
+.itabs{display:flex;gap:.28rem;margin-bottom:.6rem}
+.itab{padding:.28rem .7rem;border:1px solid var(--border);border-radius:.32rem;
+  font-size:.68rem;cursor:pointer;color:var(--muted);background:var(--bg3);transition:all .15s}
+.itab.on{background:var(--accent);color:#080d17;border-color:var(--accent);font-weight:700}
+
+/* ── Instrument params panel ─────────────────────────────────────────── */
+.ip{background:var(--bg3);border-radius:.55rem;padding:.75rem;font-size:.75rem;
+  color:var(--muted2);height:100%}
+.ip table{width:100%}
+.ip td:last-child{text-align:right;font-family:monospace;font-weight:600;color:var(--text)}
+
+/* ── Risk metric rows ────────────────────────────────────────────────── */
+.rm-table{width:100%;font-size:.75rem;border-collapse:collapse}
+.rm-table td{padding:.45rem .72rem;border-bottom:1px solid rgba(30,45,69,.5)}
+.rm-table td:last-child{text-align:right;font-family:monospace;font-weight:700}
+
+/* ── Recommendation ──────────────────────────────────────────────────── */
+.rec-b{background:var(--bg2);border:1px solid var(--border);
+  border-left:3px solid var(--accent);border-radius:0 .6rem .6rem 0;
+  padding:.8rem 1rem;margin-bottom:.55rem;font-size:.8rem;color:var(--muted2);line-height:1.7}
+.rec-b .rnum{font-size:.62rem;color:var(--accent);font-weight:700;font-family:monospace;
+  letter-spacing:1px;margin-bottom:.28rem}
+</style>
+
+<div class="calc-wrap">
+
+  <!-- ══════════════════ SIDEBAR ══════════════════ -->
+  <aside class="cal-sb">
+
+    <div class="sb-section" style="margin-top:0;border-top:none">Mercado FX</div>
+
+    <div class="sb-ctrl">
+      <div class="sb-lbl">Spot USD/MXN <b id="v-spot">17.30</b></div>
+      <input type="range" class="sb-range ci" id="spot" min="13" max="24" step="0.05" value="17.30">
+    </div>
+    <div class="sb-ctrl">
+      <div class="sb-lbl">Tasa Banxico (%) <b id="v-rate_mxn">8.50</b></div>
+      <input type="range" class="sb-range ci" id="rate_mxn" min="4" max="15" step="0.25" value="8.50">
+    </div>
+    <div class="sb-ctrl">
+      <div class="sb-lbl">Tasa Fed (%) <b id="v-rate_usd">4.50</b></div>
+      <input type="range" class="sb-range ci" id="rate_usd" min="1" max="8" step="0.25" value="4.50">
+    </div>
+    <div class="sb-ctrl">
+      <div class="sb-lbl">Volatilidad implícita (%) <b id="v-vol">12.0</b></div>
+      <input type="range" class="sb-range ci" id="vol" min="5" max="30" step="0.5" value="12.0">
+    </div>
+
+    <div class="sb-section">Exposición Arauco Mx</div>
+
+    <div class="sb-ctrl">
+      <div class="sb-lbl">Ingresos mensuales (MXN M)</div>
+      <input type="number" class="sb-num ci" id="rev_mxn" value="850" min="0" step="10">
+    </div>
+    <div class="sb-ctrl">
+      <div class="sb-lbl">% Ingresos en USD <b id="v-pct_rev_usd">60</b></div>
+      <input type="range" class="sb-range ci" id="pct_rev_usd" min="0" max="100" step="5" value="60">
+    </div>
+    <div class="sb-ctrl">
+      <div class="sb-lbl">Costos mensuales (MXN M)</div>
+      <input type="number" class="sb-num ci" id="cost_mxn" value="620" min="0" step="10">
+    </div>
+    <div class="sb-ctrl">
+      <div class="sb-lbl">% Costos en USD <b id="v-pct_cost_usd">45</b></div>
+      <input type="range" class="sb-range ci" id="pct_cost_usd" min="0" max="100" step="5" value="45">
+    </div>
+    <div class="sb-ctrl">
+      <div class="sb-lbl">Servicio deuda USD/mes (M)</div>
+      <input type="number" class="sb-num ci" id="debt_usd" value="1.5" min="0" step="0.1">
+    </div>
+    <div class="sb-ctrl">
+      <div class="sb-lbl">EBITDA anual USD (M)</div>
+      <input type="number" class="sb-num ci" id="ebitda_annual" value="85" min="1" step="5">
+    </div>
+
+    <div class="sb-section">Cobertura</div>
+
+    <div class="sb-ctrl">
+      <div class="sb-lbl">Horizonte (meses)</div>
+      <select class="sb-sel ci" id="horizon_months">
+        <option value="3">3 meses</option>
+        <option value="6" selected>6 meses</option>
+        <option value="9">9 meses</option>
+        <option value="12">12 meses</option>
+      </select>
+    </div>
+    <div class="sb-ctrl">
+      <div class="sb-lbl">Hedge ratio (%) <b id="v-hedge_ratio">70</b></div>
+      <input type="range" class="sb-range ci" id="hedge_ratio" min="0" max="100" step="5" value="70">
+    </div>
+    <div class="sb-ctrl">
+      <div class="sb-lbl">Simulaciones MC</div>
+      <select class="sb-sel ci" id="n_sims">
+        <option value="1000">1,000</option>
+        <option value="5000" selected>5,000</option>
+        <option value="10000">10,000</option>
+      </select>
+    </div>
+
+    <div class="sb-section">Canasta de Resina</div>
+
+    <input type="hidden" id="urea_base" value="575">
+    <input type="hidden" id="fenol_base" value="950">
+    <input type="hidden" id="metanol_base" value="380">
+
+    <div class="sb-sub">Urea</div>
+    <div class="sb-ctrl">
+      <div class="sb-lbl">Volumen (ton/mes)</div>
+      <input type="number" class="sb-num ci" id="urea_vol" value="3000" step="100">
+    </div>
+    <div class="sb-ctrl">
+      <div class="sb-lbl">Precio (USD/ton)</div>
+      <input type="number" class="sb-num ci" id="urea_px" value="875" step="10">
+    </div>
+
+    <div class="sb-sub" style="margin-top:.4rem">Fenol</div>
+    <div class="sb-ctrl">
+      <div class="sb-lbl">Volumen (ton/mes)</div>
+      <input type="number" class="sb-num ci" id="fenol_vol" value="2000" step="100">
+    </div>
+    <div class="sb-ctrl">
+      <div class="sb-lbl">Precio (USD/ton)</div>
+      <input type="number" class="sb-num ci" id="fenol_px" value="1150" step="10">
+    </div>
+
+    <div class="sb-sub" style="margin-top:.4rem">Metanol</div>
+    <div class="sb-ctrl">
+      <div class="sb-lbl">Volumen (ton/mes)</div>
+      <input type="number" class="sb-num ci" id="metanol_vol" value="1500" step="100">
+    </div>
+    <div class="sb-ctrl">
+      <div class="sb-lbl">Precio (USD/ton)</div>
+      <input type="number" class="sb-num ci" id="metanol_px" value="450" step="10">
+    </div>
+
+    <button class="calc-btn" id="calc-btn" onclick="calculate()">Calcular</button>
+    <div class="sb-note">Auto-recalcula al cambiar valores</div>
+
+  </aside>
+
+  <!-- ══════════════════ MAIN ══════════════════ -->
+  <main class="cal-main">
+
+    <!-- Status -->
+    <div class="calc-status">
+      <span class="sdot" id="sdot"></span>
+      <span id="sstatus">Iniciando...</span>
+    </div>
+
+    <!-- ─── KPIs ─────────────────────────────────────────────────── -->
+    <div class="cs-hd">Métricas Clave</div>
+    <div class="kpi-row">
+      <div class="kc">
+        <div class="kl">Exposición Neta USD/mes</div>
+        <div class="kv" id="k-exp" style="color:var(--accent)">—</div>
+        <div class="ks" id="k-pos">—</div>
+      </div>
+      <div class="kc">
+        <div class="kl">Forward Rate</div>
+        <div class="kv" id="k-fwd" style="color:var(--yellow)">—</div>
+        <div class="ks" id="k-fwd-s">Puntos forward: —</div>
+      </div>
+      <div class="kc">
+        <div class="kl">Budget / Break-even Rate</div>
+        <div class="kv" id="k-br" style="color:var(--yellow)">—</div>
+        <div class="ks">Tasa límite de absorción FX</div>
+      </div>
+    </div>
+    <div class="kpi-row">
+      <div class="kc">
+        <div class="kl">VaR 95% Con Cobertura</div>
+        <div class="kv" id="k-var" style="color:var(--green)">—</div>
+        <div class="ks" id="k-var-s">vs. sin cobertura: —</div>
+      </div>
+      <div class="kc">
+        <div class="kl">Reducción de Volatilidad</div>
+        <div class="kv" id="k-volr" style="color:var(--green)">—</div>
+        <div class="ks">Cobertura vs sin cobertura</div>
+      </div>
+      <div class="kc">
+        <div class="kl">Costo Resina / EBITDA Anual</div>
+        <div class="kv" id="k-resin" style="color:var(--yellow)">—</div>
+        <div class="ks">Proporción crítica del margen</div>
+      </div>
+    </div>
+
+    <!-- ─── Escenarios FX ────────────────────────────────────────── -->
+    <div class="cs-hd">Escenarios FX</div>
+    <div class="g2">
+      <div class="tw">
+        <table class="dt">
+          <thead>
+            <tr><th>Escenario</th><th>USD/MXN</th><th>P&L sin hedge</th><th>P&L con hedge</th></tr>
+          </thead>
+          <tbody id="scen-tbody"></tbody>
+        </table>
+      </div>
+      <div class="cc">
+        <h3>P&L vs Budget (USD M) — horizonte <span id="hm-label">6</span>m</h3>
+        <canvas id="chart-scen"></canvas>
+      </div>
+    </div>
+
+    <!-- ─── Riesgo Resina ────────────────────────────────────────── -->
+    <div class="cs-hd">Riesgo de Insumos — Canasta de Resina</div>
+    <div class="kpi-row r4" style="margin-bottom:.65rem">
+      <div class="kc">
+        <div class="kl">Costo Mensual (USD)</div>
+        <div class="kv" id="rk-usd" style="color:var(--yellow)">—</div>
+        <div class="ks">Urea + Fenol + Metanol</div>
+      </div>
+      <div class="kc">
+        <div class="kl">Costo Mensual (MXN)</div>
+        <div class="kv" id="rk-mxn" style="color:var(--yellow)">—</div>
+        <div class="ks" id="rk-mxn-s">al spot actual</div>
+      </div>
+      <div class="kc">
+        <div class="kl">Var. Precio Urea</div>
+        <div class="kv" id="rk-urea" style="color:var(--red)">—</div>
+        <div class="ks">vs. precio base histórico</div>
+      </div>
+      <div class="kc">
+        <div class="kl">Resina / EBITDA Anual</div>
+        <div class="kv" id="rk-ratio" style="color:var(--red)">—</div>
+        <div class="ks">Proporción anual crítica</div>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="tw">
+        <table class="dt">
+          <thead><tr><th>Insumo</th><th>Vol (ton/mes)</th><th>Precio (USD/ton)</th><th>Costo/mes</th><th>Δ vs Base</th></tr></thead>
+          <tbody id="resin-tbody"></tbody>
+        </table>
+      </div>
+      <div class="shock-box">
+        <div class="shock-lbl">Simulador de Shock de Precio</div>
+        <div class="sb-ctrl">
+          <div class="sb-lbl">Shock Urea (%) <b id="v-shock_urea">0</b></div>
+          <input type="range" class="sb-range ci" id="shock_urea" min="-50" max="100" step="5" value="0">
+        </div>
+        <div class="sb-ctrl">
+          <div class="sb-lbl">Shock Fenol (%) <b id="v-shock_fenol">0</b></div>
+          <input type="range" class="sb-range ci" id="shock_fenol" min="-50" max="100" step="5" value="0">
+        </div>
+        <div class="sb-ctrl">
+          <div class="sb-lbl">Shock Metanol (%) <b id="v-shock_metanol">0</b></div>
+          <input type="range" class="sb-range ci" id="shock_metanol" min="-50" max="100" step="5" value="0">
+        </div>
+        <div class="shock-res">
+          <span>Costo base: <b id="sh-base">—</b></span>
+          <span>Con shock: <b id="sh-shock">—</b></span>
+          <span>Impacto mes: <b id="sh-delta">—</b></span>
+          <span>vs EBITDA: <b id="sh-ebitda">—</b></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Instrumentos ─────────────────────────────────────────── -->
+    <div class="cs-hd">Instrumentos de Cobertura — Tasas Efectivas</div>
+    <div class="itabs">
+      <button class="itab on" onclick="switchInstr(0,this)">Forward</button>
+      <button class="itab" onclick="switchInstr(1,this)">Put ATM (Opción)</button>
+      <button class="itab" onclick="switchInstr(2,this)">Zero-Cost Collar</button>
+    </div>
+    <div class="g2">
+      <div class="cc">
+        <h3 id="instr-title">Forward: Tasa Efectiva vs Spot al Vencimiento</h3>
+        <canvas id="chart-instr" style="max-height:240px"></canvas>
+      </div>
+      <div class="ip" id="instr-params"></div>
+    </div>
+
+    <!-- ─── Monte Carlo ──────────────────────────────────────────── -->
+    <div class="cs-hd">Monte Carlo — Distribución de P&L FX</div>
+    <div class="g2">
+      <div class="cc">
+        <h3 id="mc-title">Distribución P&L FX (USD M)</h3>
+        <canvas id="chart-mc" style="max-height:260px"></canvas>
+      </div>
+      <div class="tw">
+        <div style="padding:.5rem .75rem;background:var(--bg3);border-bottom:1px solid var(--border);font-size:.6rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase">Métricas de Riesgo</div>
+        <table class="rm-table" id="rm-table"></table>
+      </div>
+    </div>
+
+    <!-- ─── Recomendación ────────────────────────────────────────── -->
+    <div class="cs-hd">Recomendación Final</div>
+    <div id="rec-wrap"></div>
+
+    <div style="text-align:center;color:var(--muted);font-size:.62rem;margin-top:2rem;font-family:monospace">
+      Arauco México · Financial Risk Advisory · TEC GDL IFM 2026 · Assumption / Placeholder Data Only
+    </div>
+
+  </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+/* ── Slider label bindings ─────────────────────────────────────────── */
+const SL = [
+  ['spot','v-spot',2], ['rate_mxn','v-rate_mxn',2], ['rate_usd','v-rate_usd',2],
+  ['vol','v-vol',1], ['pct_rev_usd','v-pct_rev_usd',0], ['pct_cost_usd','v-pct_cost_usd',0],
+  ['hedge_ratio','v-hedge_ratio',0],
+  ['shock_urea','v-shock_urea',0], ['shock_fenol','v-shock_fenol',0], ['shock_metanol','v-shock_metanol',0],
+];
+
+/* ── Colors ────────────────────────────────────────────────────────── */
+const COL = {
+  accent:'#00c8ff', green:'#10b981', red:'#ef4444',
+  yellow:'#f59e0b', muted:'#64748b', text:'#e2e8f0',
+};
+
+/* ── State ─────────────────────────────────────────────────────────── */
+const charts = {};
+let activeInstr = 0, lastData = null, debTimer = null;
+
+/* ── Init ──────────────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  SL.forEach(([id, vid, dec]) => {
+    const el = document.getElementById(id);
+    const vEl = document.getElementById(vid);
+    if (!el || !vEl) return;
+    el.addEventListener('input', () => { vEl.textContent = parseFloat(el.value).toFixed(dec); sched(); });
+  });
+  document.querySelectorAll('.ci:not([type=range])').forEach(el => el.addEventListener('change', sched));
+  calculate();
+});
+
+/* ── Debounce ──────────────────────────────────────────────────────── */
+function sched() { clearTimeout(debTimer); debTimer = setTimeout(calculate, 650); }
+
+/* ── Collect params ────────────────────────────────────────────────── */
+function g(id) { return document.getElementById(id).value; }
+function params() {
+  return {
+    spot:          parseFloat(g('spot')),
+    rate_mxn:      parseFloat(g('rate_mxn')) / 100,
+    rate_usd:      parseFloat(g('rate_usd')) / 100,
+    vol:           parseFloat(g('vol')) / 100,
+    rev_mxn:       parseFloat(g('rev_mxn')) * 1e6,
+    pct_rev_usd:   parseFloat(g('pct_rev_usd')) / 100,
+    cost_mxn:      parseFloat(g('cost_mxn')) * 1e6,
+    pct_cost_usd:  parseFloat(g('pct_cost_usd')) / 100,
+    debt_usd:      parseFloat(g('debt_usd')) * 1e6,
+    ebitda_annual: parseFloat(g('ebitda_annual')) * 1e6,
+    horizon_months: parseInt(g('horizon_months')),
+    hedge_ratio:   parseFloat(g('hedge_ratio')) / 100,
+    n_sims:        parseInt(g('n_sims')),
+    basket: {
+      Urea:    {volume_ton_month:parseFloat(g('urea_vol')),   price_usd_ton:parseFloat(g('urea_px')),    price_base_usd_ton:parseFloat(g('urea_base'))},
+      Fenol:   {volume_ton_month:parseFloat(g('fenol_vol')),  price_usd_ton:parseFloat(g('fenol_px')),   price_base_usd_ton:parseFloat(g('fenol_base'))},
+      Metanol: {volume_ton_month:parseFloat(g('metanol_vol')),price_usd_ton:parseFloat(g('metanol_px')), price_base_usd_ton:parseFloat(g('metanol_base'))},
+    },
+    shock_pct: {
+      Urea:    parseFloat(g('shock_urea'))    / 100,
+      Fenol:   parseFloat(g('shock_fenol'))   / 100,
+      Metanol: parseFloat(g('shock_metanol')) / 100,
+    },
+  };
+}
+
+/* ── Calculate ─────────────────────────────────────────────────────── */
+async function calculate() {
+  setStatus('loading','Calculando...');
+  document.getElementById('calc-btn').disabled = true;
+  try {
+    const r = await fetch('/api/calcular', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(params()),
+    });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error || 'Error desconocido');
+    lastData = d;
+    render(d);
+    setStatus('ok', 'Actualizado · ' + new Date().toLocaleTimeString('es-MX'));
+  } catch(e) {
+    setStatus('error', 'Error: ' + e.message);
+  } finally {
+    document.getElementById('calc-btn').disabled = false;
+  }
+}
+
+function setStatus(s, msg) {
+  document.getElementById('sdot').className = 'sdot' + (s !== 'ok' ? ' ' + s : '');
+  document.getElementById('sstatus').textContent = msg;
+}
+
+/* ── Format helpers ────────────────────────────────────────────────── */
+function fU(v, d=2) {
+  const a = Math.abs(v), sg = v<0?'-':'';
+  if (a>=1e9) return sg+'$'+(a/1e9).toFixed(d)+'B';
+  if (a>=1e6) return sg+'$'+(a/1e6).toFixed(d)+'M';
+  if (a>=1e3) return sg+'$'+(a/1e3).toFixed(0)+'K';
+  return sg+'$'+a.toFixed(0);
+}
+function fM(v) { return Math.abs(v)>=1e9 ? 'MXN '+(v/1e9).toFixed(2)+'B' : 'MXN '+(v/1e6).toFixed(1)+'M'; }
+function fX(v) { return v.toFixed(4); }
+function fP(v) { return v.toFixed(1)+'%'; }
+function pc(v) { return v>=0 ? COL.green : COL.red; }
+
+/* ── Chart helper ──────────────────────────────────────────────────── */
+function mkC(id, type, data, opts) {
+  if (charts[id]) { charts[id].destroy(); delete charts[id]; }
+  const ctx = document.getElementById(id);
+  if (!ctx) return;
+  charts[id] = new Chart(ctx.getContext('2d'), {type, data, options: opts});
+}
+const baseOpts = {responsive:true, maintainAspectRatio:true};
+const gridColor = 'rgba(30,45,69,.45)';
+
+/* ── Render ────────────────────────────────────────────────────────── */
+function render(d) {
+  renderKPIs(d);
+  renderScenarios(d);
+  renderResin(d);
+  renderInstruments(d, activeInstr);
+  renderMC(d);
+  renderRec(d);
+}
+
+/* ── KPIs ──────────────────────────────────────────────────────────── */
+function renderKPIs(d) {
+  const net = d.exp.net_usd;
+  const ebitda = parseFloat(g('ebitda_annual')) * 1e6;
+  setText('k-exp', fU(net)); setColor('k-exp', net>=0 ? COL.accent : COL.yellow);
+  setText('k-pos', d.exp_position);
+  setText('k-fwd', fX(d.F));
+  const spot = parseFloat(g('spot'));
+  const pts = d.F - spot;
+  setText('k-fwd-s', 'Puntos: ' + (pts>=0?'+':'') + pts.toFixed(4));
+  setText('k-br', fX(d.br));
+  setText('k-var', fU(d.rm.var_hedged)); setColor('k-var', COL.green);
+  setText('k-var-s', 'vs. sin hedge: ' + fU(d.rm.var_unhedged));
+  setText('k-volr', fP(d.rm.vol_reduction * 100));
+  const resinRatio = d.resin.total_monthly_usd * 12 / ebitda * 100;
+  setText('k-resin', fP(resinRatio));
+  setText('hm-label', g('horizon_months'));
+}
+function setText(id, t) { const e=document.getElementById(id); if(e) e.textContent=t; }
+function setColor(id, c) { const e=document.getElementById(id); if(e) e.style.color=c; }
+
+/* ── Scenarios ─────────────────────────────────────────────────────── */
+function renderScenarios(d) {
+  document.getElementById('scen-tbody').innerHTML = d.scen.map(s=>`
+    <tr>
+      <td>${s.scenario}</td>
+      <td style="font-family:monospace">${s.fx_rate.toFixed(2)}</td>
+      <td style="color:${pc(s.pnl_unhedged)};font-family:monospace">${(s.pnl_unhedged/1e6).toFixed(2)}M</td>
+      <td style="color:${pc(s.pnl_hedged)};font-family:monospace">${(s.pnl_hedged/1e6).toFixed(2)}M</td>
+    </tr>`).join('');
+
+  const labels = d.scen.map(s=>s.scenario);
+  const uh = d.scen.map(s=>+(s.pnl_unhedged/1e6).toFixed(2));
+  const h  = d.scen.map(s=>+(s.pnl_hedged/1e6).toFixed(2));
+
+  mkC('chart-scen','bar',{
+    labels,
+    datasets:[
+      {label:'Sin Cobertura', data:uh, backgroundColor:uh.map(v=>v>=0?'rgba(16,185,129,.65)':'rgba(239,68,68,.65)'), borderRadius:4},
+      {label:'Con Cobertura', data:h,  backgroundColor:h.map(v=>v>=0?'rgba(0,200,255,.8)':'rgba(245,158,11,.8)'), borderRadius:4},
+    ],
+  },{...baseOpts,
+    scales:{
+      x:{grid:{color:gridColor},ticks:{font:{size:9}}},
+      y:{grid:{color:gridColor},ticks:{callback:v=>v+'M',font:{size:10}}},
+    },
+    plugins:{legend:{labels:{font:{size:10}}},
+      tooltip:{callbacks:{label:c=>c.dataset.label+': $'+c.parsed.y.toFixed(2)+'M USD'}}},
+  });
+}
+
+/* ── Resin ─────────────────────────────────────────────────────────── */
+function renderResin(d) {
+  const spot = parseFloat(g('spot'));
+  const ebitda = parseFloat(g('ebitda_annual')) * 1e6;
+  setText('rk-usd', fU(d.resin.total_monthly_usd));
+  setText('rk-mxn', fM(d.resin.total_monthly_mxn));
+  setText('rk-mxn-s', 'Al spot ' + spot.toFixed(2));
+  const uc = d.resin.items.Urea ? d.resin.items.Urea.price_chg_pct : 0;
+  setText('rk-urea', (uc>0?'+':'') + uc.toFixed(0) + '%');
+  setColor('rk-urea', uc>0 ? COL.red : COL.green);
+  setText('rk-ratio', fP(d.resin.total_monthly_usd * 12 / ebitda * 100));
+
+  document.getElementById('resin-tbody').innerHTML = Object.entries(d.resin.items).map(([n,it])=>`
+    <tr>
+      <td><strong>${n}</strong></td>
+      <td style="font-family:monospace">${it.volume_ton_month.toLocaleString()}</td>
+      <td style="font-family:monospace">$${it.price_usd_ton.toFixed(0)}</td>
+      <td style="font-family:monospace">${fU(it.monthly_usd)}/mes</td>
+      <td style="color:${it.price_chg_pct>0?COL.red:COL.green};font-family:monospace">${it.price_chg_pct>0?'+':''}${it.price_chg_pct.toFixed(1)}%</td>
+    </tr>`).join('');
+
+  if (d.resin_shock) {
+    const sh = d.resin_shock;
+    const col = sh.delta_usd >= 0 ? COL.red : COL.green;
+    const sign = sh.delta_usd >= 0 ? '+' : '';
+    setText('sh-base', fU(sh.base_usd) + '/mes');
+    setText('sh-shock', fU(sh.shocked_usd) + '/mes');
+    const shEl = document.getElementById('sh-delta');
+    if(shEl){shEl.textContent = sign + fU(Math.abs(sh.delta_usd)) + '/mes'; shEl.style.color=col;}
+    const eiPct = sh.delta_usd * 12 / ebitda * 100;
+    const eiEl = document.getElementById('sh-ebitda');
+    if(eiEl){eiEl.textContent = (eiPct>0?'+':'') + eiPct.toFixed(1) + '% EBITDA'; eiEl.style.color=col;}
+  }
+}
+
+/* ── Instruments ───────────────────────────────────────────────────── */
+function switchInstr(idx, btn) {
+  activeInstr = idx;
+  document.querySelectorAll('.itab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  if (lastData) renderInstruments(lastData, idx);
+}
+
+const instrTitles = [
+  'Forward: Tasa Efectiva vs Spot al Vencimiento',
+  'Put ATM (Compra): Tasa Efectiva vs Spot al Vencimiento',
+  'Zero-Cost Collar (Receptor): Tasa Efectiva vs Spot al Vencimiento',
+];
+
+function renderInstruments(d, idx) {
+  setText('instr-title', instrTitles[idx]);
+  const pw = d.payoffs;
+  const labels = pw.S_range.map(v=>v.toFixed(2));
+  const noH = pw.S_range;
+  const fwdFlat = Array(pw.S_range.length).fill(+d.F.toFixed(5));
+
+  let ds;
+  if (idx === 0) {
+    ds = [
+      {label:'Sin Cobertura', data:noH,    borderColor:'rgba(100,116,139,.65)', borderWidth:1.5, pointRadius:0, borderDash:[4,3]},
+      {label:'Forward',       data:fwdFlat,borderColor:COL.yellow, borderWidth:2.5, pointRadius:0},
+    ];
+  } else if (idx === 1) {
+    ds = [
+      {label:'Sin Cobertura', data:noH,       borderColor:'rgba(100,116,139,.65)', borderWidth:1.5, pointRadius:0, borderDash:[4,3]},
+      {label:'Put ATM',       data:pw.put_eff, borderColor:COL.accent, borderWidth:2.5, pointRadius:0},
+    ];
+  } else {
+    ds = [
+      {label:'Sin Cobertura', data:noH,           borderColor:'rgba(100,116,139,.65)', borderWidth:1.5, pointRadius:0, borderDash:[4,3]},
+      {label:'Forward (ref.)',data:fwdFlat,        borderColor:COL.yellow, borderWidth:1.5, pointRadius:0, borderDash:[2,2]},
+      {label:'Collar',        data:pw.collar_eff,  borderColor:COL.accent, borderWidth:2.5, pointRadius:0},
+    ];
+  }
+
+  mkC('chart-instr','line',{labels,datasets:ds},{
+    ...baseOpts,
+    scales:{
+      x:{grid:{color:gridColor},ticks:{maxTicksLimit:8,font:{size:9}}},
+      y:{grid:{color:gridColor},ticks:{font:{size:10},callback:v=>v.toFixed(2)},
+         title:{display:true,text:'MXN / USD',font:{size:9},color:COL.muted}},
+    },
+    plugins:{legend:{labels:{font:{size:10}}},
+      tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y.toFixed(4)+' MXN/USD'}}},
+  });
+
+  // Params panel
+  const ip = document.getElementById('instr-params');
+  const spot = parseFloat(g('spot'));
+  const row = (lbl, val, col='') =>
+    `<tr><td style="color:var(--muted2);padding:.32rem 0">${lbl}</td><td style="text-align:right;font-family:monospace;color:${col||'var(--text)'}">${val}</td></tr>`;
+
+  if (idx === 0) {
+    ip.innerHTML = `
+      <div style="font-size:.6rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.6rem">Parámetros — Forward</div>
+      <table style="width:100%">
+        ${row('Spot USD/MXN', spot.toFixed(4))}
+        ${row('Forward Rate', d.F.toFixed(4), COL.yellow)}
+        ${row('Puntos fwd', (d.F-spot>=0?'+':'')+(d.F-spot).toFixed(4))}
+        ${row('Tasa MXN', g('rate_mxn')+'%')}
+        ${row('Tasa USD', g('rate_usd')+'%')}
+        ${row('Tenor', g('horizon_months')+' meses')}
+        ${row('Costo', 'Sin prima (OTC)', COL.green)}
+      </table>
+      <div style="margin-top:.65rem;font-size:.7rem;color:var(--muted);line-height:1.65">
+        F = S · e<sup>(r_d − r_f) · T</sup> = <strong style="color:${COL.yellow}">${d.F.toFixed(4)}</strong>
+      </div>`;
+  } else if (idx === 1) {
+    ip.innerHTML = `
+      <div style="font-size:.6rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.6rem">Parámetros — Put ATM · Garman-Kohlhagen</div>
+      <table style="width:100%">
+        ${row('Strike (ATM-Fwd)', d.options.K_atm.toFixed(4))}
+        ${row('Prima Put', d.options.p_prem.toFixed(4)+' MXN/USD', COL.accent)}
+        ${row('Prima (% spot)', (d.options.p_prem/spot*100).toFixed(2)+'%')}
+        ${row('Delta', d.options.p_delta.toFixed(4))}
+        ${row('Volatilidad', g('vol')+'%')}
+        ${row('Modelo', 'Garman-Kohlhagen 1983')}
+      </table>
+      <div style="margin-top:.65rem;padding:.55rem;background:rgba(0,200,255,.06);border:1px solid rgba(0,200,255,.2);border-radius:.4rem;font-size:.7rem;color:var(--muted2);line-height:1.6">
+        Protección asimétrica: floor garantizado, upside ilimitado si MXN se debilita.
+      </div>`;
+  } else {
+    ip.innerHTML = `
+      <div style="font-size:.6rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.6rem">Parámetros — Zero-Cost Collar · Receptor</div>
+      <table style="width:100%">
+        ${row('Floor (compra put)', d.options.K_flr_oc.toFixed(4), COL.green)}
+        ${row('Cap (vende call)', d.options.K_cap_oc.toFixed(4), COL.yellow)}
+        ${row('Prima neta', '≈ 0.0000', COL.green)}
+        ${row('Corredor', d.options.K_flr_oc.toFixed(3)+' – '+d.options.K_cap_oc.toFixed(3))}
+        ${row('Ancho', (d.options.K_cap_oc-d.options.K_flr_oc).toFixed(4))}
+      </table>
+      <div style="margin-top:.65rem;padding:.55rem;background:rgba(0,200,255,.06);border:1px solid rgba(0,200,255,.2);border-radius:.4rem;font-size:.7rem;color:var(--muted2);line-height:1.6">
+        Costo = 0. Arauco recibirá entre <strong style="color:${COL.green}">${d.options.K_flr_oc.toFixed(2)}</strong> y <strong style="color:${COL.yellow}">${d.options.K_cap_oc.toFixed(2)}</strong> MXN/USD independientemente del mercado.
+      </div>`;
+  }
+}
+
+/* ── Monte Carlo ───────────────────────────────────────────────────── */
+function renderMC(d) {
+  const h = d.histogram;
+  const n = parseInt(g('n_sims'));
+  setText('mc-title', `Distribución P&L FX (USD M) · ${n.toLocaleString()} simulaciones`);
+
+  mkC('chart-mc','bar',{
+    labels: h.bin_midpoints.map(v=>v.toFixed(1)),
+    datasets:[
+      {label:'Sin Cobertura', data:h.counts_u, backgroundColor:'rgba(239,68,68,.55)', borderWidth:0, barPercentage:1.0, categoryPercentage:1.0},
+      {label:'Con Cobertura', data:h.counts_h, backgroundColor:'rgba(0,200,255,.5)',  borderWidth:0, barPercentage:1.0, categoryPercentage:1.0},
+    ],
+  },{...baseOpts,
+    scales:{
+      x:{grid:{color:gridColor},ticks:{maxTicksLimit:10,font:{size:9},callback:(v,i)=>h.bin_midpoints[i]?.toFixed(1)+'M'}},
+      y:{grid:{color:gridColor},ticks:{font:{size:10}}},
+    },
+    plugins:{legend:{labels:{font:{size:10}}}},
+  });
+
+  const rm = d.rm;
+  const rows = [
+    ['VaR 95% — Sin Hedge',  fU(rm.var_unhedged),  COL.red],
+    ['VaR 95% — Con Hedge',  fU(rm.var_hedged),    COL.green],
+    ['CVaR 95% — Sin Hedge', fU(rm.cvar_unhedged), COL.red],
+    ['CVaR 95% — Con Hedge', fU(rm.cvar_hedged),   COL.green],
+    ['CFaR — Sin Hedge',     fU(rm.cfar_unhedged), COL.yellow],
+    ['CFaR — Con Hedge',     fU(rm.cfar_hedged),   COL.green],
+    ['Reducción Volatilidad',fP(rm.vol_reduction*100), COL.green],
+    ['Budget / Break-even',  fX(d.br)+' MXN/USD',  COL.yellow],
+  ];
+  document.getElementById('rm-table').innerHTML = rows.map(([lbl,val,col])=>
+    `<tr>
+      <td style="padding:.42rem .72rem;border-bottom:1px solid rgba(30,45,69,.5);color:var(--muted2)">${lbl}</td>
+      <td style="padding:.42rem .72rem;border-bottom:1px solid rgba(30,45,69,.5);font-family:monospace;font-weight:700;color:${col};text-align:right">${val}</td>
+    </tr>`).join('');
+}
+
+/* ── Recommendation ────────────────────────────────────────────────── */
+function renderRec(d) {
+  const ebitda = parseFloat(g('ebitda_annual')) * 1e6;
+  const hr  = g('hedge_ratio');
+  const hm  = g('horizon_months');
+  const rm  = d.rm;
+  const rr  = (d.resin.total_monthly_usd * 12 / ebitda * 100).toFixed(0);
+  const instrFX = d.exp_is_receiver ? 'forwards + put ATM' : 'forwards + call ATM';
+
+  document.getElementById('rec-wrap').innerHTML = `
+    <div class="rec-b">
+      <div class="rnum">01 — PRIORIDAD #1: RIESGO DE RESINA</div>
+      La canasta urea/fenol/metanol representa <strong style="color:${COL.red}">${rr}% del EBITDA anual</strong>
+      (${fU(d.resin.total_monthly_usd)}/mes). Recomendamos <strong>swap pay-fixed OTC para urea</strong>
+      (6–12 meses) con banco de primer nivel, y explorar proxy hedge con futuros de gas natural
+      (NYMEX HH). Estos insumos no tienen futuros listados líquidos en México — la cobertura viable
+      es OTC o via clásulas de precio fijo en contratos de compra.
+    </div>
+    <div class="rec-b" style="border-left-color:${COL.yellow}">
+      <div class="rnum" style="color:${COL.yellow}">02 — FX: FORWARD ESCALONADO (0–${hm} MESES)</div>
+      Posición: <strong style="color:${d.exp.net_usd>=0?COL.accent:COL.yellow}">${d.exp_position}</strong>.
+      Ejecutar ${instrFX} sobre el <strong>${hr}% del flujo contractual</strong>,
+      bloqueando tipo de cambio a <strong style="color:${COL.yellow}">${fX(d.F)} MXN/USD</strong>.
+      Para tramos 6–12 meses, el Zero-Cost Collar garantiza corredor
+      <strong>${fX(d.options.K_flr_oc)} – ${fX(d.options.K_cap_oc)} MXN/USD</strong> sin costo de prima.
+    </div>
+    <div class="rec-b" style="border-left-color:${COL.green}">
+      <div class="rnum" style="color:${COL.green}">03 — IMPACTO CUANTIFICADO</div>
+      El programa de cobertura FX reduce la volatilidad del P&L en
+      <strong style="color:${COL.green}">${fP(rm.vol_reduction * 100)}</strong> y lleva el VaR 95% de
+      <strong style="color:${COL.red}">${fU(rm.var_unhedged)}</strong> a
+      <strong style="color:${COL.green}">${fU(rm.var_hedged)}</strong>
+      (horizonte ${hm}m, Monte Carlo ${parseInt(g('n_sims')).toLocaleString()} simulaciones).
+    </div>
+    <div class="rec-b" style="border-left-color:var(--muted)">
+      <div class="rnum" style="color:var(--muted)">04 — GOVERNANCE</div>
+      Política de coberturas documentada con sign-off del CFO, límites de hedge ratio por plazo,
+      revisión trimestral y reporte de mark-to-market mensual.
+      <span style="color:${COL.yellow}">Todos los datos son Assumption / Placeholder</span> —
+      actualizar con figuras reales de contratos, forecasts y cotizaciones bancarias antes de ejecutar.
+    </div>`;
+}
+</script>
+{% endblock %}

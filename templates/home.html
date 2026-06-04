@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Arauco — Exposure Research 2026</title>
+<style>
+:root{--bg:#080d17;--bg2:#0f1623;--bg3:#161f30;--border2:#263650;
+  --accent:#00c8ff;--accent2:#7c3aed;--green:#10b981;--red:#ef4444;
+  --text:#e2e8f0;--muted:#64748b;--muted2:#94a3b8;}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden}
+.home-wrap{
+  height:100vh;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.home-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 20% 40%,rgba(0,200,255,.08) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 60%,rgba(124,58,237,.10) 0%,transparent 60%),
+    linear-gradient(135deg,#040810 0%,#080d17 40%,#0d0a1a 100%);
+}
+.particles{position:absolute;inset:0;pointer-events:none}
+.p{position:absolute;border-radius:50%;animation:float linear infinite}
+@keyframes float{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.6}90%{opacity:.4}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+.content{position:relative;z-index:2;text-align:center;max-width:640px;padding:2rem}
+.kow-anim{font-size:2.5rem;margin-bottom:1.2rem;animation:bob 1.2s ease-in-out infinite alternate;display:inline-block}
+@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-8px)}}
+.logo{font-size:3.5rem;font-weight:900;letter-spacing:-2px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.4rem}
+.tagline{font-size:.75rem;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem}
+.sub{font-size:1rem;color:var(--muted2);margin-bottom:2.5rem;line-height:1.7}
+
+/* Equipo badges */
+.team-row{display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem;margin-bottom:2rem}
+.team-badge{font-size:.68rem;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.25);
+  border-radius:9999px;padding:.2rem .7rem;color:#c4b5fd}
+
+.pw-box{background:rgba(15,22,35,.88);border:1px solid var(--border2);border-radius:1rem;
+  padding:2rem 2.5rem;backdrop-filter:blur(20px);box-shadow:0 0 30px rgba(124,58,237,.12);
+  max-width:400px;margin:0 auto;}
+.pw-box h2{font-size:.95rem;color:var(--muted2);margin-bottom:1.2rem}
+.pw-row{display:flex;gap:.5rem;margin-bottom:.6rem}
+.pw-input{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:.5rem;
+  padding:.65rem 1rem;color:var(--text);font-size:.95rem;outline:none;transition:border-color .2s}
+.pw-input:focus{border-color:var(--accent)}
+.pw-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;
+  border-radius:.5rem;padding:.65rem 1.2rem;color:#fff;font-weight:700;cursor:pointer;
+  font-size:.9rem;white-space:nowrap;transition:opacity .2s}
+.pw-btn:hover{opacity:.85}
+.pw-err{color:var(--red);font-size:.78rem;min-height:1rem}
+.pw-hint{font-size:.7rem;color:var(--muted);margin-top:.6rem}
+</style>
+</head>
+<body>
+<div class="home-wrap">
+  <div class="home-bg"></div>
+  <div class="particles" id="particles"></div>
+  <div class="content">
+    <div class="logo">ARAUCO</div>
+    <div class="tagline">Exposure Research · International Financial Management · 2026</div>
+    <div class="sub">Análisis macroeconómico de exposición cambiaria y estrategia de cobertura FX para las operaciones de Arauco en México y Estados Unidos</div>
+
+    <div class="team-row">
+      {% for m in equipo %}
+      <span class="team-badge">{{ m.nombre.split()[0] }} {{ m.nombre.split()[-1] }} · {{ m.matricula }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="pw-box">
+      <h2>Acceso Restringido — Equipo TEC GDL</h2>
+      <div class="pw-row">
+        <input class="pw-input" id="pw" type="password" placeholder="Contraseña de acceso"
+          onkeydown="if(event.key==='Enter')checkPw()"/>
+        <button class="pw-btn" onclick="checkPw()">Entrar →</button>
+      </div>
+      <div class="pw-err" id="pw-err"></div>
+      <div class="pw-hint">Acceso disponible para: equipo, profesor y empresa socia</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function checkPw(){
+  const v=document.getElementById('pw').value;
+  fetch('/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:v})})
+    .then(r=>r.json())
+    .then(d=>{
+      if(d.ok) window.location.href='/menu';
+      else{
+        const e=document.getElementById('pw-err');
+        e.textContent='Contraseña incorrecta — intenta de nuevo';
+        document.getElementById('pw').value='';
+        document.getElementById('pw').focus();
+        setTimeout(()=>e.textContent='',2800);
+      }
+    });
+}
+// Particles
+(function(){
+  const cols=['#00c8ff','#7c3aed','#10b981','#f59e0b'];
+  const p=document.getElementById('particles');
+  for(let i=0;i<22;i++){
+    const d=document.createElement('div');d.className='p';
+    const s=Math.random()*5+2;
+    d.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;
+      background:${cols[Math.floor(Math.random()*cols.length)]};
+      animation-duration:${Math.random()*14+9}s;animation-delay:${Math.random()*8}s;opacity:.45`;
+    p.appendChild(d);
+  }
+})();
+</script>
+</body>
+</html>

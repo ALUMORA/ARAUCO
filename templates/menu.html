@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Arauco — Menú{% endblock %}
+
+{% block nav %}
+<nav class="nav">
+  <a href="/menu" class="nav-logo">ARAUCO</a>
+  <div class="ns"></div>
+  <div class="nd"><span class="live"></span><span id="nav-date"></span></div>
+  <a href="/logout" class="nl" style="color:var(--red)">Salir</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<style>
+.menu-wrap{min-height:calc(100vh - 56px - 36px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem}
+.menu-title{font-size:2.2rem;font-weight:900;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.3rem}
+.menu-sub{color:var(--muted);font-size:.78rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:2.8rem}
+.menu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;max-width:720px;width:100%}
+.mc{background:var(--bg3);border:1px solid var(--border2);border-radius:1rem;
+  padding:1.8rem 1.5rem;text-decoration:none;color:var(--text);
+  transition:all .25s;text-align:left;position:relative;overflow:hidden;display:block}
+.mc::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;
+  background:linear-gradient(135deg,rgba(0,200,255,.05),rgba(124,58,237,.06))}
+.mc:hover{transform:translateY(-4px);border-color:var(--accent2);box-shadow:var(--glow-purple)}
+.mc:hover::before{opacity:1}
+.mc-icon{font-size:2rem;margin-bottom:.7rem}
+.mc-title{font-size:1rem;font-weight:700;margin-bottom:.35rem}
+.mc-desc{font-size:.78rem;color:var(--muted);line-height:1.5}
+.mc-arr{position:absolute;bottom:.9rem;right:1rem;color:var(--accent);opacity:0;transition:opacity .2s;font-size:1.1rem}
+.mc:hover .mc-arr{opacity:1}
+.team-section{margin-top:3rem;text-align:center}
+.team-title{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem}
+.team-row{display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem}
+.team-badge{font-size:.68rem;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.2);
+  border-radius:9999px;padding:.2rem .7rem;color:#c4b5fd}
+</style>
+
+<div class="menu-wrap">
+  <div class="menu-title">ARAUCO</div>
+  <div class="menu-sub">Exposure Research 2026 · Equipo 1 TEC GDL</div>
+  <div class="menu-grid">
+    <a href="/" class="mc">
+      <div class="mc-title">Inicio</div>
+      <div class="mc-desc">Regresar a la página de inicio del proyecto</div>
+      <div class="mc-arr">→</div>
+    </a>
+    <a href="/macro" class="mc">
+      <div class="mc-title">Variables Macroeconómicas</div>
+      <div class="mc-desc">Inflación · Tasas · PIB · Desempleo · USD/MXN · Nearshoring · IED</div>
+      <div class="mc-arr">→</div>
+    </a>
+    <a href="/riesgos" class="mc">
+      <div class="mc-title">Riesgos</div>
+      <div class="mc-desc">USMCA · Deuda USD · FX · Pulpa · Geopolítica · Oportunidades</div>
+      <div class="mc-arr">→</div>
+    </a>
+    <a href="/cobertura" class="mc">
+      <div class="mc-title">Estrategia de Cobertura</div>
+      <div class="mc-desc">Forwards · Opciones · Collar · Natural Hedge · Cross-Currency Swap</div>
+      <div class="mc-arr">→</div>
+    </a>
+    <a href="/calculadora" class="mc" style="border-color:rgba(0,200,255,.25)">
+      <div class="mc-title" style="color:var(--accent)">Calculadora Interactiva</div>
+      <div class="mc-desc">Forward · Opciones GK · Zero-Cost Collar · Monte Carlo · VaR · Resina</div>
+      <div class="mc-arr">→</div>
+    </a>
+  </div>
+
+  <div class="team-section">
+    <div class="team-title">Equipo 1 — TEC GDL · International Financial Management</div>
+    <div class="team-row">
+      {% for m in equipo %}
+      <span class="team-badge">{{ m.nombre }} · {{ m.matricula }}</span>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

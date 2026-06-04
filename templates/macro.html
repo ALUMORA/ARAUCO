@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block title %}Arauco — Variables Macroeconómicas{% endblock %}
+
+{% block content %}
+<div class="page-body">
+
+  <h2 class="sec">Indicadores Clave — Mayo 2026</h2>
+  <div class="kpi-g">
+    <div class="kpi" style="--bc:var(--accent)">
+      <div class="kl">USD/MXN Actual</div>
+      <div class="kv" style="color:var(--accent)">{{ macro.usd_mxn.actual }}</div>
+      <div class="ks">Peso históricamente fuerte</div>
+      <span class="bx bw">▲ Fcst fin-2026: {{ macro.usd_mxn.forecast_low }}–{{ macro.usd_mxn.forecast_high }}</span>
+    </div>
+    <div class="kpi" style="--bc:var(--yellow)">
+      <div class="kl">Inflación México</div>
+      <div class="kv" style="color:var(--yellow)">{{ macro.inflacion_mx.actual }}%</div>
+      <div class="ks">Anual — 1ª quincena abril 2026</div>
+      <span class="bx bw">Sobre techo Banxico {{ macro.inflacion_mx.techo_banxico }}%</span>
+    </div>
+    <div class="kpi" style="--bc:var(--orange)">
+      <div class="kl">Inflación EE.UU.</div>
+      <div class="kv" style="color:var(--orange)">{{ macro.inflacion_us.actual }}%</div>
+      <div class="ks">CPI abril 2026 — máx. may-23</div>
+      <span class="bx bw">Energía +17.9% a/a</span>
+    </div>
+    <div class="kpi" style="--bc:var(--accent2)">
+      <div class="kl">Tasa Banxico</div>
+      <div class="kv" style="color:#a78bfa">{{ macro.tasa_banxico.actual }}%</div>
+      <div class="ks">Fin del ciclo de recortes</div>
+      <span class="bx bd">–{{ macro.tasa_banxico.recorte_acumulado_bps }} bps desde mar-2024</span>
+    </div>
+    <div class="kpi" style="--bc:var(--accent)">
+      <div class="kl">Tasa Fed</div>
+      <div class="kv" style="color:var(--accent)">{{ macro.tasa_fed.actual }}%</div>
+      <div class="ks">{{ macro.tasa_fed.rango_low }}–{{ macro.tasa_fed.rango_high }}% — sin recortes 2026</div>
+      <span class="bx bw">Pausa extendida</span>
+    </div>
+    <div class="kpi" style="--bc:var(--green)">
+      <div class="kl">Desempleo México</div>
+      <div class="kv" style="color:var(--green)">{{ macro.desempleo_mx.actual }}%</div>
+      <div class="ks">Marzo 2026 — INEGI ENOE</div>
+      <span class="bx bu">Mercado laboral sólido</span>
+    </div>
+    <div class="kpi" style="--bc:var(--accent)">
+      <div class="kl">Desempleo EE.UU.</div>
+      <div class="kv" style="color:var(--accent)">{{ macro.desempleo_us.actual }}%</div>
+      <div class="ks">Abril 2026 — BLS</div>
+      <span class="bx bu">+{{ "{:,}".format(macro.desempleo_us.nominas_abril) }} nóminas en abril</span>
+    </div>
+    <div class="kpi" style="--bc:var(--red)">
+      <div class="kl">PIB México Q1-2026</div>
+      <div class="kv" style="color:var(--red)">{{ macro.pib_mx.q1_2026 }}%</div>
+      <div class="ks">Contracción trim. — INEGI avance</div>
+      <span class="bx bd">Fcst 2026: +{{ macro.pib_mx.forecast_2026_low }}–{{ macro.pib_mx.forecast_2026_high }}%</span>
+    </div>
+    <div class="kpi" style="--bc:var(--green)">
+      <div class="kl">PIB EE.UU. 2026</div>
+      <div class="kv" style="color:var(--green)">{{ macro.pib_us.forecast_2026 }}%</div>
+      <div class="ks">Proyección OECD</div>
+      <span class="bx bu">Mercado laboral resiliente</span>
+    </div>
+    <div class="kpi" style="--bc:var(--green)">
+      <div class="kl">IED Nearshoring MX</div>
+      <div class="kv" style="color:var(--green)">${{ macro.ied_nearshoring.monto_9m_2025 }}B</div>
+      <div class="ks">USD — 9M 2025</div>
+      <span class="bx bu">+{{ macro.ied_nearshoring.crecimiento_yoy }}% a/a</span>
+    </div>
+    <div class="kpi" style="--bc:var(--red)">
+      <div class="kl">Deuda USD Arauco</div>
+      <div class="kv" style="color:var(--red)">~${{ macro.deuda_arauco.monto }}B</div>
+      <div class="ks">Denominada en dólares</div>
+      <span class="bx bd">Sensible a depr. MXN</span>
+    </div>
+    <div class="kpi" style="--bc:var(--yellow)">
+      <div class="kl">Pulpa BHKP FOEX</div>
+      <div class="kv" style="color:var(--yellow)">${{ macro.pulpa_bhkp.precio_mid }}</div>
+      <div class="ks">USD/ton — mínimos cíclicos</div>
+      <span class="bx bd">Rango {{ macro.pulpa_bhkp.precio_low }}–{{ macro.pulpa_bhkp.precio_high }}</span>
+    </div>
+  </div>
+
+  <h2 class="sec">Comparativas Visuales</h2>
+  <div class="cg">
+    <div class="cc"><h3>Inflación MX vs EE.UU. (%)</h3><canvas id="c-inf"></canvas></div>
+    <div class="cc"><h3>Trayectoria de Tasas de Interés (%)</h3><canvas id="c-rates"></canvas></div>
+    <div class="cc"><h3>Desempleo MX vs EE.UU. (%)</h3><canvas id="c-unemp"></canvas></div>
+    <div class="cc"><h3>Crecimiento PIB (%)</h3><canvas id="c-gdp"></canvas></div>
+    <div class="cc"><h3>Pronóstico USD/MXN 2026</h3><canvas id="c-fx"></canvas></div>
+    <div class="cc"><h3>IED & Greenfield México (USD B)</h3><canvas id="c-fdi"></canvas></div>
+  </div>
+
+  <h2 class="sec">Eventos Clave 2025–2026</h2>
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:.7rem;padding:1.4rem 1.8rem">
+    <div class="tl">
+      <div class="ti"><div class="tdot"></div>
+        <div class="tdate">MARZO 2026</div>
+        <div class="ttitle">Banxico recorta a 6.75% → 6.50% en mayo</div>
+        <div class="tbody2">Voto dividido 3-2. 475 bps de recorte total desde marzo 2024. Comprime diferencial MXN-USD. Mayor riesgo FX para la deuda USD de Arauco.</div>
+      </div>
+      <div class="ti"><div class="tdot w"></div>
+        <div class="tdate">ABRIL–MAYO 2026</div>
+        <div class="ttitle">Inflación EE.UU. sube a 3.8% — máx. desde mayo 2023</div>
+        <div class="tbody2">Energía +17.9% a/a, gasolina +28.4%. Fed mantiene tasas en voto 8-4. Posible pico Q2 en ~6% por conflicto EE.UU.-Irán.</div>
+      </div>
+      <div class="ti"><div class="tdot r"></div>
+        <div class="tdate">2026 — EN CURSO</div>
+        <div class="ttitle">Revisión USMCA / T-MEC</div>
+        <div class="tbody2">Mayor riesgo de cola del período. Incertidumbre sobre aranceles a paneles exportados desde México a EE.UU. Afecta plantas Zitácuaro y Chihuahua.</div>
+      </div>
+      <div class="ti"><div class="tdot g"></div>
+        <div class="tdate">2025–2026</div>
+        <div class="ttitle">Boom Nearshoring — IED récord $40.9B en 9M-2025</div>
+        <div class="tbody2">Guerra EE.UU.-China (aranceles 57.6%) redirige manufactura a México. Greenfield triplicado a $6.56B. Plantas de Arauco son proveedores estratégicos.</div>
+      </div>
+      <div class="ti"><div class="tdot r"></div>
+        <div class="tdate">Q1 2026</div>
+        <div class="ttitle">PIB México contrae –0.8% trimestral</div>
+        <div class="tbody2">INEGI avance. Banxico revisa forecast a 1.0–1.2%. Presión en demanda de muebles y construcción — mercados finales de paneles MDF/PB de Arauco.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+const D = {{ charts|safe }};
+const B='rgba(0,200,255,1)',BF='rgba(0,200,255,.15)';
+const P='rgba(124,58,237,1)',PF='rgba(124,58,237,.15)';
+const G='rgba(16,185,129,1)',GF='rgba(16,185,129,.15)';
+const R='rgba(239,68,68,1)', RF='rgba(239,68,68,.15)';
+const Y='rgba(245,158,11,1)',YF='rgba(245,158,11,.15)';
+const OPT={responsive:true,maintainAspectRatio:true,
+  plugins:{legend:{position:'top'},tooltip:{mode:'index',intersect:false}},
+  scales:{x:{grid:{color:'#1e2d45'}},y:{grid:{color:'#1e2d45'},beginAtZero:true}}};
+
+new Chart('c-inf',{type:'bar',data:{labels:D.inflacion.labels,datasets:[
+  {label:'México (%)',data:D.inflacion.mx,backgroundColor:YF,borderColor:Y,borderWidth:2,borderRadius:4},
+  {label:'EE.UU. (%)',data:D.inflacion.us,backgroundColor:BF,borderColor:B,borderWidth:2,borderRadius:4}
+]},options:OPT});
+
+new Chart('c-rates',{type:'line',data:{labels:D.tasas.labels,datasets:[
+  {label:'Banxico (%)',data:D.tasas.banxico,borderColor:P,backgroundColor:PF,fill:true,tension:.4,pointRadius:4},
+  {label:'Fed (%)',   data:D.tasas.fed,   borderColor:B,backgroundColor:BF,fill:true,tension:.4,pointRadius:4}
+]},options:{...OPT,scales:{x:{grid:{color:'#1e2d45'}},y:{grid:{color:'#1e2d45'},min:3,max:12}}}});
+
+new Chart('c-unemp',{type:'bar',data:{labels:D.desempleo.labels,datasets:[
+  {label:'México (%)', data:D.desempleo.mx,backgroundColor:GF,borderColor:G,borderWidth:2,borderRadius:4},
+  {label:'EE.UU. (%)',data:D.desempleo.us,backgroundColor:BF,borderColor:B,borderWidth:2,borderRadius:4}
+]},options:{...OPT,scales:{x:{grid:{color:'#1e2d45'}},y:{grid:{color:'#1e2d45'},min:0,max:6}}}});
+
+new Chart('c-gdp',{type:'bar',data:{labels:D.pib.labels,datasets:[{
+  label:'Crecimiento (%)',data:D.pib.valores,
+  backgroundColor:D.pib.colores_border.map(c=>c+'44'),
+  borderColor:D.pib.colores_border,borderWidth:2,borderRadius:4
+}]},options:{...OPT,plugins:{legend:{display:false}}}});
+
+new Chart('c-fx',{type:'line',data:{labels:D.fx.labels,datasets:[
+  {label:'Spot',        data:D.fx.spot,       borderColor:B,backgroundColor:BF,fill:true,tension:.3,pointRadius:4},
+  {label:'Consenso',   data:D.fx.consenso,   borderColor:Y,backgroundColor:YF,fill:true,tension:.3,borderDash:[5,5],pointRadius:4},
+  {label:'Pesimista',  data:D.fx.pesimista,  borderColor:R,backgroundColor:'transparent',tension:.3,borderDash:[3,3],pointRadius:0}
+]},options:{...OPT,scales:{x:{grid:{color:'#1e2d45'}},y:{grid:{color:'#1e2d45'},min:16.8,max:19}}}});
+
+new Chart('c-fdi',{type:'bar',data:{labels:D.ied.labels,datasets:[
+  {label:'IED Total (USD B)',   data:D.ied.total,     backgroundColor:GF,borderColor:G,borderWidth:2,borderRadius:4},
+  {label:'Greenfield (USD B)', data:D.ied.greenfield, backgroundColor:BF,borderColor:B,borderWidth:2,borderRadius:4}
+]},options:OPT});
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Arauco — Riesgos{% endblock %}
+
+{% block content %}
+<div class="page-body">
+
+  <h2 class="sec">Semáforo de Riesgo</h2>
+  <div class="gg">
+    <div class="gc"><canvas id="g-fx"></canvas><div class="gl">Tipo Cambio</div><div class="gv" style="color:var(--yellow)">MEDIO</div></div>
+    <div class="gc"><canvas id="g-usmca"></canvas><div class="gl">USMCA</div><div class="gv" style="color:var(--red)">ALTO</div></div>
+    <div class="gc"><canvas id="g-debt"></canvas><div class="gl">Deuda USD</div><div class="gv" style="color:var(--red)">ALTO</div></div>
+    <div class="gc"><canvas id="g-pulp"></canvas><div class="gl">Pulpa BHKP</div><div class="gv" style="color:var(--yellow)">MEDIO</div></div>
+    <div class="gc"><canvas id="g-near"></canvas><div class="gl">Nearshoring</div><div class="gv" style="color:var(--green)">OPORT.</div></div>
+    <div class="gc"><canvas id="g-geo"></canvas><div class="gl">Geopolítica</div><div class="gv" style="color:var(--yellow)">MEDIO</div></div>
+  </div>
+
+  <h2 class="sec">Mapa de Riesgos y Oportunidades</h2>
+  <div class="rg">
+    {% for r in risks %}
+    <div class="rc" style="border-color:{{ r.color_border }}">
+      <div class="rh">
+        <div class="rt">{{ r.titulo }}</div>
+        <span class="rl {{ r.clase }}">{{ r.nivel }}</span>
+      </div>
+      <div class="rb">{{ r.descripcion }}</div>
+      <div class="rim"><span>Impacto Arauco:</span> {{ r.impacto }}</div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <h2 class="sec">Resumen Estratégico</h2>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Factor</th><th>Situación</th><th>Dirección Arauco</th><th>Tipo</th></tr></thead>
+      <tbody>
+        <tr><td><strong>USD/MXN</strong></td><td>~17.34 — peso fuerte</td><td>Insumos USD baratos; exportaciones menos competitivas</td><td><span class="tag tn2">NEUTRO</span></td></tr>
+        <tr><td><strong>Diferencial Tasas</strong></td><td>6.50% vs 3.625%</td><td>Carry en compresión → riesgo depreciación MXN</td><td><span class="tag tr2">RIESGO</span></td></tr>
+        <tr><td><strong>PIB México</strong></td><td>–0.8% Q1; fcst 1.0–1.2%</td><td>Demanda doméstica débil; exportaciones EE.UU. críticas</td><td><span class="tag tr2">RIESGO</span></td></tr>
+        <tr><td><strong>USMCA</strong></td><td>En revisión activa</td><td>Riesgo arancelario directo en paneles exportados</td><td><span class="tag th2">RIESGO ALTO</span></td></tr>
+        <tr><td><strong>Nearshoring IED</strong></td><td>$40.9B (+14.5%)</td><td>Crecimiento volumen paneles industriales MX</td><td><span class="tag to2">OPORTUNIDAD</span></td></tr>
+        <tr><td><strong>Deuda USD $7.2B</strong></td><td>Fed sin recortes 2026</td><td>Costo elevado; sensible a depreciación MXN</td><td><span class="tag tr2">RIESGO</span></td></tr>
+        <tr><td><strong>Pulpa BHKP</strong></td><td>$480–520/ton</td><td>Presión 50% ingresos; mayor peso del segmento Paneles</td><td><span class="tag tr2">RIESGO</span></td></tr>
+        <tr><td><strong>Sustentabilidad FSC/PEFC</strong></td><td>Demanda premium creciente</td><td>Premios de precio en EE.UU. y Europa</td><td><span class="tag to2">OPORTUNIDAD</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+function gauge(id,pct,col){
+  new Chart(id,{type:'doughnut',data:{
+    datasets:[{data:[pct,100-pct],backgroundColor:[col,'#161f30'],borderWidth:0,circumference:180,rotation:-90}]
+  },options:{responsive:true,maintainAspectRatio:true,
+    plugins:{legend:{display:false},tooltip:{enabled:false}},cutout:'65%'}});
+}
+const Y='rgba(245,158,11,1)',R='rgba(239,68,68,1)',G='rgba(16,185,129,1)';
+gauge('g-fx',60,Y);gauge('g-usmca',82,R);gauge('g-debt',78,R);
+gauge('g-pulp',55,Y);gauge('g-near',80,G);gauge('g-geo',58,Y);
+{% endblock %}
