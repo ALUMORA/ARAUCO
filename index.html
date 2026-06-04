@@ -94,16 +94,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-s
 .mc-arr{position:absolute;bottom:1.2rem;right:1.3rem;color:var(--accent);opacity:0;
   transition:all .22s;transform:translateX(-6px);font-size:1rem}
 
-/* ══ KOWALSKI FAB ══ */
-.kow-fab{
-  position:fixed;bottom:1.8rem;right:1.8rem;z-index:50;
-  background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.35);border-radius:.35rem;
-  padding:.55rem 1rem;display:flex;align-items:center;gap:.5rem;
-  cursor:pointer;transition:all .22s;font-size:.65rem;color:#c4b5fd;
-  font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
-  font-family:'Inter',system-ui,sans-serif;
-}
-.kow-fab:hover{background:rgba(124,58,237,.25);border-color:rgba(124,58,237,.6)}
 
 /* ══ INNER PAGES ══ */
 .inner-page{flex-direction:column}
@@ -247,34 +237,67 @@ tbody td{padding:.72rem 1rem;vertical-align:top}
 .ttitle{font-size:.86rem;font-weight:700;margin-bottom:.3rem;letter-spacing:-.2px}
 .tbody{font-size:.75rem;color:var(--muted2);line-height:1.7}
 
-/* ══ KOWALSKI MODAL ══ */
-#kow-modal{display:none;position:fixed;inset:0;z-index:999;
-  background:rgba(0,0,0,.82);backdrop-filter:blur(8px);
-  align-items:center;justify-content:center}
-#kow-modal.open{display:flex}
-.kow-card{
-  background:var(--bg2);border:1px solid rgba(124,58,237,.4);border-radius:.45rem;
-  padding:2.5rem;max-width:520px;width:90%;
-  box-shadow:0 0 80px rgba(124,58,237,.15);position:relative;animation:slideup .28s ease;
-}
-@keyframes slideup{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
-.kow-eyebrow{font-size:.55rem;letter-spacing:4px;text-transform:uppercase;color:#c4b5fd;
-  margin-bottom:.8rem;font-weight:700;display:block}
-.kow-card h2{color:var(--text);margin-bottom:1.4rem;font-size:1.05rem;font-weight:800;letter-spacing:-.3px}
-.kow-card p{color:var(--muted2);font-size:.79rem;line-height:1.82;margin-bottom:.7rem}
-.hl{color:var(--accent);font-weight:600}.wr{color:var(--yellow);font-weight:600}
-.dr{color:var(--red);font-weight:600}.gr{color:var(--green);font-weight:600}
-.kx{position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.04);
-  border:1px solid var(--border2);color:var(--muted);width:28px;height:28px;border-radius:.3rem;
-  cursor:pointer;font-size:.82rem;transition:all .2s;display:flex;align-items:center;justify-content:center}
-.kx:hover{background:rgba(255,255,255,.1);color:#fff;border-color:var(--border2)}
+/* ══ CALCULADORA ══ */
+#page-calc .body{display:flex;flex-direction:row;overflow:hidden;padding:0}
+.cal-sb{width:252px;flex-shrink:0;overflow-y:auto;background:var(--bg2);
+  border-right:1px solid var(--border);padding:.7rem .8rem;font-size:.74rem}
+.cal-main{flex:1;overflow-y:auto;padding:1.3rem 1.8rem 3rem}
+.sb-sec{font-size:.54rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted);
+  padding:.55rem .1rem .2rem;margin-top:.45rem;border-top:1px solid var(--border);font-weight:700}
+.sb-sec:first-of-type{margin-top:0;border-top:none}
+.sb-c{margin:.32rem 0}
+.sb-l{display:flex;justify-content:space-between;color:var(--muted2);margin-bottom:.15rem;font-size:.68rem}
+.sb-l b{color:var(--accent);font-family:monospace}
+.sb-r{width:100%;accent-color:var(--accent);cursor:pointer}
+.sb-n,.sb-s{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border2);
+  color:var(--text);border-radius:.28rem;padding:.26rem .45rem;font-size:.72rem;
+  font-family:'Inter',system-ui,sans-serif}
+.cbt{width:100%;margin-top:.65rem;padding:.48rem;background:var(--accent);color:#000;
+  border:none;border-radius:.28rem;font-weight:800;font-size:.75rem;cursor:pointer;
+  letter-spacing:.5px;transition:opacity .2s;font-family:'Inter',system-ui,sans-serif}
+.cbt:hover{opacity:.82}.cbt:disabled{opacity:.4;cursor:not-allowed}
+.cst{display:flex;align-items:center;gap:.4rem;margin-bottom:.9rem;font-size:.68rem;color:var(--muted)}
+.csd{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
+.csd.ld{background:var(--yellow);animation:livepulse 1s infinite}
+.csd.er{background:var(--red)}
+.ch{font-size:.54rem;letter-spacing:4px;text-transform:uppercase;color:var(--muted);
+  margin:1.3rem 0 .6rem;display:flex;align-items:center;gap:.6rem;font-weight:700}
+.ch::after{content:'';flex:1;height:1px;background:var(--border)}
+.kr{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.5rem}
+.kr.k4{grid-template-columns:repeat(4,1fr)}
+.kc2{background:var(--bg2);border:1px solid var(--border);border-radius:.4rem;padding:.7rem .85rem}
+.kc2 .kl{font-size:.54rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:.5rem;font-weight:700}
+.kc2 .kv{font-size:1.25rem;font-weight:800;letter-spacing:-.8px;margin-bottom:.05rem}
+.kc2 .ks{font-size:.62rem;color:var(--muted2)}
+.g2c{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.g3c{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem}
+.cc2{background:var(--bg2);border:1px solid var(--border);border-radius:.4rem;padding:.85rem .95rem}
+.cc2 h3{font-size:.54rem;color:var(--muted);margin-bottom:.65rem;text-transform:uppercase;letter-spacing:2.5px;font-weight:700}
+.cc2 canvas{max-height:220px}
+.tw2{border:1px solid var(--border);border-radius:.4rem;overflow:hidden}
+.dt2{width:100%;border-collapse:collapse;font-size:.74rem}
+.dt2 th{background:var(--bg3);color:var(--muted);padding:.42rem .7rem;text-align:left;
+  font-size:.54rem;text-transform:uppercase;letter-spacing:2px;border-bottom:1px solid var(--border);font-weight:700}
+.dt2 td{padding:.42rem .7rem;border-bottom:1px solid rgba(255,255,255,.05);color:var(--text)}
+.dt2 tr:hover td{background:var(--bg3)}
+.shk{background:var(--bg2);border:1px solid var(--border);border-radius:.4rem;padding:.85rem .95rem}
+.itbs{display:flex;gap:.25rem;margin-bottom:.55rem}
+.itb{padding:.25rem .65rem;border:1px solid var(--border);border-radius:.25rem;font-size:.64rem;
+  cursor:pointer;color:var(--muted);background:transparent;transition:all .15s;font-family:'Inter',system-ui,sans-serif}
+.itb.on{background:var(--accent);color:#000;border-color:var(--accent);font-weight:700}
+.ip2{background:rgba(255,255,255,.025);border-radius:.35rem;padding:.7rem;font-size:.72rem;color:var(--muted2);height:100%;border:1px solid var(--border)}
+.ip2 table{width:100%}
+.ip2 td:last-child{text-align:right;font-family:monospace;font-weight:700;color:var(--text)}
+.rec2{border:1px solid var(--border);border-left:2px solid var(--accent);border-radius:0 .4rem .4rem 0;
+  padding:.75rem .95rem;margin-bottom:.5rem;font-size:.78rem;color:var(--muted2);line-height:1.72;
+  background:var(--bg2)}
+.rec2 .rn{font-size:.58rem;color:var(--accent);font-weight:700;font-family:monospace;letter-spacing:1px;margin-bottom:.25rem}
 
 /* ══ FOOTER ══ */
 .ft{padding:.65rem 2.5rem;background:var(--bg);border-top:1px solid var(--border);
   font-size:.58rem;color:var(--muted);display:flex;justify-content:space-between;
   flex-wrap:wrap;gap:.3rem;flex-shrink:0;letter-spacing:.4px}
 
-@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-7px)}}
 </style>
 </head>
 <body>
@@ -330,9 +353,14 @@ tbody td{padding:.72rem 1rem;vertical-align:top}
         <div class="mc-desc">Forwards · Opciones · Collar · Natural Hedge · Cross-Currency Swap</div>
         <div class="mc-arr">→</div>
       </div>
+      <div class="mc" onclick="goTo('page-calc')" style="background:rgba(0,200,255,.03)">
+        <span class="mc-num" style="color:var(--accent)">05 — Calculadora</span>
+        <div class="mc-title" style="color:var(--accent)">Calculadora Interactiva</div>
+        <div class="mc-desc">Forward · GK Options · Zero-Cost Collar · Monte Carlo · VaR · Resina</div>
+        <div class="mc-arr">→</div>
+      </div>
     </div>
   </div>
-  <div class="kow-fab" onclick="openKow()">Kowalski, Analysis!</div>
 </div>
 
 <!-- VARIABLES MACROECONÓMICAS -->
@@ -343,6 +371,7 @@ tbody td{padding:.72rem 1rem;vertical-align:top}
     <span class="nl on">Variables Macro</span>
     <span class="nl" onclick="goTo('page-risks')">Riesgos</span>
     <span class="nl" onclick="goTo('page-hedging')">Cobertura</span>
+    <span class="nl" onclick="goTo('page-calc')" style="color:var(--accent)">Calculadora</span>
     <div class="ns"></div>
     <div class="nd"><span class="live"></span><span id="d1"></span></div>
   </nav>
@@ -480,6 +509,7 @@ tbody td{padding:.72rem 1rem;vertical-align:top}
     <span class="nl" onclick="goTo('page-macro')">Variables Macro</span>
     <span class="nl on">Riesgos</span>
     <span class="nl" onclick="goTo('page-hedging')">Cobertura</span>
+    <span class="nl" onclick="goTo('page-calc')" style="color:var(--accent)">Calculadora</span>
     <div class="ns"></div>
     <div class="nd"><span class="live"></span><span id="d2"></span></div>
   </nav>
@@ -576,6 +606,7 @@ tbody td{padding:.72rem 1rem;vertical-align:top}
     <span class="nl" onclick="goTo('page-macro')">Variables Macro</span>
     <span class="nl" onclick="goTo('page-risks')">Riesgos</span>
     <span class="nl on">Cobertura FX</span>
+    <span class="nl" onclick="goTo('page-calc')" style="color:var(--accent)">Calculadora</span>
     <div class="ns"></div>
     <div class="nd"><span class="live"></span><span id="d3"></span></div>
   </nav>
@@ -726,18 +757,129 @@ tbody td{padding:.72rem 1rem;vertical-align:top}
   </div>
 </div>
 
-<!-- KOWALSKI MODAL -->
-<div id="kow-modal">
-  <div class="kow-card">
-    <button class="kx" onclick="closeKow()">✕</button>
-    <span class="kow-eyebrow">Arauco · Briefing Ejecutivo · Mayo 2026</span>
-    <h2>Kowalski, Analysis!</h2>
-    <p><span class="hl">Tipo de cambio:</span> ~17.34 MXN/USD. Peso fuerte. Abarata insumos USD pero comprime competitividad exportadora.</p>
-    <p><span class="wr">Diferencial de tasas:</span> Banxico 6.50% vs Fed 3.625%. Carry trade en compresión → presión bajista sobre MXN en H2-2026. Consenso: 17.5–18.5 a fin de año.</p>
-    <p><span class="dr">Riesgo #1 — USMCA 2026:</span> Aranceles sobre paneles desde Zitácuaro y Chihuahua eliminarían la ventaja nearshoring. Riesgo de cola más significativo.</p>
-    <p><span class="gr">Oportunidad — Nearshoring:</span> USD 40.9B IED en 9M-2025 (+14.5%). Arauco es proveedor estratégico de la relocalización industrial.</p>
-    <p><span class="wr">Deuda USD $7.2B:</span> Fed sin recortes hasta 2027. Recomendación: 60–70% forwards + 20–25% opciones OTM.</p>
-    <p style="font-size:.67rem;color:var(--muted);margin-top:.8rem;letter-spacing:.3px">Fuentes: Banxico · BLS · INEGI · OECD · Vanguard · ExchangeRates.org · Mayo 2026</p>
+<!-- CALCULADORA -->
+<div id="page-calc" class="page inner-page">
+  <nav class="nav">
+    <span class="nav-logo" onclick="goTo('page-menu')">ARAUCO</span>
+    <span class="nl" onclick="goTo('page-menu')">Menú</span>
+    <span class="nl" onclick="goTo('page-macro')">Variables Macro</span>
+    <span class="nl" onclick="goTo('page-risks')">Riesgos</span>
+    <span class="nl" onclick="goTo('page-hedging')">Cobertura</span>
+    <span class="nl on" style="color:var(--accent)">Calculadora</span>
+    <div class="ns"></div>
+    <div class="nd"><span class="live"></span><span id="d4"></span></div>
+  </nav>
+  <div class="body">
+
+    <!-- SIDEBAR -->
+    <aside class="cal-sb">
+      <div class="sb-sec" style="margin-top:0;border-top:none">Mercado FX</div>
+      <div class="sb-c"><div class="sb-l">Spot USD/MXN <b id="vs">17.30</b></div><input type="range" class="sb-r ci" id="S" min="13" max="24" step="0.05" value="17.30"></div>
+      <div class="sb-c"><div class="sb-l">Banxico (%) <b id="vrd">8.50</b></div><input type="range" class="sb-r ci" id="RD" min="4" max="15" step="0.25" value="8.50"></div>
+      <div class="sb-c"><div class="sb-l">Fed (%) <b id="vrf">4.50</b></div><input type="range" class="sb-r ci" id="RF" min="1" max="8" step="0.25" value="4.50"></div>
+      <div class="sb-c"><div class="sb-l">Volatilidad (%) <b id="vsg">12.0</b></div><input type="range" class="sb-r ci" id="SG" min="5" max="30" step="0.5" value="12.0"></div>
+
+      <div class="sb-sec">Exposición Arauco Mx</div>
+      <div class="sb-c"><div class="sb-l">Ingresos/mes (MXN M)</div><input type="number" class="sb-n ci" id="RM" value="850" min="0" step="10"></div>
+      <div class="sb-c"><div class="sb-l">% Ingresos USD <b id="vpu">60</b></div><input type="range" class="sb-r ci" id="PU" min="0" max="100" step="5" value="60"></div>
+      <div class="sb-c"><div class="sb-l">Costos/mes (MXN M)</div><input type="number" class="sb-n ci" id="CM" value="620" min="0" step="10"></div>
+      <div class="sb-c"><div class="sb-l">% Costos USD <b id="vpc">45</b></div><input type="range" class="sb-r ci" id="PC" min="0" max="100" step="5" value="45"></div>
+      <div class="sb-c"><div class="sb-l">Deuda USD/mes (M)</div><input type="number" class="sb-n ci" id="DU" value="1.5" min="0" step="0.1"></div>
+      <div class="sb-c"><div class="sb-l">EBITDA anual USD (M)</div><input type="number" class="sb-n ci" id="EA" value="85" min="1" step="5"></div>
+
+      <div class="sb-sec">Cobertura</div>
+      <div class="sb-c"><div class="sb-l">Horizonte (meses)</div><select class="sb-s ci" id="HM"><option value="3">3 meses</option><option value="6" selected>6 meses</option><option value="9">9 meses</option><option value="12">12 meses</option></select></div>
+      <div class="sb-c"><div class="sb-l">Hedge ratio (%) <b id="vhr">70</b></div><input type="range" class="sb-r ci" id="HR" min="0" max="100" step="5" value="70"></div>
+      <div class="sb-c"><div class="sb-l">Simulaciones MC</div><select class="sb-s ci" id="NS"><option value="1000">1,000</option><option value="3000" selected>3,000</option><option value="5000">5,000</option></select></div>
+
+      <div class="sb-sec">Canasta de Resina</div>
+      <input type="hidden" id="UB" value="575"><input type="hidden" id="FB" value="950"><input type="hidden" id="MB" value="380">
+      <div style="font-size:.6rem;color:var(--muted);margin:.3rem 0 .2rem;font-weight:700">UREA</div>
+      <div class="sb-c"><div class="sb-l">Vol (ton/mes)</div><input type="number" class="sb-n ci" id="UV" value="3000" step="100"></div>
+      <div class="sb-c"><div class="sb-l">Precio (USD/ton)</div><input type="number" class="sb-n ci" id="UP" value="875" step="10"></div>
+      <div style="font-size:.6rem;color:var(--muted);margin:.35rem 0 .2rem;font-weight:700">FENOL</div>
+      <div class="sb-c"><div class="sb-l">Vol (ton/mes)</div><input type="number" class="sb-n ci" id="FV" value="2000" step="100"></div>
+      <div class="sb-c"><div class="sb-l">Precio (USD/ton)</div><input type="number" class="sb-n ci" id="FP" value="1150" step="10"></div>
+      <div style="font-size:.6rem;color:var(--muted);margin:.35rem 0 .2rem;font-weight:700">METANOL</div>
+      <div class="sb-c"><div class="sb-l">Vol (ton/mes)</div><input type="number" class="sb-n ci" id="MV" value="1500" step="100"></div>
+      <div class="sb-c"><div class="sb-l">Precio (USD/ton)</div><input type="number" class="sb-n ci" id="MP" value="450" step="10"></div>
+      <button class="cbt" id="cbt" onclick="calcAll()">Calcular</button>
+      <div style="text-align:center;font-size:.58rem;color:var(--muted);margin-top:.3rem">Auto-actualiza al mover controles</div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="cal-main">
+      <div class="cst"><span class="csd" id="csd"></span><span id="cstxt">Calculando...</span></div>
+
+      <div class="ch">Métricas Clave</div>
+      <div class="kr">
+        <div class="kc2"><div class="kl">Exposición Neta USD/mes</div><div class="kv" id="kExp" style="color:var(--accent)">—</div><div class="ks" id="kPos">—</div></div>
+        <div class="kc2"><div class="kl">Forward Rate</div><div class="kv" id="kFwd" style="color:var(--yellow)">—</div><div class="ks" id="kFwdS">—</div></div>
+        <div class="kc2"><div class="kl">Budget / Break-even</div><div class="kv" id="kBR" style="color:var(--yellow)">—</div><div class="ks">Tasa límite FX</div></div>
+      </div>
+      <div class="kr" style="margin-bottom:.9rem">
+        <div class="kc2"><div class="kl">VaR 95% Con Cobertura</div><div class="kv" id="kVAR" style="color:var(--green)">—</div><div class="ks" id="kVARS">—</div></div>
+        <div class="kc2"><div class="kl">Reducción Volatilidad</div><div class="kv" id="kVOL" style="color:var(--green)">—</div><div class="ks">hedge vs sin hedge</div></div>
+        <div class="kc2"><div class="kl">Resina / EBITDA Anual</div><div class="kv" id="kRES" style="color:var(--yellow)">—</div><div class="ks">Proporción crítica</div></div>
+      </div>
+
+      <div class="ch">Escenarios FX</div>
+      <div class="g2c">
+        <div class="tw2"><table class="dt2"><thead><tr><th>Escenario</th><th>USD/MXN</th><th>Sin hedge</th><th>Con hedge</th></tr></thead><tbody id="stb"></tbody></table></div>
+        <div class="cc2"><h3>P&L vs Budget (USD M) — <span id="hmL">6</span>m</h3><canvas id="cScen" style="max-height:200px"></canvas></div>
+      </div>
+
+      <div class="ch">Riesgo de Resina</div>
+      <div class="kr k4" style="margin-bottom:.7rem">
+        <div class="kc2"><div class="kl">Costo USD/mes</div><div class="kv" id="rUSD" style="color:var(--yellow)">—</div><div class="ks">Urea+Fenol+Metanol</div></div>
+        <div class="kc2"><div class="kl">Costo MXN/mes</div><div class="kv" id="rMXN" style="color:var(--yellow)">—</div><div class="ks" id="rMXNS">—</div></div>
+        <div class="kc2"><div class="kl">Δ Precio Urea</div><div class="kv" id="rU" style="color:var(--red)">—</div><div class="ks">vs base histórico</div></div>
+        <div class="kc2"><div class="kl">Resina/EBITDA</div><div class="kv" id="rRatio" style="color:var(--red)">—</div><div class="ks">Anual</div></div>
+      </div>
+      <div class="g2c">
+        <div class="tw2"><table class="dt2"><thead><tr><th>Insumo</th><th>Vol</th><th>USD/ton</th><th>Costo/mes</th><th>Δ vs Base</th></tr></thead><tbody id="rtb"></tbody></table></div>
+        <div class="shk">
+          <div style="font-size:.58rem;color:var(--muted2);letter-spacing:2px;text-transform:uppercase;margin-bottom:.55rem;font-weight:700">Simulador de Shock</div>
+          <div class="sb-c"><div class="sb-l">Shock Urea (%) <b id="vsu">0</b></div><input type="range" class="sb-r ci" id="SU" min="-50" max="100" step="5" value="0"></div>
+          <div class="sb-c"><div class="sb-l">Shock Fenol (%) <b id="vsf">0</b></div><input type="range" class="sb-r ci" id="SF" min="-50" max="100" step="5" value="0"></div>
+          <div class="sb-c"><div class="sb-l">Shock Metanol (%) <b id="vsm">0</b></div><input type="range" class="sb-r ci" id="SM" min="-50" max="100" step="5" value="0"></div>
+          <div style="margin-top:.65rem;font-size:.74rem;color:var(--muted2);display:flex;flex-wrap:wrap;gap:.8rem">
+            <span>Base: <b id="shB" style="font-family:monospace">—</b></span>
+            <span>Con shock: <b id="shS" style="font-family:monospace">—</b></span>
+            <span>Impacto: <b id="shD" style="font-family:monospace">—</b></span>
+            <span>vs EBITDA: <b id="shE" style="font-family:monospace">—</b></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ch">Instrumentos de Cobertura</div>
+      <div class="itbs">
+        <button class="itb on" onclick="switchI(0,this)">Forward</button>
+        <button class="itb" onclick="switchI(1,this)">Put ATM</button>
+        <button class="itb" onclick="switchI(2,this)">Zero-Cost Collar</button>
+      </div>
+      <div class="g2c">
+        <div class="cc2"><h3 id="iT">Forward: Tasa Efectiva vs Spot al Vencimiento</h3><canvas id="cInstr" style="max-height:230px"></canvas></div>
+        <div class="ip2" id="iP"></div>
+      </div>
+
+      <div class="ch">Monte Carlo — Distribución P&L FX</div>
+      <div class="g2c">
+        <div class="cc2"><h3 id="mcT">Distribución P&L FX (USD M)</h3><canvas id="cMC" style="max-height:240px"></canvas></div>
+        <div class="tw2">
+          <div style="padding:.42rem .7rem;background:var(--bg3);border-bottom:1px solid var(--border);font-size:.54rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;font-weight:700">Métricas de Riesgo</div>
+          <table class="dt2" id="rmT"></table>
+        </div>
+      </div>
+
+      <div class="ch">Recomendación Final</div>
+      <div id="recW"></div>
+      <div style="text-align:center;color:var(--muted);font-size:.58rem;margin-top:1.8rem;letter-spacing:.5px">Arauco México · Financial Risk Advisory · TEC GDL IFM 2026 · Assumption / Placeholder Data Only</div>
+    </div>
+  </div>
+  <div class="ft">
+    <span>Motor: Garman-Kohlhagen (1983) · Paridad Cubierta (CIP) · Monte Carlo GBM · Bisección para collar</span>
+    <span>Equipo 1 TEC GDL · International Financial Management · Mayo 2026</span>
   </div>
 </div>
 
@@ -762,17 +904,12 @@ function goTo(id){
   if(id==='page-macro'&&!window._cm){buildCharts();window._cm=true;}
   if(id==='page-risks'&&!window._cr){buildGauges();window._cr=true;}
   if(id==='page-hedging'&&!window._ch){buildHedge();window._ch=true;}
+  if(id==='page-calc'&&!window._cc){window._cc=true;calcAll();}
 }
 
 /* DATE */
 const DS=new Date().toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});
-['d1','d2','d3'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=DS;});
-
-/* KOWALSKI */
-function openKow(){document.getElementById('kow-modal').classList.add('open')}
-function closeKow(){document.getElementById('kow-modal').classList.remove('open')}
-document.getElementById('kow-modal').addEventListener('click',function(e){if(e.target===this)closeKow();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeKow();});
+['d1','d2','d3','d4'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=DS;});
 
 /* PARTICLES */
 (function(){
@@ -857,6 +994,238 @@ function buildGauges(){
   }
   gauge('g-fx',60,Y);gauge('g-usmca',82,R);gauge('g-debt',78,R);
   gauge('g-pulp',55,Y);gauge('g-near',80,G);gauge('g-geo',58,Y);
+}
+
+/* ══════════════════════════════════════════════════
+   CALCULADORA — Math Engine (vanilla JS)
+══════════════════════════════════════════════════ */
+// Normal CDF (Abramowitz & Stegun 26.2.17)
+function Phi(x){
+  const a=[0,0.254829592,-0.284496736,1.421413741,-1.453152027,1.061405429];
+  const p=0.3275911,sign=x<0?-1:1;x=Math.abs(x)/Math.SQRT2;
+  const t=1/(1+p*x);
+  const y=1-((((a[5]*t+a[4])*t+a[3])*t+a[2])*t+a[1])*t*Math.exp(-x*x);
+  return .5*(1+sign*y);
+}
+function fwdR(S,rd,rf,T){return S*Math.exp((rd-rf)*T);}
+function d1d2(S,K,rd,rf,sg,T){const d1=(Math.log(S/K)+(rd-rf+.5*sg*sg)*T)/(sg*Math.sqrt(T));return[d1,d1-sg*Math.sqrt(T)];}
+function gkC(S,K,rd,rf,sg,T){if(T<1e-9)return Math.max(S-K,0);const[d1,d2]=d1d2(S,K,rd,rf,sg,T);return S*Math.exp(-rf*T)*Phi(d1)-K*Math.exp(-rd*T)*Phi(d2);}
+function gkP(S,K,rd,rf,sg,T){if(T<1e-9)return Math.max(K-S,0);const[d1,d2]=d1d2(S,K,rd,rf,sg,T);return K*Math.exp(-rd*T)*Phi(-d2)-S*Math.exp(-rf*T)*Phi(-d1);}
+function gkDP(S,K,rd,rf,sg,T){if(T<1e-9)return S<K?-1:0;const[d1]=d1d2(S,K,rd,rf,sg,T);return-Math.exp(-rf*T)*Phi(-d1);}
+function collarFlr(S,Kc,rd,rf,sg,T){
+  const cp=gkC(S,Kc,rd,rf,sg,T);
+  let lo=S*.4,hi=S-.001;
+  for(let i=0;i<60;i++){const m=(lo+hi)/2;gkP(S,m,rd,rf,sg,T)<cp?lo=m:hi=m;}
+  return(lo+hi)/2;
+}
+function boxM(){let u,v;do{u=Math.random();v=Math.random();}while(!u);return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+function mc(S,rd,rf,sg,T,n){const mu=(rd-rf-.5*sg*sg)*T,vol=sg*Math.sqrt(T);return Array.from({length:n},()=>S*Math.exp(mu+vol*boxM()));}
+function pnls(ST,net,S,F,hr,hm){
+  const tot=net*hm,sign=tot>=0?1:-1,hn=Math.abs(tot)*hr,un=Math.abs(tot)*(1-hr);
+  return{pu:ST.map(s=>sign*tot*(s-S)),ph:ST.map(s=>sign*hn*(F-S)+sign*un*(s-S))};
+}
+function vc(arr,c=.95){
+  const l=arr.map(x=>-x).sort((a,b)=>a-b),idx=Math.floor(l.length*c);
+  return{v:l[idx],cv:l.slice(idx).reduce((a,b)=>a+b,0)/l.slice(idx).length};
+}
+function hist(arr,n=45){
+  const mn=Math.min(...arr),mx=Math.max(...arr),w=(mx-mn)/n;
+  const c=Array(n).fill(0),md=Array.from({length:n},(_,i)=>mn+w*(i+.5));
+  arr.forEach(v=>{const i=Math.min(Math.floor((v-mn)/w),n-1);if(i>=0)c[i]++;});
+  return{md,c};
+}
+function netExp(RM,PU,CM,PC,DU,S){
+  const ru=RM*PU/S,cu=CM*PC/S,net=ru-cu-DU;
+  return{ru,cu,du:DU,net,isR:net>=0,pos:net>=0?'Receptor (Net Long USD)':'Pagador (Net Short USD)'};
+}
+function resinBuild(bsk,S){
+  let tot=0;const items={};
+  for(const[n,d]of Object.entries(bsk)){
+    const mu=d.v*d.p,bu=d.v*d.b;
+    items[n]={v:d.v,p:d.p,mu,mn:mu*S,chg:(d.p/d.b-1)*100,vsb:mu-bu};
+    tot+=mu;
+  }
+  return{items,tu:tot,tm:tot*S};
+}
+function resinShk(bsk,shk,S){
+  const sh={};for(const[n,d]of Object.entries(bsk))sh[n]={...d,p:d.p*(1+(shk[n]||0))};
+  const b=resinBuild(bsk,S),s=resinBuild(sh,S);
+  return{bu:b.tu,su:s.tu,du:s.tu-b.tu};
+}
+
+/* ── Calculadora state & charts ───────────────────── */
+const CC={};let AI=0,LD=null,DT=null;
+
+/* Slider bindings */
+const SLB=[['S','vs',2],['RD','vrd',2],['RF','vrf',2],['SG','vsg',1],
+           ['PU','vpu',0],['PC','vpc',0],['HR','vhr',0],
+           ['SU','vsu',0],['SF','vsf',0],['SM','vsm',0]];
+
+document.addEventListener('DOMContentLoaded',()=>{
+  SLB.forEach(([id,vid,d])=>{
+    const el=document.getElementById(id),vl=document.getElementById(vid);
+    if(el&&vl)el.addEventListener('input',()=>{vl.textContent=parseFloat(el.value).toFixed(d);sched();});
+  });
+  document.querySelectorAll('.ci:not([type=range])').forEach(el=>el.addEventListener('change',sched));
+});
+
+let _dt=null;function sched(){clearTimeout(_dt);_dt=setTimeout(calcAll,650);}
+
+function gv(id){return document.getElementById(id).value;}
+function getPar(){
+  const S=parseFloat(gv('S')),rd=parseFloat(gv('RD'))/100,rf=parseFloat(gv('RF'))/100;
+  const sg=parseFloat(gv('SG'))/100,hm=parseInt(gv('HM')),hr=parseFloat(gv('HR'))/100;
+  const RM=parseFloat(gv('RM'))*1e6,PU=parseFloat(gv('PU'))/100;
+  const CM=parseFloat(gv('CM'))*1e6,PC=parseFloat(gv('PC'))/100;
+  const DU=parseFloat(gv('DU'))*1e6,EA=parseFloat(gv('EA'))*1e6;
+  const ns=parseInt(gv('NS'));
+  const bsk={
+    Urea:  {v:parseFloat(gv('UV')),p:parseFloat(gv('UP')),b:parseFloat(gv('UB'))},
+    Fenol: {v:parseFloat(gv('FV')),p:parseFloat(gv('FP')),b:parseFloat(gv('FB'))},
+    Metanol:{v:parseFloat(gv('MV')),p:parseFloat(gv('MP')),b:parseFloat(gv('MB'))},
+  };
+  const shk={Urea:parseFloat(gv('SU'))/100,Fenol:parseFloat(gv('SF'))/100,Metanol:parseFloat(gv('SM'))/100};
+  return{S,rd,rf,sg,hm,hr,RM,PU,CM,PC,DU,EA,ns,bsk,shk};
+}
+
+function setSt(s,t){
+  document.getElementById('csd').className='csd'+(s!=='ok'?' '+s:'');
+  document.getElementById('cstxt').textContent=t;
+}
+
+function calcAll(){
+  setSt('ld','Calculando...');
+  const btn=document.getElementById('cbt');if(btn)btn.disabled=true;
+  setTimeout(()=>{
+    try{
+      const p=getPar();
+      const{S,rd,rf,sg,hm,hr,RM,PU,CM,PC,DU,EA,ns,bsk,shk}=p;
+      const T=hm/12,F=fwdR(S,rd,rf,T);
+      const exp=netExp(RM,PU,CM,PC,DU,S);
+      const net=exp.net;
+      const Katm=F,Kc=S*1.04,Kf=collarFlr(S,Kc,rd,rf,sg,T);
+      const pp=gkP(S,Katm,rd,rf,sg,T),cp=gkC(S,Katm,rd,rf,sg,T);
+      const pdelt=gkDP(S,Katm,rd,rf,sg,T);
+      const br=EA*(hm/12)/(Math.abs(net)*hm||1)+S;
+      const resin=resinBuild(bsk,S),rshk=resinShk(bsk,shk,S);
+      const ST=mc(S,rd,rf,sg,T,ns),{pu,ph}=pnls(ST,net,S,F,hr,hm);
+      const vu=vc(pu),vh=vc(ph);
+      const std=a=>{const m=a.reduce((x,y)=>x+y,0)/a.length;return Math.sqrt(a.reduce((x,y)=>x+(y-m)**2,0)/a.length);};
+      const su=std(pu),sh2=std(ph),volR=su>0?(su-sh2)/su:0;
+      const hU=hist(pu.map(x=>x/1e6)),hH=hist(ph.map(x=>x/1e6));
+      // Scenarios
+      const moves={'+10% Peso':-0.10,'Base':0.00,'+8% Depre':0.08,'+20% Crisis':0.20};
+      const scen=Object.entries(moves).map(([lbl,m])=>{
+        const St=S*(1+m),tot=net*hm,sign=tot>=0?1:-1;
+        const hn=Math.abs(tot)*hr,un=Math.abs(tot)*(1-hr);
+        const pu2=sign*tot*(St-S),ph2=sign*hn*(F-S)+sign*un*(St-S);
+        return{lbl,St,pu:pu2,ph:ph2};
+      });
+      // Payoff curves
+      const SR=Array.from({length:80},(_,i)=>S*.70+(S*.60/79)*i);
+      const pfwd=SR.map(()=>F);
+      const ppeff=SR.map(s=>Math.max(s,Katm)-pp);
+      const pceff=SR.map(s=>Math.min(Math.max(s,Kf),Kc));
+      LD={F,T,hm,hr,exp,pp,cp,pdelt,Katm,Kc,Kf,br,resin,rshk,vu,vh,su,sh2,volR,hU,hH,scen,SR,pfwd,ppeff,pceff,EA,S};
+      renderAll(LD);
+      setSt('ok','Actualizado · '+new Date().toLocaleTimeString('es-MX'));
+    }catch(e){setSt('er','Error: '+e.message);console.error(e);}
+    const btn2=document.getElementById('cbt');if(btn2)btn2.disabled=false;
+  },10);
+}
+
+/* ── Format helpers ───────────────────────────────── */
+function fU(v,d=2){const a=Math.abs(v),sg=v<0?'-':'';return sg+'$'+(a>=1e6?(a/1e6).toFixed(d)+'M':a>=1e3?(a/1e3).toFixed(0)+'K':a.toFixed(0));}
+function fM(v){return'MXN '+(Math.abs(v)>=1e9?(v/1e9).toFixed(2)+'B':(v/1e6).toFixed(1)+'M');}
+function fX(v){return v.toFixed(4);}function fP(v){return v.toFixed(1)+'%';}
+function pc(v){return v>=0?'#10b981':'#ef4444';}
+function st(id,t){const e=document.getElementById(id);if(e)e.textContent=t;}
+function sc(id,c){const e=document.getElementById(id);if(e)e.style.color=c;}
+function mkC(id,type,data,opts){
+  if(CC[id]){CC[id].destroy();delete CC[id];}
+  const ctx=document.getElementById(id);if(!ctx)return;
+  CC[id]=new Chart(ctx.getContext('2d'),{type,data,options:opts});
+}
+const GO={responsive:true,maintainAspectRatio:true};
+const GR='rgba(255,255,255,.06)';
+const bOpts={...GO,scales:{x:{grid:{color:GR}},y:{grid:{color:GR}}},plugins:{legend:{labels:{font:{size:10}}}}};
+
+function renderAll(d){
+  const{F,hm,hr,exp,pp,pdelt,Katm,Kc,Kf,br,resin,rshk,vu,vh,volR,hU,hH,scen,SR,pfwd,ppeff,pceff,EA,S}=d;
+  // KPIs
+  st('kExp',fU(exp.net));sc('kExp',exp.isR?'#00c8ff':'#f59e0b');
+  st('kPos',exp.pos);st('kFwd',fX(F));
+  st('kFwdS','Pts: '+(F-S>=0?'+':'')+(F-S).toFixed(4));
+  st('kBR',fX(br));
+  st('kVAR',fU(vh.v));sc('kVAR','#10b981');
+  st('kVARS','vs sin hedge: '+fU(vu.v));
+  st('kVOL',fP(volR*100));
+  st('kRES',fP(resin.tu*12/EA*100));
+  st('hmL',hm);
+
+  // Scenarios
+  document.getElementById('stb').innerHTML=scen.map(s=>`<tr><td>${s.lbl}</td><td style="font-family:monospace">${s.St.toFixed(2)}</td><td style="color:${pc(s.pu)};font-family:monospace">${(s.pu/1e6).toFixed(2)}M</td><td style="color:${pc(s.ph)};font-family:monospace">${(s.ph/1e6).toFixed(2)}M</td></tr>`).join('');
+  const uhC=scen.map(s=>+(s.pu/1e6).toFixed(2)),hC=scen.map(s=>+(s.ph/1e6).toFixed(2));
+  mkC('cScen','bar',{labels:scen.map(s=>s.lbl),datasets:[
+    {label:'Sin hedge',data:uhC,backgroundColor:uhC.map(v=>v>=0?'rgba(16,185,129,.6)':'rgba(239,68,68,.6)'),borderRadius:3},
+    {label:'Con hedge',data:hC, backgroundColor:hC.map(v=>v>=0?'rgba(0,200,255,.75)':'rgba(245,158,11,.75)'),borderRadius:3},
+  ]},{...bOpts,scales:{x:{grid:{color:GR},ticks:{font:{size:9}}},y:{grid:{color:GR},ticks:{callback:v=>v+'M',font:{size:10}}}}});
+
+  // Resin KPIs
+  st('rUSD',fU(resin.tu));st('rMXN',fM(resin.tm));st('rMXNS','spot '+S.toFixed(2));
+  const uc=resin.items.Urea?.chg||0;st('rU',(uc>0?'+':'')+uc.toFixed(0)+'%');sc('rU',uc>0?'#ef4444':'#10b981');
+  st('rRatio',fP(resin.tu*12/EA*100));
+  document.getElementById('rtb').innerHTML=Object.entries(resin.items).map(([n,it])=>`<tr><td><strong>${n}</strong></td><td style="font-family:monospace">${it.v.toLocaleString()}</td><td style="font-family:monospace">$${it.p.toFixed(0)}</td><td style="font-family:monospace">${fU(it.mu)}/mes</td><td style="color:${it.chg>0?'#ef4444':'#10b981'};font-family:monospace">${it.chg>0?'+':''}${it.chg.toFixed(1)}%</td></tr>`).join('');
+  const shCol=rshk.du>=0?'#ef4444':'#10b981',shSg=rshk.du>=0?'+':'';
+  st('shB',fU(rshk.bu)+'/mes');st('shS',fU(rshk.su)+'/mes');
+  const shDE=document.getElementById('shD');if(shDE){shDE.textContent=shSg+fU(Math.abs(rshk.du))+'/mes';shDE.style.color=shCol;}
+  const shEE=document.getElementById('shE');if(shEE){shEE.textContent=(rshk.du*12/EA*100>0?'+':'')+(rshk.du*12/EA*100).toFixed(1)+'% EBITDA';shEE.style.color=shCol;}
+
+  // Instruments
+  renderI(d,AI);
+
+  // Monte Carlo
+  st('mcT',`Distribución P&L FX (USD M) · ${parseInt(gv('NS')).toLocaleString()} sims`);
+  mkC('cMC','bar',{labels:hU.md.map(v=>v.toFixed(1)),datasets:[
+    {label:'Sin hedge',data:hU.c,backgroundColor:'rgba(239,68,68,.55)',borderWidth:0,barPercentage:1,categoryPercentage:1},
+    {label:'Con hedge',data:hH.c,backgroundColor:'rgba(0,200,255,.5)',borderWidth:0,barPercentage:1,categoryPercentage:1},
+  ]},{...GO,scales:{x:{grid:{color:GR},ticks:{maxTicksLimit:10,font:{size:9}}},y:{grid:{color:GR},ticks:{font:{size:10}}}},plugins:{legend:{labels:{font:{size:10}}}}});
+  const rows=[['VaR 95% Sin Hedge',fU(vu.v),'#ef4444'],['VaR 95% Con Hedge',fU(vh.v),'#10b981'],
+    ['CVaR 95% Sin Hedge',fU(vu.cv),'#ef4444'],['CVaR 95% Con Hedge',fU(vh.cv),'#10b981'],
+    ['Reducción Volatilidad',fP(volR*100),'#10b981'],['Budget/Break-even',fX(br)+' MXN/USD','#f59e0b']];
+  document.getElementById('rmT').innerHTML=rows.map(([l,v,c])=>`<tr><td style="padding:.38rem .7rem;border-bottom:1px solid rgba(255,255,255,.05);color:var(--muted2)">${l}</td><td style="padding:.38rem .7rem;border-bottom:1px solid rgba(255,255,255,.05);font-family:monospace;font-weight:700;color:${c};text-align:right">${v}</td></tr>`).join('');
+
+  // Recommendation
+  const hrp=parseFloat(gv('HR')),hmL=gv('HM');
+  document.getElementById('recW').innerHTML=`
+    <div class="rec2"><div class="rn">01 — PRIORIDAD: RIESGO RESINA</div>Canasta urea/fenol/metanol = <strong style="color:#ef4444">${fP(resin.tu*12/EA*100)} del EBITDA anual</strong> (${fU(resin.tu)}/mes). Recomendamos <strong>swap pay-fixed OTC para urea</strong> (6–12m) y explorar proxy hedge NYMEX HH. No existen futuros listados líquidos en México.</div>
+    <div class="rec2" style="border-left-color:#f59e0b"><div class="rn" style="color:#f59e0b">02 — FX: FORWARD ESCALONADO (0–${hmL}M)</div>Posición: <strong style="color:${exp.isR?'#00c8ff':'#f59e0b'}">${exp.pos}</strong>. Ejecutar forwards sobre el <strong>${hrp}% del flujo contractual</strong> a <strong style="color:#f59e0b">${fX(F)} MXN/USD</strong>. Zero-Cost Collar 6–12m garantiza corredor <strong>${fX(Kf)} – ${fX(Kc)}</strong> sin prima.</div>
+    <div class="rec2" style="border-left-color:#10b981"><div class="rn" style="color:#10b981">03 — IMPACTO</div>Reducción volatilidad P&L: <strong style="color:#10b981">${fP(volR*100)}</strong>. VaR 95%: <strong style="color:#ef4444">${fU(vu.v)}</strong> → <strong style="color:#10b981">${fU(vh.v)}</strong>. Horizonte ${hmL}m, ${parseInt(gv('NS')).toLocaleString()} simulaciones Monte Carlo GBM.</div>`;
+}
+
+function switchI(idx,btn){
+  AI=idx;
+  document.querySelectorAll('.itb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  if(LD)renderI(LD,idx);
+}
+
+function renderI(d,idx){
+  const{F,pp,pdelt,Katm,Kc,Kf,SR,pfwd,ppeff,pceff,S}=d;
+  const titles=['Forward: Tasa Efectiva','Put ATM (Garman-Kohlhagen): Tasa Efectiva','Zero-Cost Collar (Receptor): Tasa Efectiva'];
+  st('iT',titles[idx]);
+  const lbs=SR.map(v=>v.toFixed(2));
+  const nhLine=SR;
+  let ds;
+  if(idx===0)ds=[{label:'Sin hedge',data:nhLine,borderColor:'rgba(255,255,255,.25)',borderWidth:1.5,pointRadius:0,borderDash:[4,3]},{label:'Forward',data:pfwd,borderColor:'#f59e0b',borderWidth:2.5,pointRadius:0}];
+  else if(idx===1)ds=[{label:'Sin hedge',data:nhLine,borderColor:'rgba(255,255,255,.25)',borderWidth:1.5,pointRadius:0,borderDash:[4,3]},{label:'Put ATM',data:ppeff,borderColor:'#00c8ff',borderWidth:2.5,pointRadius:0}];
+  else ds=[{label:'Sin hedge',data:nhLine,borderColor:'rgba(255,255,255,.25)',borderWidth:1.5,pointRadius:0,borderDash:[4,3]},{label:'Forward',data:pfwd,borderColor:'#f59e0b',borderWidth:1.5,pointRadius:0,borderDash:[2,2]},{label:'Collar',data:pceff,borderColor:'#00c8ff',borderWidth:2.5,pointRadius:0}];
+  mkC('cInstr','line',{labels:lbs,datasets:ds},{...GO,scales:{x:{grid:{color:GR},ticks:{maxTicksLimit:8,font:{size:9}}},y:{grid:{color:GR},ticks:{font:{size:10},callback:v=>v.toFixed(2)},title:{display:true,text:'MXN/USD',font:{size:9},color:'rgba(255,255,255,.28)'}}},plugins:{legend:{labels:{font:{size:10}}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y.toFixed(4)+' MXN/USD'}}}});
+  const r=(l,v,c)=>`<tr><td style="padding:.28rem 0;color:var(--muted2)">${l}</td><td style="text-align:right;font-family:monospace;font-weight:700;color:${c||'var(--text)'}">${v}</td></tr>`;
+  const p=document.getElementById('iP');
+  if(idx===0)p.innerHTML=`<div style="font-size:.56rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:.55rem;font-weight:700">Forward — Paridad Cubierta</div><table>${r('Spot',S.toFixed(4))}${r('Forward Rate',F.toFixed(4),'#f59e0b')}${r('Puntos fwd',(F-S>=0?'+':'')+(F-S).toFixed(4))}${r('Tasa MXN',gv('RD')+'%')}${r('Tasa USD',gv('RF')+'%')}${r('Tenor',gv('HM')+'m')}${r('Costo','Sin prima (OTC)','#10b981')}</table><div style="margin-top:.6rem;font-size:.68rem;color:var(--muted);line-height:1.6">F = S · e<sup>(r<sub>d</sub>−r<sub>f</sub>)·T</sup> = <strong style="color:#f59e0b">${F.toFixed(4)}</strong></div>`;
+  else if(idx===1)p.innerHTML=`<div style="font-size:.56rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:.55rem;font-weight:700">Put ATM — Garman-Kohlhagen 1983</div><table>${r('Strike ATM-Fwd',Katm.toFixed(4))}${r('Prima Put',d.pp.toFixed(4)+' MXN/USD','#00c8ff')}${r('Prima (%spot)',(d.pp/S*100).toFixed(2)+'%')}${r('Delta',pdelt.toFixed(4))}${r('Volatilidad',gv('SG')+'%')}${r('Tenor',gv('HM')+'m')}</table><div style="margin-top:.6rem;padding:.5rem;background:rgba(0,200,255,.05);border:1px solid rgba(0,200,255,.2);border-radius:.3rem;font-size:.68rem;color:var(--muted2);line-height:1.6">Floor garantizado. Upside ilimitado si MXN se debilita.</div>`;
+  else p.innerHTML=`<div style="font-size:.56rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:.55rem;font-weight:700">Zero-Cost Collar — Receptor</div><table>${r('Floor (put strike)',Kf.toFixed(4),'#10b981')}${r('Cap (call strike)',Kc.toFixed(4),'#f59e0b')}${r('Prima neta','≈ 0.0000','#10b981')}${r('Corredor',Kf.toFixed(3)+' – '+Kc.toFixed(3))}${r('Ancho',(Kc-Kf).toFixed(4))}</table><div style="margin-top:.6rem;padding:.5rem;background:rgba(0,200,255,.05);border:1px solid rgba(0,200,255,.2);border-radius:.3rem;font-size:.68rem;color:var(--muted2);line-height:1.6">Costo = 0. Rango garantizado <strong style="color:#10b981">${Kf.toFixed(2)}</strong> – <strong style="color:#f59e0b">${Kc.toFixed(2)}</strong> MXN/USD.</div>`;
 }
 
 function buildHedge(){
