@@ -872,6 +872,105 @@ tbody td{padding:.72rem 1rem;vertical-align:top}
         </div>
       </div>
 
+      <!-- ─── Primas de Opciones FX ──────────────────────────────────────── -->
+      <div class="ch">Primas de Opciones FX — Garman-Kohlhagen</div>
+
+      <!-- Shared inputs -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:.55rem;padding:.75rem 1rem;margin-bottom:.75rem;display:flex;flex-wrap:wrap;gap:1.2rem;align-items:flex-end">
+        <div>
+          <div style="font-size:.56rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:.18rem">Monto expuesto (USD)</div>
+          <input type="number" class="sb-n ci" id="op-monto" value="5000000" step="100000" style="width:148px">
+        </div>
+        <div>
+          <div style="font-size:.56rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:.18rem">% Cobertura &nbsp;<b id="vop-pct" style="color:var(--accent)">70</b></div>
+          <input type="range" class="sb-r ci" id="op-pct" min="0" max="100" step="5" value="70" style="width:140px;display:block;margin-top:.42rem">
+        </div>
+        <div style="font-size:.67rem;color:var(--muted2);line-height:1.55;max-width:280px">
+          Nocional = Monto × % Cobertura. Spot, vol, tasas y horizonte: del sidebar.
+          Primas expresadas en MXN (moneda doméstica).
+        </div>
+      </div>
+
+      <!-- 3 option cards -->
+      <div class="g3c" style="margin-bottom:1.1rem">
+
+        <!-- Long Put Dollar -->
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:.55rem;overflow:hidden">
+          <div style="padding:.65rem .9rem;border-bottom:1px solid var(--border);background:rgba(239,68,68,.04)">
+            <div style="display:flex;align-items:center;gap:.45rem;margin-bottom:.2rem">
+              <span style="font-size:1rem">📥</span>
+              <span style="font-size:.82rem;font-weight:700">Long Put Dollar</span>
+              <span style="font-size:.52rem;background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3);padding:.1rem .42rem;border-radius:9999px;font-weight:700">PUT USD</span>
+            </div>
+            <div style="font-size:.64rem;color:var(--muted2);line-height:1.5">Arauco recibe USD. Riesgo: MXN se fortalece. Pisa un floor al strike — protege receivables.</div>
+          </div>
+          <div style="padding:.65rem .9rem">
+            <div style="font-size:.56rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:.18rem">Strike (MXN/USD)</div>
+            <input type="number" class="sb-n ci" id="op-K-put" value="17.30" step="0.05" style="width:100%;margin-bottom:.55rem">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:.38rem">
+              <div style="background:var(--bg3);border-radius:.35rem;padding:.42rem .6rem"><div style="font-size:.52rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Prima/USD (MXN)</div><div style="font-size:.84rem;font-weight:700;font-family:monospace;color:#6ee7b7" id="op-put-unit">—</div></div>
+              <div style="background:var(--bg3);border-radius:.35rem;padding:.42rem .6rem"><div style="font-size:.52rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Delta</div><div style="font-size:.84rem;font-weight:700;font-family:monospace" id="op-put-delta">—</div></div>
+              <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);border-radius:.35rem;padding:.42rem .6rem;grid-column:1/-1">
+                <div style="font-size:.52rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Prima total</div>
+                <div style="font-size:.95rem;font-weight:800;font-family:monospace;color:var(--green)" id="op-put-totmxn">—</div>
+                <div style="font-size:.62rem;color:var(--muted);font-family:monospace" id="op-put-totusd">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Long Call Peso -->
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:.55rem;overflow:hidden">
+          <div style="padding:.65rem .9rem;border-bottom:1px solid var(--border);background:rgba(124,58,237,.04)">
+            <div style="display:flex;align-items:center;gap:.45rem;margin-bottom:.2rem">
+              <span style="font-size:1rem">💱</span>
+              <span style="font-size:.82rem;font-weight:700">Long Call Peso</span>
+              <span style="font-size:.52rem;background:rgba(124,58,237,.15);color:#c4b5fd;border:1px solid rgba(124,58,237,.3);padding:.1rem .42rem;border-radius:9999px;font-weight:700">= PUT USD</span>
+            </div>
+            <div style="font-size:.64rem;color:var(--muted2);line-height:1.5">Apuesta a apreciación del peso. Payoff idéntico al Put Dollar — diferente strike y contrato.</div>
+          </div>
+          <div style="padding:.65rem .9rem">
+            <div style="font-size:.56rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:.18rem">Strike (MXN/USD)</div>
+            <input type="number" class="sb-n ci" id="op-K-cpeso" value="17.00" step="0.05" style="width:100%;margin-bottom:.55rem">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:.38rem">
+              <div style="background:var(--bg3);border-radius:.35rem;padding:.42rem .6rem"><div style="font-size:.52rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Prima/USD (MXN)</div><div style="font-size:.84rem;font-weight:700;font-family:monospace;color:#c4b5fd" id="op-cpeso-unit">—</div></div>
+              <div style="background:var(--bg3);border-radius:.35rem;padding:.42rem .6rem"><div style="font-size:.52rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Delta</div><div style="font-size:.84rem;font-weight:700;font-family:monospace" id="op-cpeso-delta">—</div></div>
+              <div style="background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.25);border-radius:.35rem;padding:.42rem .6rem;grid-column:1/-1">
+                <div style="font-size:.52rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Prima total</div>
+                <div style="font-size:.95rem;font-weight:800;font-family:monospace;color:#c4b5fd" id="op-cpeso-totmxn">—</div>
+                <div style="font-size:.62rem;color:var(--muted);font-family:monospace" id="op-cpeso-totusd">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Long Call Dollar -->
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:.55rem;overflow:hidden">
+          <div style="padding:.65rem .9rem;border-bottom:1px solid var(--border);background:rgba(0,200,255,.03)">
+            <div style="display:flex;align-items:center;gap:.45rem;margin-bottom:.2rem">
+              <span style="font-size:1rem">📤</span>
+              <span style="font-size:.82rem;font-weight:700">Long Call Dollar</span>
+              <span style="font-size:.52rem;background:rgba(0,200,255,.12);color:var(--accent);border:1px solid rgba(0,200,255,.25);padding:.1rem .42rem;border-radius:9999px;font-weight:700">CALL USD</span>
+            </div>
+            <div style="font-size:.64rem;color:var(--muted2);line-height:1.5">Arauco paga USD (deuda, payables). Techa el costo al strike — protege contra depreciación del peso.</div>
+          </div>
+          <div style="padding:.65rem .9rem">
+            <div style="font-size:.56rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:.18rem">Strike (MXN/USD)</div>
+            <input type="number" class="sb-n ci" id="op-K-cdolar" value="18.50" step="0.05" style="width:100%;margin-bottom:.55rem">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:.38rem">
+              <div style="background:var(--bg3);border-radius:.35rem;padding:.42rem .6rem"><div style="font-size:.52rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Prima/USD (MXN)</div><div style="font-size:.84rem;font-weight:700;font-family:monospace;color:var(--accent)" id="op-cdolar-unit">—</div></div>
+              <div style="background:var(--bg3);border-radius:.35rem;padding:.42rem .6rem"><div style="font-size:.52rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Delta</div><div style="font-size:.84rem;font-weight:700;font-family:monospace" id="op-cdolar-delta">—</div></div>
+              <div style="background:rgba(0,200,255,.06);border:1px solid rgba(0,200,255,.2);border-radius:.35rem;padding:.42rem .6rem;grid-column:1/-1">
+                <div style="font-size:.52rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Prima total</div>
+                <div style="font-size:.95rem;font-weight:800;font-family:monospace;color:var(--accent)" id="op-cdolar-totmxn">—</div>
+                <div style="font-size:.62rem;color:var(--muted);font-family:monospace" id="op-cdolar-totusd">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /options cards -->
+
       <div class="ch">Recomendación Final</div>
       <div id="recW"></div>
       <div style="text-align:center;color:var(--muted);font-size:.58rem;margin-top:1.8rem;letter-spacing:.5px">Arauco México · Financial Risk Advisory · TEC GDL IFM 2026 · Assumption / Placeholder Data Only</div>
@@ -1059,7 +1158,8 @@ const CC={};let AI=0,LD=null,DT=null;
 /* Slider bindings */
 const SLB=[['S','vs',2],['RD','vrd',2],['RF','vrf',2],['SG','vsg',1],
            ['PU','vpu',0],['PC','vpc',0],['HR','vhr',0],
-           ['SU','vsu',0],['SF','vsf',0],['SM','vsm',0]];
+           ['SU','vsu',0],['SF','vsf',0],['SM','vsm',0],
+           ['op-pct','vop-pct',0]];
 
 document.addEventListener('DOMContentLoaded',()=>{
   SLB.forEach(([id,vid,d])=>{
@@ -1201,6 +1301,70 @@ function renderAll(d){
     <div class="rec2"><div class="rn">01 — PRIORIDAD: RIESGO RESINA</div>Canasta urea/fenol/metanol = <strong style="color:#ef4444">${fP(resin.tu*12/EA*100)} del EBITDA anual</strong> (${fU(resin.tu)}/mes). Recomendamos <strong>swap pay-fixed OTC para urea</strong> (6–12m) y explorar proxy hedge NYMEX HH. No existen futuros listados líquidos en México.</div>
     <div class="rec2" style="border-left-color:#f59e0b"><div class="rn" style="color:#f59e0b">02 — FX: FORWARD ESCALONADO (0–${hmL}M)</div>Posición: <strong style="color:${exp.isR?'#00c8ff':'#f59e0b'}">${exp.pos}</strong>. Ejecutar forwards sobre el <strong>${hrp}% del flujo contractual</strong> a <strong style="color:#f59e0b">${fX(F)} MXN/USD</strong>. Zero-Cost Collar 6–12m garantiza corredor <strong>${fX(Kf)} – ${fX(Kc)}</strong> sin prima.</div>
     <div class="rec2" style="border-left-color:#10b981"><div class="rn" style="color:#10b981">03 — IMPACTO</div>Reducción volatilidad P&L: <strong style="color:#10b981">${fP(volR*100)}</strong>. VaR 95%: <strong style="color:#ef4444">${fU(vu.v)}</strong> → <strong style="color:#10b981">${fU(vh.v)}</strong>. Horizonte ${hmL}m, ${parseInt(gv('NS')).toLocaleString()} simulaciones Monte Carlo GBM.</div>`;
+  calcOpts();
+}
+
+/* ── Options pricing helpers ─────────────────────────────────────── */
+function gkD1(S,K,rd,rf,sg,T){
+  return(Math.log(S/K)+(rd-rf+.5*sg*sg)*T)/(sg*Math.sqrt(T));
+}
+function gkDeltaP(S,K,rd,rf,sg,T){
+  if(T<1e-9)return S<K?-1:0;
+  return -Math.exp(-rf*T)*Phi(-gkD1(S,K,rd,rf,sg,T));
+}
+function gkDeltaC(S,K,rd,rf,sg,T){
+  if(T<1e-9)return S>K?1:0;
+  return Math.exp(-rf*T)*Phi(gkD1(S,K,rd,rf,sg,T));
+}
+
+function calcOpts(){
+  const S  = parseFloat(gv('S'));
+  const rd = parseFloat(gv('RD'))/100;
+  const rf = parseFloat(gv('RF'))/100;
+  const sg = parseFloat(gv('SG'))/100;
+  const T  = parseInt(gv('HM'))/12;
+  const monto  = parseFloat(gv('op-monto'))||0;
+  const pct    = parseFloat(gv('op-pct'))/100;
+  const nocion = monto*pct;
+
+  function fMXN(v){
+    const a=Math.abs(v),s=v<0?'-':'';
+    if(a>=1e9)return s+'MXN '+(a/1e9).toFixed(2)+'B';
+    if(a>=1e6)return s+'MXN '+(a/1e6).toFixed(2)+'M';
+    return s+'MXN '+Math.round(a).toLocaleString('es-MX');
+  }
+  function fUSD2(v){
+    const a=Math.abs(v),s=v<0?'-':'';
+    if(a>=1e6)return '≈ '+s+'$'+(a/1e6).toFixed(2)+'M USD';
+    return '≈ '+s+'$'+Math.round(a).toLocaleString('en-US')+' USD';
+  }
+
+  // Long Put Dollar
+  const Kput=parseFloat(gv('op-K-put'))||S;
+  const prPut=gkP(S,Kput,rd,rf,sg,T);
+  const totMxnPut=prPut*nocion;
+  st('op-put-unit',  prPut.toFixed(4)+' MXN/USD');
+  st('op-put-delta', gkDeltaP(S,Kput,rd,rf,sg,T).toFixed(4));
+  st('op-put-totmxn',fMXN(totMxnPut));
+  st('op-put-totusd',fUSD2(totMxnPut/S));
+
+  // Long Call Peso (= Put sobre USD con strike diferente)
+  const Kcpeso=parseFloat(gv('op-K-cpeso'))||S;
+  const prCpeso=gkP(S,Kcpeso,rd,rf,sg,T);
+  const totMxnCpeso=prCpeso*nocion;
+  st('op-cpeso-unit',  prCpeso.toFixed(4)+' MXN/USD');
+  st('op-cpeso-delta', gkDeltaP(S,Kcpeso,rd,rf,sg,T).toFixed(4));
+  st('op-cpeso-totmxn',fMXN(totMxnCpeso));
+  st('op-cpeso-totusd',fUSD2(totMxnCpeso/S));
+
+  // Long Call Dollar
+  const Kcdol=parseFloat(gv('op-K-cdolar'))||S;
+  const prCdol=gkC(S,Kcdol,rd,rf,sg,T);
+  const totMxnCdol=prCdol*nocion;
+  st('op-cdolar-unit',  prCdol.toFixed(4)+' MXN/USD');
+  st('op-cdolar-delta', gkDeltaC(S,Kcdol,rd,rf,sg,T).toFixed(4));
+  st('op-cdolar-totmxn',fMXN(totMxnCdol));
+  st('op-cdolar-totusd',fUSD2(totMxnCdol/S));
 }
 
 function switchI(idx,btn){
