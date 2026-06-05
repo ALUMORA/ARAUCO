@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>{% block title %}Arauco — Risk Advisory{% endblock %}</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#080d17;--bg2:#0f1623;--bg3:#161f30;--bg4:#1c2842;
+  --border:#1e2d45;--border2:#263650;
+  --accent:#00c8ff;--accent2:#7c3aed;
+  --green:#10b981;--red:#ef4444;--yellow:#f59e0b;
+  --text:#e2e8f0;--muted:#64748b;--muted2:#94a3b8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:var(--bg);color:var(--text);
+  font-family:'Segoe UI',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+.nav{background:var(--bg2);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:.75rem 2rem;gap:1.2rem;
+  position:sticky;top:0;z-index:100;flex-wrap:wrap}
+.nav-logo{font-weight:900;font-size:1.05rem;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  text-decoration:none;margin-right:.3rem}
+.nl{font-size:.72rem;color:var(--muted);text-decoration:none;padding:.28rem .55rem;
+  border-radius:.35rem;transition:all .2s;text-transform:uppercase;letter-spacing:.8px}
+.nl:hover{color:var(--text);background:var(--bg3)}
+.nl.on{color:var(--accent)}
+.ns{flex:1}
+.nd{font-size:.7rem;color:var(--muted)}
+.live-dot{display:inline-block;width:7px;height:7px;background:var(--green);
+  border-radius:50%;margin-right:.35rem;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.5)}50%{box-shadow:0 0 0 6px rgba(16,185,129,0)}}
+
+.page-body{padding:1.4rem 2rem 3rem}
+.ft{padding:.6rem 2rem;background:var(--bg2);border-top:1px solid var(--border);
+  font-size:.65rem;color:var(--muted);display:flex;justify-content:space-between;
+  flex-wrap:wrap;gap:.3rem;margin-top:3rem}
+</style>
+{% block head %}{% endblock %}
+</head>
+<body>
+<nav class="nav">
+  <a href="/" class="nav-logo">ARAUCO</a>
+  <a href="/" class="nl">Menú</a>
+  <a href="/opciones" class="nl {% if request.path == '/opciones' %}on{% endif %}" style="color:var(--accent)">Opciones FX</a>
+  <div class="ns"></div>
+  <div class="nd"><span class="live-dot"></span><span id="nav-date"></span></div>
+</nav>
+
+{% block content %}{% endblock %}
+
+<div class="ft">
+  <span>Fuentes: Banxico · BLS · INEGI · OECD · yfinance · Garman-Kohlhagen (1983)</span>
+  <span>Equipo 1 TEC GDL · International Financial Management · 2026</span>
+</div>
+
+<script>
+document.getElementById('nav-date').textContent =
+  new Date().toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});
+Chart.defaults.color='#64748b';
+Chart.defaults.borderColor='#1e2d45';
+Chart.defaults.font.family='Segoe UI,system-ui,sans-serif';
+Chart.defaults.plugins.legend.labels.boxWidth=10;
+{% block scripts %}{% endblock %}
+</script>
+</body>
+</html>

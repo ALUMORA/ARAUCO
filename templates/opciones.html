@@ -1,0 +1,503 @@
+{% extends "base.html" %}
+{% block title %}Opciones FX — Arauco{% endblock %}
+
+{% block head %}
+<style>
+/* ── Shared params bar ─────────────────────────────────────────────── */
+.params-bar{
+  background:var(--bg2);border:1px solid var(--border);border-radius:.7rem;
+  padding:1rem 1.4rem;margin-bottom:1.5rem;
+  display:flex;align-items:center;flex-wrap:wrap;gap:1.2rem;
+}
+.params-bar label{font-size:.65rem;color:var(--muted);text-transform:uppercase;
+  letter-spacing:1.5px;display:block;margin-bottom:.25rem}
+.params-bar input,.params-bar select{
+  background:var(--bg3);border:1px solid var(--border2);color:var(--text);
+  border-radius:.4rem;padding:.35rem .6rem;font-size:.82rem;width:110px}
+.params-bar input:focus,.params-bar select:focus{
+  outline:none;border-color:var(--accent)}
+.params-title{font-size:.65rem;color:var(--muted);text-transform:uppercase;
+  letter-spacing:2px;font-weight:700;white-space:nowrap}
+
+/* ── Cards grid ────────────────────────────────────────────────────── */
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:1rem;margin-bottom:1.5rem}
+
+/* ── Single card ───────────────────────────────────────────────────── */
+.opt-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:.75rem;
+  display:flex;flex-direction:column;overflow:hidden;transition:box-shadow .2s}
+.opt-card:hover{box-shadow:0 0 24px rgba(0,200,255,.08)}
+.card-header{padding:1rem 1.2rem .75rem;border-bottom:1px solid var(--border)}
+.card-type-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.35rem}
+.card-icon{font-size:1.4rem}
+.card-title{font-size:.9rem;font-weight:700}
+.type-badge{font-size:.58rem;font-weight:700;padding:.15rem .5rem;border-radius:9999px;
+  letter-spacing:.5px;text-transform:uppercase}
+.badge-put{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3)}
+.badge-call{background:rgba(0,200,255,.12);color:var(--accent);border:1px solid rgba(0,200,255,.25)}
+.card-desc{font-size:.74rem;color:var(--muted2);line-height:1.6}
+
+.card-inputs{padding:.9rem 1.2rem;border-bottom:1px solid var(--border)}
+.input-row{margin-bottom:.6rem}
+.input-row label{font-size:.63rem;color:var(--muted);text-transform:uppercase;
+  letter-spacing:1px;display:block;margin-bottom:.2rem}
+.input-row input{
+  width:100%;background:var(--bg3);border:1px solid var(--border2);
+  color:var(--text);border-radius:.4rem;padding:.38rem .65rem;font-size:.84rem}
+.input-row input:focus{outline:none;border-color:var(--accent)}
+.calc-btn{
+  width:100%;padding:.52rem;background:var(--accent);color:#080d17;
+  border:none;border-radius:.45rem;font-weight:700;font-size:.8rem;
+  cursor:pointer;letter-spacing:.5px;transition:opacity .2s;
+  display:flex;align-items:center;justify-content:center;gap:.5rem}
+.calc-btn:hover{opacity:.85}
+.calc-btn:disabled{opacity:.45;cursor:not-allowed}
+.spinner{width:14px;height:14px;border:2px solid rgba(0,0,0,.2);
+  border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite;display:none}
+.calc-btn.loading .spinner{display:inline-block}
+.calc-btn.loading .btn-text{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.card-results{padding:.9rem 1.2rem;flex:1}
+.result-hidden{display:none}
+.vol-note{font-size:.65rem;color:var(--muted);margin-bottom:.75rem;
+  padding:.4rem .6rem;background:rgba(245,158,11,.06);
+  border:1px solid rgba(245,158,11,.2);border-radius:.35rem;line-height:1.5}
+.vol-note .live-ok{color:var(--green)}
+.vol-note .live-warn{color:var(--yellow)}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.85rem}
+.res-item{background:var(--bg3);border-radius:.45rem;padding:.55rem .7rem}
+.res-label{font-size:.58rem;color:var(--muted);text-transform:uppercase;
+  letter-spacing:1px;margin-bottom:.18rem}
+.res-value{font-size:.92rem;font-weight:700;font-family:monospace}
+.res-full{grid-column:1/-1}
+
+.chart-wrap{background:var(--bg3);border-radius:.55rem;padding:.7rem .85rem}
+.chart-wrap h4{font-size:.6rem;color:var(--muted);text-transform:uppercase;
+  letter-spacing:1.5px;margin-bottom:.55rem}
+.chart-wrap canvas{max-height:180px}
+
+.error-msg{font-size:.78rem;color:var(--red);padding:.55rem .7rem;
+  background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);
+  border-radius:.4rem;margin-bottom:.6rem}
+
+/* ── Summary ───────────────────────────────────────────────────────── */
+.summary-wrap{
+  background:var(--bg2);border:1px solid var(--border);border-radius:.75rem;
+  overflow:hidden}
+.summary-head{
+  background:var(--bg3);border-bottom:1px solid var(--border);
+  padding:.7rem 1.2rem;font-size:.65rem;color:var(--muted);
+  text-transform:uppercase;letter-spacing:2px;font-weight:700}
+.summary-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.summary-table td{padding:.65rem 1.2rem;border-bottom:1px solid rgba(30,45,69,.5)}
+.summary-table tr:last-child td{border-bottom:none}
+.summary-table .lbl{color:var(--muted2)}
+.summary-table .val{text-align:right;font-family:monospace;font-weight:600}
+.summary-total td{background:var(--bg3);font-weight:700}
+.summary-total .lbl{color:var(--text)}
+.summary-total .val{color:var(--accent)}
+.ebitda-pct{font-size:.72rem;color:var(--muted);margin-left:.6rem}
+
+.sec-hd{font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted);
+  margin:1.5rem 0 .7rem;display:flex;align-items:center;gap:.6rem;font-weight:700}
+.sec-hd::after{content:'';flex:1;height:1px;background:var(--border)}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-body">
+
+  <!-- Hero -->
+  <div style="margin-bottom:1.4rem">
+    <div style="font-size:.6rem;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:.3rem">Arauco México · Risk Advisory · 2026</div>
+    <h1 style="font-size:1.6rem;font-weight:900;letter-spacing:-.5px;margin-bottom:.3rem">Calculadora de Opciones FX</h1>
+    <p style="font-size:.85rem;color:var(--muted2);line-height:1.65;max-width:680px">
+      Pricing Garman-Kohlhagen (1983) en tiempo real para las tres exposiciones cambiarias de Arauco.
+      El spot y la volatilidad se obtienen de yfinance; las tasas y el horizonte se configuran abajo.
+    </p>
+  </div>
+
+  <!-- Shared parameters -->
+  <div class="params-bar">
+    <span class="params-title">Parámetros Compartidos</span>
+    <div>
+      <label>Tasa Banxico (%)</label>
+      <input type="number" id="p-rd" value="{{ (macro.tasa_banxico.actual)|round(2) }}" min="0" max="30" step="0.25">
+    </div>
+    <div>
+      <label>Tasa Fed Funds (%)</label>
+      <input type="number" id="p-rf" value="{{ (macro.tasa_fed.actual)|round(3) }}" min="0" max="20" step="0.125">
+    </div>
+    <div>
+      <label>Horizonte (meses)</label>
+      <select id="p-hm">
+        <option value="1">1 mes</option>
+        <option value="3">3 meses</option>
+        <option value="6" selected>6 meses</option>
+        <option value="9">9 meses</option>
+        <option value="12">12 meses</option>
+      </select>
+    </div>
+    <div style="font-size:.7rem;color:var(--muted2);max-width:260px;line-height:1.55">
+      El spot y la volatilidad histórica (30d) se obtienen en tiempo real para cada cálculo.
+      Fallback: spot={{ macro.usd_mxn.actual }}, vol=12%.
+    </div>
+  </div>
+
+  <!-- 3 Cards -->
+  <div class="sec-hd">Posiciones y Coberturas</div>
+  <div class="cards-grid">
+
+    <!-- ── CARD 1: Receivables (Put) ── -->
+    <div class="opt-card">
+      <div class="card-header">
+        <div class="card-type-row">
+          <span class="card-icon">📥</span>
+          <span class="card-title">Cuentas por Cobrar</span>
+          <span class="type-badge badge-put">Long Put USD</span>
+        </div>
+        <p class="card-desc">Arauco recibirá USD. Riesgo: MXN se fortalece (USD/MXN baja).
+          Cobertura: compra put USD — piso garantizado en el strike.</p>
+      </div>
+      <div class="card-inputs">
+        <div class="input-row">
+          <label>Monto de Receivables (USD)</label>
+          <input type="number" id="r-notional" value="5000000" min="0" step="100000">
+        </div>
+        <div class="input-row">
+          <label>Monto a cubrir — Notional hedge (USD)</label>
+          <input type="number" id="r-hedge" value="3500000" min="0" step="100000">
+        </div>
+        <div class="input-row" style="margin-bottom:.75rem">
+          <label>Strike price (USD/MXN)</label>
+          <input type="number" id="r-strike" value="{{ macro.usd_mxn.actual }}" min="10" max="30" step="0.01">
+        </div>
+        <button class="calc-btn" id="r-btn" onclick="calcCard('receivables')">
+          <span class="spinner"></span>
+          <span class="btn-text">Calcular prima →</span>
+        </button>
+      </div>
+      <div class="card-results result-hidden" id="r-results">
+        <div class="error-msg" id="r-error" style="display:none"></div>
+        <div class="vol-note" id="r-vol-note"></div>
+        <div class="result-grid">
+          <div class="res-item"><div class="res-label">Spot live</div><div class="res-value" id="r-spot" style="color:var(--accent)">—</div></div>
+          <div class="res-item"><div class="res-label">Forward</div><div class="res-value" id="r-fwd" style="color:var(--yellow)">—</div></div>
+          <div class="res-item"><div class="res-label">Prima unitaria</div><div class="res-value" id="r-punit">—</div></div>
+          <div class="res-item"><div class="res-label">Delta</div><div class="res-value" id="r-delta">—</div></div>
+          <div class="res-item res-full" style="--bc:var(--green);border-left:3px solid var(--green);background:rgba(16,185,129,.06)">
+            <div class="res-label">Prima total (USD)</div>
+            <div class="res-value" id="r-ptotal" style="font-size:1.2rem;color:var(--green)">—</div>
+          </div>
+          <div class="res-item"><div class="res-label">Prima / Exp.</div><div class="res-value" id="r-ppct">—</div></div>
+          <div class="res-item"><div class="res-label">Break-even</div><div class="res-value" id="r-be">—</div></div>
+        </div>
+        <div class="chart-wrap"><h4>Tasa Efectiva vs Spot al Vencimiento</h4><canvas id="r-chart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- ── CARD 2: Payables (Call) ── -->
+    <div class="opt-card">
+      <div class="card-header">
+        <div class="card-type-row">
+          <span class="card-icon">📤</span>
+          <span class="card-title">Cuentas por Pagar</span>
+          <span class="type-badge badge-call">Long Call USD</span>
+        </div>
+        <p class="card-desc">Arauco pagará USD. Riesgo: MXN se debilita (USD/MXN sube).
+          Cobertura: compra call USD — techo garantizado en el strike.</p>
+      </div>
+      <div class="card-inputs">
+        <div class="input-row">
+          <label>Monto de Payables (USD)</label>
+          <input type="number" id="p-notional" value="3000000" min="0" step="100000">
+        </div>
+        <div class="input-row">
+          <label>Monto a cubrir — Notional hedge (USD)</label>
+          <input type="number" id="p-hedge" value="2100000" min="0" step="100000">
+        </div>
+        <div class="input-row" style="margin-bottom:.75rem">
+          <label>Strike price (USD/MXN)</label>
+          <input type="number" id="p-strike" value="{{ macro.usd_mxn.forecast_high }}" min="10" max="30" step="0.01">
+        </div>
+        <button class="calc-btn" id="p-btn" onclick="calcCard('payables')">
+          <span class="spinner"></span>
+          <span class="btn-text">Calcular prima →</span>
+        </button>
+      </div>
+      <div class="card-results result-hidden" id="p-results">
+        <div class="error-msg" id="p-error" style="display:none"></div>
+        <div class="vol-note" id="p-vol-note"></div>
+        <div class="result-grid">
+          <div class="res-item"><div class="res-label">Spot live</div><div class="res-value" id="p-spot" style="color:var(--accent)">—</div></div>
+          <div class="res-item"><div class="res-label">Forward</div><div class="res-value" id="p-fwd" style="color:var(--yellow)">—</div></div>
+          <div class="res-item"><div class="res-label">Prima unitaria</div><div class="res-value" id="p-punit">—</div></div>
+          <div class="res-item"><div class="res-label">Delta</div><div class="res-value" id="p-delta">—</div></div>
+          <div class="res-item res-full" style="border-left:3px solid var(--accent);background:rgba(0,200,255,.06)">
+            <div class="res-label">Prima total (USD)</div>
+            <div class="res-value" id="p-ptotal" style="font-size:1.2rem;color:var(--accent)">—</div>
+          </div>
+          <div class="res-item"><div class="res-label">Prima / Exp.</div><div class="res-value" id="p-ppct">—</div></div>
+          <div class="res-item"><div class="res-label">Break-even</div><div class="res-value" id="p-be">—</div></div>
+        </div>
+        <div class="chart-wrap"><h4>Tasa Efectiva vs Spot al Vencimiento</h4><canvas id="p-chart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- ── CARD 3: Interest (Call) ── -->
+    <div class="opt-card">
+      <div class="card-header">
+        <div class="card-type-row">
+          <span class="card-icon">💵</span>
+          <span class="card-title">Intereses de Deuda</span>
+          <span class="type-badge badge-call">Long Call USD</span>
+        </div>
+        <p class="card-desc">Arauco paga intereses de deuda (~$7.2B USD) en dólares.
+          Cobertura: compra call USD — techo al costo de conversión MXN→USD.</p>
+      </div>
+      <div class="card-inputs">
+        <div class="input-row">
+          <label>Intereses USD/mes (monto total)</label>
+          <input type="number" id="i-notional" value="1500000" min="0" step="100000">
+        </div>
+        <div class="input-row">
+          <label>Monto a cubrir — Notional hedge (USD)</label>
+          <input type="number" id="i-hedge" value="1500000" min="0" step="100000">
+        </div>
+        <div class="input-row" style="margin-bottom:.75rem">
+          <label>Strike price (USD/MXN)</label>
+          <input type="number" id="i-strike" value="{{ macro.usd_mxn.forecast_high }}" min="10" max="30" step="0.01">
+        </div>
+        <button class="calc-btn" id="i-btn" onclick="calcCard('interest')">
+          <span class="spinner"></span>
+          <span class="btn-text">Calcular prima →</span>
+        </button>
+      </div>
+      <div class="card-results result-hidden" id="i-results">
+        <div class="error-msg" id="i-error" style="display:none"></div>
+        <div class="vol-note" id="i-vol-note"></div>
+        <div class="result-grid">
+          <div class="res-item"><div class="res-label">Spot live</div><div class="res-value" id="i-spot" style="color:var(--accent)">—</div></div>
+          <div class="res-item"><div class="res-label">Forward</div><div class="res-value" id="i-fwd" style="color:var(--yellow)">—</div></div>
+          <div class="res-item"><div class="res-label">Prima unitaria</div><div class="res-value" id="i-punit">—</div></div>
+          <div class="res-item"><div class="res-label">Delta</div><div class="res-value" id="i-delta">—</div></div>
+          <div class="res-item res-full" style="border-left:3px solid var(--yellow);background:rgba(245,158,11,.06)">
+            <div class="res-label">Prima total (USD)</div>
+            <div class="res-value" id="i-ptotal" style="font-size:1.2rem;color:var(--yellow)">—</div>
+          </div>
+          <div class="res-item"><div class="res-label">Prima / Exp.</div><div class="res-value" id="i-ppct">—</div></div>
+          <div class="res-item"><div class="res-label">Break-even</div><div class="res-value" id="i-be">—</div></div>
+        </div>
+        <div class="chart-wrap"><h4>Tasa Efectiva vs Spot al Vencimiento</h4><canvas id="i-chart"></canvas></div>
+      </div>
+    </div>
+
+  </div><!-- /cards-grid -->
+
+  <!-- Summary -->
+  <div class="sec-hd">Costo Total de Cobertura</div>
+  <div class="summary-wrap">
+    <div class="summary-head">Resumen consolidado — Prima total por posición</div>
+    <table class="summary-table">
+      <tbody>
+        <tr>
+          <td class="lbl">📥 Receivables <span style="font-size:.65rem;color:var(--muted)">(Long Put)</span></td>
+          <td class="val" id="sum-r">—</td>
+        </tr>
+        <tr>
+          <td class="lbl">📤 Payables <span style="font-size:.65rem;color:var(--muted)">(Long Call)</span></td>
+          <td class="val" id="sum-p">—</td>
+        </tr>
+        <tr>
+          <td class="lbl">💵 Intereses <span style="font-size:.65rem;color:var(--muted)">(Long Call)</span></td>
+          <td class="val" id="sum-i">—</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="summary-total">
+          <td class="lbl">COSTO TOTAL DE COBERTURA</td>
+          <td class="val" id="sum-total">
+            — <span class="ebitda-pct" id="sum-ebitda"></span>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div style="margin-top:1rem;font-size:.68rem;color:var(--muted);line-height:1.65">
+    EBITDA de referencia: <strong style="color:var(--text)">$85,000,000 USD</strong> anual.
+    % EBITDA = costo total anualizado (prima × 12/horizonte) / EBITDA.
+    Datos de mercado: yfinance · Garman-Kohlhagen (1983). <em>Assumption/Placeholder — no constituye asesoría financiera.</em>
+  </div>
+
+</div><!-- /page-body -->
+{% endblock %}
+
+{% block scripts %}
+const EBITDA_USD = 85_000_000;
+const charts = {};
+const primas = { receivables: null, payables: null, interest: null };
+
+function fmtUSD(v) {
+  if (v == null) return '—';
+  const a = Math.abs(v);
+  const s = v < 0 ? '-' : '';
+  if (a >= 1e6) return s + '$' + (a / 1e6).toFixed(2) + 'M';
+  return s + '$' + Math.round(a).toLocaleString('en-US');
+}
+function fmtFX(v)  { return v == null ? '—' : v.toFixed(4); }
+function fmtPct(v) { return v == null ? '—' : v.toFixed(2) + '%'; }
+
+function prefix(pos) {
+  return pos === 'receivables' ? 'r' : pos === 'payables' ? 'p' : 'i';
+}
+function setText(id, t) { const e = document.getElementById(id); if (e) e.textContent = t; }
+
+async function calcCard(position) {
+  const pre = prefix(position);
+  const btn = document.getElementById(pre + '-btn');
+  btn.disabled = true;
+  btn.classList.add('loading');
+
+  const payload = {
+    position,
+    notional:       parseFloat(document.getElementById(pre + '-notional').value),
+    hedge:          parseFloat(document.getElementById(pre + '-hedge').value),
+    strike:         parseFloat(document.getElementById(pre + '-strike').value),
+    rate_mxn:       parseFloat(document.getElementById('p-rd').value) / 100,
+    rate_usd:       parseFloat(document.getElementById('p-rf').value) / 100,
+    horizon_months: parseInt(document.getElementById('p-hm').value),
+  };
+
+  try {
+    const res  = await fetch('/api/opciones', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const d = await res.json();
+    if (d.error) throw new Error(d.error);
+
+    // Show results panel
+    const rPanel = document.getElementById(pre + '-results');
+    rPanel.classList.remove('result-hidden');
+    document.getElementById(pre + '-error').style.display = 'none';
+
+    // Vol note
+    const isLive = d.vol_source === 'live';
+    document.getElementById(pre + '-vol-note').innerHTML =
+      `Vol proxy (hist. 30d): <strong>${(d.vol_30d * 100).toFixed(1)}%</strong> ` +
+      (isLive
+        ? `<span class="live-ok">🟢 live</span>`
+        : `<span class="live-warn">⚠ fallback 12%</span>`) +
+      ' — ajusta si tienes vol implícita real de tu banco.';
+
+    setText(pre + '-spot',   fmtFX(d.spot) + ' MXN/USD');
+    setText(pre + '-fwd',    fmtFX(d.forward) + ' MXN/USD');
+    setText(pre + '-punit',  fmtFX(d.premium_unit) + ' MXN/USD');
+    setText(pre + '-delta',  d.delta.toFixed(4));
+    setText(pre + '-ptotal', fmtUSD(d.premium_usd) + ' USD');
+    setText(pre + '-ppct',   fmtPct(d.premium_pct));
+    setText(pre + '-be',     fmtFX(d.break_even) + ' MXN/USD');
+
+    primas[position] = d.premium_usd;
+    updateSummary(payload.horizon_months);
+    drawPayoff(pre, d, position);
+
+  } catch (err) {
+    const errEl = document.getElementById(pre + '-error');
+    errEl.textContent = 'Error: ' + err.message;
+    errEl.style.display = 'block';
+    document.getElementById(pre + '-results').classList.remove('result-hidden');
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove('loading');
+  }
+}
+
+function drawPayoff(pre, d, position) {
+  const labels = d.payoff_x.map(v => v.toFixed(2));
+  const isCall = d.option_type === 'call';
+  const color  = isCall ? '#00c8ff' : '#10b981';
+
+  if (charts[pre]) { charts[pre].destroy(); }
+  const ctx = document.getElementById(pre + '-chart').getContext('2d');
+  charts[pre] = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Sin cobertura',
+          data: d.payoff_x,
+          borderColor: 'rgba(100,116,139,.6)',
+          borderWidth: 1.5,
+          pointRadius: 0,
+          borderDash: [4, 3],
+        },
+        {
+          label: isCall ? 'Call (cobertura)' : 'Put (cobertura)',
+          data: d.payoff_eff,
+          borderColor: color,
+          borderWidth: 2.5,
+          pointRadius: 0,
+          fill: false,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { labels: { font: { size: 10 } } },
+        tooltip: {
+          callbacks: {
+            label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(4) + ' MXN/USD',
+          },
+        },
+        annotation: {},
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(30,45,69,.5)' },
+          ticks: { maxTicksLimit: 7, font: { size: 9 } },
+          title: { display: true, text: 'Spot al Vencimiento (MXN/USD)', font: { size: 9 }, color: '#64748b' },
+        },
+        y: {
+          grid: { color: 'rgba(30,45,69,.5)' },
+          ticks: { font: { size: 10 }, callback: v => v.toFixed(2) },
+          title: { display: true, text: 'Tasa efectiva (MXN/USD)', font: { size: 9 }, color: '#64748b' },
+        },
+      },
+    },
+  });
+}
+
+function updateSummary(horizonMonths) {
+  const hm = horizonMonths || parseInt(document.getElementById('p-hm').value);
+  const r  = primas.receivables;
+  const p  = primas.payables;
+  const i  = primas.interest;
+
+  setText('sum-r', r != null ? fmtUSD(r) + ' USD' : '—');
+  setText('sum-p', p != null ? fmtUSD(p) + ' USD' : '—');
+  setText('sum-i', i != null ? fmtUSD(i) + ' USD' : '—');
+
+  const computed = [r, p, i].filter(v => v != null);
+  if (computed.length === 0) {
+    setText('sum-total', '—');
+    setText('sum-ebitda', '');
+    return;
+  }
+  const total = computed.reduce((a, b) => a + b, 0);
+  const annualized = total * (12 / hm);
+  const pctEBITDA = (annualized / EBITDA_USD * 100).toFixed(2);
+  document.getElementById('sum-total').innerHTML =
+    `<strong>${fmtUSD(total)} USD</strong>` +
+    `<span class="ebitda-pct">${pctEBITDA}% EBITDA anualizado</span>`;
+}
+{% endblock %}

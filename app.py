@@ -6,6 +6,7 @@ Equipo 1 TEC GDL · International Financial Management 2026
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from functools import wraps
 import json
+import math
 
 app = Flask(__name__)
 app.secret_key = "ARAUCO"
@@ -386,6 +387,98 @@ def cobertura():
         hedging=HEDGING,
         charts=json.dumps(CHART_DATA),
     )
+
+# ── Options Pricing ───────────────────────────────────────────────────────────
+
+def gk_option(S, K, r_d, r_f, sigma, T, option_type):
+    """Garman-Kohlhagen 1983. option_type='call'|'put'. Returns dict {price,delta,d1,d2}."""
+    from scipy.stats import norm
+    if T <= 1e-9 or sigma <= 1e-9:
+        intrinsic = max(S - K, 0) if option_type == "call" else max(K - S, 0)
+        return {"price": intrinsic, "delta": 1.0 if option_type == "call" else -1.0, "d1": 0.0, "d2": 0.0}
+    d1 = (math.log(S / K) + (r_d - r_f + 0.5 * sigma ** 2) * T) / (sigma * math.sqrt(T))
+    d2 = d1 - sigma * math.sqrt(T)
+    if option_type == "call":
+        price = S * math.exp(-r_f * T) * norm.cdf(d1) - K * math.exp(-r_d * T) * norm.cdf(d2)
+        delta = math.exp(-r_f * T) * norm.cdf(d1)
+    else:
+        price = K * math.exp(-r_d * T) * norm.cdf(-d2) - S * math.exp(-r_f * T) * norm.cdf(-d1)
+        delta = -math.exp(-r_f * T) * norm.cdf(-d1)
+    return {"price": price, "delta": delta, "d1": d1, "d2": d2}
+
+
+def fetch_usdmxn(fallback=17.30):
+    """Spot live + vol histórica 30d de Yahoo Finance. Returns {spot, vol_30d, source}."""
+    try:
+        import yfinance as yf
+        import numpy as np
+        ticker = yf.Ticker("USDMXN=X")
+        h1d = ticker.history(period="1d")
+        spot = float(h1d["Close"].iloc[-1]) if not h1d.empty else fallback
+        h1mo = ticker.history(period="1mo")["Close"]
+        log_ret = np.log(h1mo / h1mo.shift(1)).dropna()
+        vol_30d = float(log_ret.std() * np.sqrt(252)) if len(log_ret) > 1 else 0.12
+        return {"spot": spot, "vol_30d": vol_30d, "source": "live"}
+    except Exception:
+        return {"spot": fallback, "vol_30d": 0.12, "source": "fallback"}
+
+
+@app.route("/opciones")
+def opciones():
+    """Calculadora de Opciones FX — Garman-Kohlhagen 1983."""
+    return render_template("opciones.html", macro=MACRO_DATA)
+
+
+@app.route("/api/opciones", methods=["POST"])
+def api_opciones():
+    """Pricing endpoint: GK 1983 + spot/vol live de yfinance."""
+    try:
+        import numpy as np
+        p        = request.get_json()
+        position = p["position"]            # 'receivables' | 'payables' | 'interest'
+        notional = float(p["notional"])     # USD total expuesto
+        hedge    = float(p["hedge"])        # USD a cubrir
+        K        = float(p["strike"])       # USD/MXN
+        r_d      = float(p["rate_mxn"])
+        r_f      = float(p["rate_usd"])
+        hm       = int(p["horizon_months"])
+        T        = hm / 12.0
+
+        mkt   = fetch_usdmxn(fallback=MACRO_DATA["usd_mxn"]["actual"])
+        S     = mkt["spot"]
+        sigma = mkt["vol_30d"]
+
+        opt_type = "put" if position == "receivables" else "call"
+        opt      = gk_option(S, K, r_d, r_f, sigma, T, opt_type)
+
+        premium_unit = opt["price"]                         # MXN por USD de nocional
+        premium_usd  = premium_unit * hedge / S             # costo total en USD
+        premium_pct  = (premium_usd / notional * 100) if notional > 0 else 0.0
+        F            = S * math.exp((r_d - r_f) * T)
+        break_even   = (K - premium_unit) if opt_type == "put" else (K + premium_unit)
+
+        # Payoff curve — 60 puntos entre 0.70·S y 1.30·S
+        S_arr = np.linspace(S * 0.70, S * 1.30, 60)
+        eff   = (np.maximum(S_arr, K) - premium_unit if opt_type == "put"
+                 else np.minimum(S_arr, K) + premium_unit)
+
+        return jsonify({
+            "spot":         round(S, 4),
+            "vol_30d":      round(sigma, 4),
+            "vol_source":   mkt["source"],
+            "option_type":  opt_type,
+            "premium_unit": round(premium_unit, 4),
+            "premium_usd":  round(premium_usd, 2),
+            "premium_pct":  round(premium_pct, 4),
+            "delta":        round(opt["delta"], 4),
+            "forward":      round(F, 4),
+            "break_even":   round(break_even, 4),
+            "payoff_x":     [round(v, 4) for v in S_arr.tolist()],
+            "payoff_eff":   [round(v, 4) for v in eff.tolist()],
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 # ── API endpoints (para extender con datos dinámicos) ─────────────────────────
 @app.route("/api/macro")
