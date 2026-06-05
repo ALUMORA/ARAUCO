@@ -891,6 +891,22 @@ tbody td{padding:.72rem 1rem;vertical-align:top}
         </div>
       </div>
 
+      <!-- Market data live bar -->
+      <div style="display:flex;align-items:center;flex-wrap:wrap;gap:.9rem;margin-bottom:.75rem;
+        background:var(--bg3);border:1px solid var(--border);border-radius:.45rem;
+        padding:.52rem .95rem;font-size:.72rem">
+        <span id="op-mkt-dot" style="width:7px;height:7px;border-radius:50%;flex-shrink:0;
+          background:var(--muted);transition:background .3s"></span>
+        <span id="op-mkt-txt" style="color:var(--muted2);flex:1">Esperando cálculo...</span>
+        <button onclick="calcOpts()" style="background:none;border:1px solid var(--border);
+          color:var(--muted);border-radius:.28rem;padding:.22rem .6rem;font-size:.64rem;
+          cursor:pointer;transition:all .15s;white-space:nowrap"
+          onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'"
+          onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+          ↻ Actualizar Yahoo Finance
+        </button>
+      </div>
+
       <!-- 3 option cards -->
       <div class="g3c" style="margin-bottom:1.1rem">
 
@@ -1317,11 +1333,41 @@ function gkDeltaC(S,K,rd,rf,sg,T){
   return Math.exp(-rf*T)*Phi(gkD1(S,K,rd,rf,sg,T));
 }
 
-function calcOpts(){
-  const S  = parseFloat(gv('S'));
+async function calcOpts(){
+  const dot=document.getElementById('op-mkt-dot');
+  const txt=document.getElementById('op-mkt-txt');
+
+  // Spinner mientras llama Yahoo Finance
+  if(dot){dot.style.background='#f59e0b';dot.style.animation='livepulse 1s infinite';}
+  if(txt)txt.textContent='Obteniendo datos de Yahoo Finance…';
+
+  let S_live=parseFloat(gv('S')), sg_live=parseFloat(gv('SG'))/100, src='sidebar';
+  try{
+    const r=await fetch('/api/market');
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const mkt=await r.json();
+    if(mkt.error)throw new Error(mkt.error);
+    S_live=mkt.spot; sg_live=mkt.vol_30d; src=mkt.source;
+  }catch(e){
+    src='fallback';
+  }
+
+  // Actualizar barra de estado
+  if(dot){
+    dot.style.animation='';
+    dot.style.background=src==='live'?'#10b981':'#f59e0b';
+  }
+  if(txt){
+    const hora=new Date().toLocaleTimeString('es-MX');
+    txt.innerHTML = src==='live'
+      ? `🟢 <strong>live</strong> · Spot: <strong style="color:#00c8ff">${S_live.toFixed(4)}</strong> MXN/USD · Vol 30d (hist.): <strong>${(sg_live*100).toFixed(1)}%</strong> · ${hora}`
+      : `⚠ <strong>fallback</strong> · Spot: <strong>${S_live.toFixed(4)}</strong> MXN/USD · Vol: <strong>${(sg_live*100).toFixed(1)}%</strong> (yfinance no disponible — usando sidebar)`;
+  }
+
+  const S  = S_live;
+  const sg = sg_live;
   const rd = parseFloat(gv('RD'))/100;
   const rf = parseFloat(gv('RF'))/100;
-  const sg = parseFloat(gv('SG'))/100;
   const T  = parseInt(gv('HM'))/12;
   const monto  = parseFloat(gv('op-monto'))||0;
   const pct    = parseFloat(gv('op-pct'))/100;
@@ -1348,7 +1394,7 @@ function calcOpts(){
   st('op-put-totmxn',fMXN(totMxnPut));
   st('op-put-totusd',fUSD2(totMxnPut/S));
 
-  // Long Call Peso (= Put sobre USD con strike diferente)
+  // Long Call Peso (= Put sobre USD, strike diferente)
   const Kcpeso=parseFloat(gv('op-K-cpeso'))||S;
   const prCpeso=gkP(S,Kcpeso,rd,rf,sg,T);
   const totMxnCpeso=prCpeso*nocion;

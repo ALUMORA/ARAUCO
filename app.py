@@ -423,6 +423,13 @@ def fetch_usdmxn(fallback=17.30):
         return {"spot": fallback, "vol_30d": 0.12, "source": "fallback"}
 
 
+@app.route("/api/market")
+def api_market():
+    """Spot live + vol histórica 30d de Yahoo Finance para el SPA."""
+    mkt = fetch_usdmxn(fallback=MACRO_DATA["usd_mxn"]["actual"])
+    return jsonify(mkt)
+
+
 @app.route("/opciones")
 def opciones():
     """Calculadora de Opciones FX — Garman-Kohlhagen 1983."""
