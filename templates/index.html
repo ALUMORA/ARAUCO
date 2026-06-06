@@ -199,7 +199,8 @@ hr{border:none;border-top:1px solid var(--border);margin:1.75rem 0}
     FX Cobertura
   </a>
   <div class="nav-tabs">
-    <button class="nav-tab on" onclick="switchTab('n')" id="btn-n">Noticias</button>
+    <button class="nav-tab on" onclick="switchTab('e')" id="btn-e">FX Exposure</button>
+    <button class="nav-tab" onclick="switchTab('n')" id="btn-n">Noticias</button>
     <button class="nav-tab" onclick="switchTab('c')" id="btn-c">Cobertura</button>
   </div>
   <div class="nav-space"></div>
@@ -209,8 +210,274 @@ hr{border:none;border-top:1px solid var(--border);margin:1.75rem 0}
   </div>
 </nav>
 
+<!-- ══ FX EXPOSURE ═══════════════════════════════════════════════════════════ -->
+<div id="page-e" class="page on">
+  <div class="body">
+    <div class="h1">FX Risk Exposure — Arauco Mexico</div>
+    <div class="sub">USD exposure analysis for the June–December 2026 horizon · Raw materials: urea &amp; methanol</div>
+
+    <!-- 0 — Company Overview -->
+    <div class="sec">
+      <div style="background:var(--orange-l);border:1px solid #FED7AA;border-radius:10px;padding:1.25rem 1.5rem">
+        <div style="font-size:1rem;font-weight:800;color:var(--text);margin-bottom:.6rem">Arauco Mexico</div>
+        <p style="font-size:.855rem;color:var(--muted);line-height:1.7;margin-bottom:1rem">
+          Arauco is one of the world's leading forestry and wood-panel companies, headquartered in Chile
+          with operations in more than 80 countries. In Mexico, it runs three production plants in
+          Chihuahua, Durango, and Zitácuaro (Michoacán), manufacturing MDF boards, particle boards
+          (PB/MDP), and melamine panels. The Durango site also hosts a Chemical Plant dedicated to
+          urea-formaldehyde (UF) resin production — the primary adhesive used across all panel products.
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:.75rem">
+          <div class="kpi">
+            <div class="kpi-lbl">Global Presence</div>
+            <div class="kpi-val">+80</div>
+            <div class="kpi-sub">countries</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-lbl">Plants in Mexico</div>
+            <div class="kpi-val">3</div>
+            <div class="kpi-sub">Chihuahua · Durango · Zitácuaro</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-lbl">Group Net Debt</div>
+            <div class="kpi-val" style="font-size:1.3rem">~$7.2B</div>
+            <div class="kpi-sub">USD</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-lbl">Products</div>
+            <div class="kpi-val" style="font-size:.95rem;line-height:1.3">MDF · PB/MDP</div>
+            <div class="kpi-sub">Melamine panels</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1 — USD Raw Material Exposure -->
+    <div class="sec">
+      <div class="sh">USD Raw Material Exposure</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-bottom:1rem">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.875rem">
+            <div style="font-size:.9rem;font-weight:700">UREA (Industrial Grade)</div>
+            <span class="badge badge-or">USD-priced</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+            <div><div class="kpi-lbl">Monthly Volume</div><div style="font-size:1.05rem;font-weight:800">3,000 tons</div></div>
+            <div><div class="kpi-lbl">2026 Unit Price</div><div style="font-size:1.05rem;font-weight:800">$655 / ton</div></div>
+            <div><div class="kpi-lbl">Monthly Cost</div><div style="font-size:1.05rem;font-weight:800;color:var(--red)">$1,965,000</div></div>
+            <div><div class="kpi-lbl">6-Month Cost</div><div style="font-size:1.05rem;font-weight:800;color:var(--red)">$11,790,000</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.875rem">
+            <div style="font-size:.9rem;font-weight:700">METHANOL</div>
+            <span class="badge badge-or">USD-priced</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+            <div><div class="kpi-lbl">Monthly Volume</div><div style="font-size:1.05rem;font-weight:800">1,000 tons</div></div>
+            <div><div class="kpi-lbl">2026 Unit Price</div><div style="font-size:1.05rem;font-weight:800">$1,200 / ton</div></div>
+            <div><div class="kpi-lbl">Monthly Cost</div><div style="font-size:1.05rem;font-weight:800;color:var(--red)">$1,200,000</div></div>
+            <div><div class="kpi-lbl">6-Month Cost</div><div style="font-size:1.05rem;font-weight:800;color:var(--red)">$7,200,000</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="background:var(--orange-l);border-color:#FED7AA">
+        <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--orange-d);margin-bottom:.75rem">Total USD Exposure — Jun–Dec 2026</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:1rem">
+          <div><div class="kpi-lbl">Combined Volume</div><div style="font-size:1.2rem;font-weight:800">4,000 tons/mo</div></div>
+          <div><div class="kpi-lbl">Monthly Cost</div><div style="font-size:1.2rem;font-weight:800;color:var(--orange-d)">$3,165,000 USD</div></div>
+          <div><div class="kpi-lbl">6-Month Cost</div><div style="font-size:1.2rem;font-weight:800;color:var(--orange-d)">$18,990,000 USD</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 — MDF Variable Cost Structure -->
+    <div class="sec">
+      <div class="sh">MDF Variable Cost Structure (per m³)</div>
+      <div class="card">
+        <div style="display:flex;flex-direction:column;gap:.7rem;margin-bottom:1rem">
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.3rem">
+              <span style="font-weight:600">Wood — local, paid in MXN</span>
+              <span style="color:var(--muted);font-weight:600">$80/m³ · 50%</span>
+            </div>
+            <div style="background:var(--bg);border-radius:4px;height:20px;overflow:hidden;border:1px solid var(--border)">
+              <div style="width:50%;background:#3B82F6;height:100%;border-radius:3px;display:flex;align-items:center;padding:0 .5rem">
+                <span style="font-size:.68rem;color:#fff;font-weight:600">MXN</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.3rem">
+              <span style="font-weight:800;color:var(--orange-d)">UF Resin (urea + formaldehyde + methanol) — PAID IN USD</span>
+              <span style="color:var(--orange-d);font-weight:800">$40/m³ · 25%</span>
+            </div>
+            <div style="background:var(--bg);border-radius:4px;height:20px;overflow:hidden;border:1px solid #FED7AA">
+              <div style="width:25%;background:var(--orange);height:100%;border-radius:3px;display:flex;align-items:center;padding:0 .5rem">
+                <span style="font-size:.68rem;color:#fff;font-weight:700">USD</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.3rem">
+              <span style="font-weight:600">Energy</span>
+              <span style="color:var(--muted);font-weight:600">$20/m³ · 12.5%</span>
+            </div>
+            <div style="background:var(--bg);border-radius:4px;height:20px;overflow:hidden;border:1px solid var(--border)">
+              <div style="width:12.5%;background:#6B7280;height:100%;border-radius:3px"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.3rem">
+              <span style="font-weight:600">Packaging / Labor / Other</span>
+              <span style="color:var(--muted);font-weight:600">$20/m³ · 12.5%</span>
+            </div>
+            <div style="background:var(--bg);border-radius:4px;height:20px;overflow:hidden;border:1px solid var(--border)">
+              <div style="width:12.5%;background:#9CA3AF;height:100%;border-radius:3px"></div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:.65rem .75rem;background:var(--bg);border-radius:6px;margin-bottom:.875rem">
+          <span style="font-weight:700;font-size:.875rem">TOTAL</span>
+          <span style="font-size:1rem;font-weight:800">$160 / m³</span>
+        </div>
+        <div style="font-size:.8rem;color:var(--muted);margin-bottom:.875rem;line-height:1.5">
+          UF resin represents approximately <strong style="color:var(--orange)">25%</strong> of total variable cost per m³.
+          All resin inputs (urea, formaldehyde, methanol) are sourced and priced in USD on international commodity markets.
+        </div>
+        <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:.5rem">Resin Component Breakdown (estimated)</div>
+        <div style="display:flex;flex-wrap:wrap;gap:.4rem">
+          <span style="background:var(--orange-m);color:var(--orange-d);border-radius:5px;padding:.3rem .65rem;font-size:.75rem;font-weight:600">Urea: 45–55%</span>
+          <span style="background:var(--blue-l);color:#1D4ED8;border-radius:5px;padding:.3rem .65rem;font-size:.75rem;font-weight:600">Formaldehyde: 25–30%</span>
+          <span style="background:var(--green-l);color:#065F46;border-radius:5px;padding:.3rem .65rem;font-size:.75rem;font-weight:600">Methanol: 8–12%</span>
+          <span style="background:#F3F4F6;color:#374151;border-radius:5px;padding:.3rem .65rem;font-size:.75rem;font-weight:600">Additives &amp; logistics: 8–10%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 — FX Risk Direction -->
+    <div class="sec">
+      <div class="sh">FX Risk Position</div>
+      <div class="card" style="border-left:3px solid var(--orange);margin-bottom:.75rem">
+        <div style="font-size:.9rem;font-weight:700;margin-bottom:.75rem">Structural position: Short USD / Long MXN</div>
+        <ul style="font-size:.83rem;color:var(--muted);line-height:2;padding-left:1.2rem">
+          <li>Purchases urea and methanol in USD on international commodity markets</li>
+          <li>Operates plants and pays payroll in MXN</li>
+          <li>Sells panels primarily in MXN in the domestic market</li>
+          <li>Reports and services corporate debt in USD (~USD 7.2B net debt at group level)</li>
+        </ul>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:.75rem;padding:.9rem 1rem;border-radius:8px;
+        background:var(--red-l);border:1px solid #FCA5A5;font-size:.82rem;line-height:1.55">
+        <div>
+          <strong style="color:var(--red)">Arauco LOSES when the peso DEPRECIATES.</strong>
+          Every 1-peso increase in USD/MXN raises the 6-month raw material cost by approximately
+          <strong style="color:var(--red)">MXN 18.99 million</strong>.
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 — Scenarios Jun–Dec 2026 -->
+    <div class="sec">
+      <div class="sh">Exchange Rate Scenarios — Jun–Dec 2026</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:1rem;margin-bottom:1.5rem">
+        <div class="card" style="border-top:3px solid var(--green)">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
+            <div style="font-size:.78rem;font-weight:700;color:var(--green)">BULLISH MXN — Strong Peso</div>
+            <span class="badge" style="background:var(--green-l);color:#065F46">20% prob.</span>
+          </div>
+          <div style="font-size:2.2rem;font-weight:900;color:var(--green);margin-bottom:.5rem;line-height:1">17.00</div>
+          <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:.4rem">Key Triggers</div>
+          <ul style="font-size:.78rem;color:var(--muted);line-height:1.8;padding-left:1rem">
+            <li>Favorable USMCA resolution</li>
+            <li>Nearshoring FDI accelerates</li>
+            <li>Banxico pauses rate cuts</li>
+            <li>Peso strengthens from current levels</li>
+          </ul>
+        </div>
+        <div class="card" style="border-top:3px solid #F59E0B">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
+            <div style="font-size:.78rem;font-weight:700;color:#92400E">BASE CASE</div>
+            <span class="badge" style="background:#FEF9C3;color:#854D0E">50% prob.</span>
+          </div>
+          <div style="font-size:2.2rem;font-weight:900;color:#92400E;margin-bottom:.5rem;line-height:1">18.50</div>
+          <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:.4rem">Key Triggers</div>
+          <ul style="font-size:.78rem;color:var(--muted);line-height:1.8;padding-left:1rem">
+            <li>Gradual depreciation in line with Citi/Banxico/Monex consensus</li>
+            <li>Rate differential compresses but carry trade persists</li>
+            <li>No major USMCA shock</li>
+          </ul>
+        </div>
+        <div class="card" style="border-top:3px solid var(--red)">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
+            <div style="font-size:.78rem;font-weight:700;color:var(--red)">BEARISH MXN — Weak Peso</div>
+            <span class="badge badge-dn">30% prob.</span>
+          </div>
+          <div style="font-size:2.2rem;font-weight:900;color:var(--red);margin-bottom:.5rem;line-height:1">20.50</div>
+          <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:.4rem">Key Triggers</div>
+          <ul style="font-size:.78rem;color:var(--muted);line-height:1.8;padding-left:1rem">
+            <li>Adverse USMCA outcome</li>
+            <li>Carry trade unwind</li>
+            <li>Deepening Mexican recession</li>
+            <li>Global risk-off / geopolitical escalation (SHCP/Banorte scenario)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 — P&L Impact Table -->
+    <div class="sec">
+      <div class="sh">P&amp;L Impact by Scenario</div>
+      <div class="card" style="padding:0;overflow:hidden">
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th>Scenario</th>
+              <th>USD/MXN</th>
+              <th>6-Month Cost (MXN)</th>
+              <th>vs. Spot (17.34)</th>
+              <th>Pass-through to Total Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge" style="background:#F3F4F6;color:#374151">Current Spot</span></td>
+              <td><strong>17.34</strong></td>
+              <td><strong>MXN 329.3M</strong></td>
+              <td style="color:var(--muted)">Reference</td>
+              <td style="color:var(--muted)">—</td>
+            </tr>
+            <tr style="background:var(--green-l)">
+              <td><span class="badge" style="background:#A7F3D0;color:#065F46">Bullish MXN</span></td>
+              <td><strong style="color:var(--green)">17.00</strong></td>
+              <td>MXN 323.0M</td>
+              <td><strong style="color:var(--green)">–MXN 6.3M (saving)</strong></td>
+              <td><strong style="color:var(--green)">–1.9%</strong></td>
+            </tr>
+            <tr style="background:#FFFBEB">
+              <td><span class="badge" style="background:#FEF9C3;color:#854D0E">Base Case</span></td>
+              <td><strong style="color:#92400E">18.50</strong></td>
+              <td>MXN 351.3M</td>
+              <td><strong style="color:#92400E">+MXN 22.0M (extra cost)</strong></td>
+              <td><strong style="color:#92400E">+6.7%</strong></td>
+            </tr>
+            <tr style="background:var(--red-l)">
+              <td><span class="badge badge-dn">Bearish MXN</span></td>
+              <td><strong style="color:var(--red)">20.50</strong></td>
+              <td>MXN 389.3M</td>
+              <td><strong style="color:var(--red)">+MXN 60.0M (extra cost)</strong></td>
+              <td><strong style="color:var(--red)">+18.2%</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <!-- ══ NOTICIAS ══════════════════════════════════════════════════════════════ -->
-<div id="page-n" class="page on">
+<div id="page-n" class="page">
   <div class="body">
     <div class="h1">Panorama Macroeconómico</div>
     <div class="sub">Variables clave para la gestión de riesgo cambiario · <span id="upd-date">—</span></div>
@@ -407,10 +674,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 /*  TAB SWITCHING                                                              */
 /* ═══════════════════════════════════════════════════════════════════════════ */
 function switchTab(t) {
-  document.getElementById('page-n').classList.toggle('on', t==='n');
-  document.getElementById('page-c').classList.toggle('on', t==='c');
-  document.getElementById('btn-n').classList.toggle('on', t==='n');
-  document.getElementById('btn-c').classList.toggle('on', t==='c');
+  ['e','n','c'].forEach(id => {
+    document.getElementById('page-'+id).classList.toggle('on', id===t);
+    document.getElementById('btn-'+id).classList.toggle('on', id===t);
+  });
   if (t==='c' && ST.txns.length) { renderMC(); }
 }
 
