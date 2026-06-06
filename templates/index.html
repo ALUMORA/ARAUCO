@@ -1,20 +1,19 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>FX Cobertura</title>
+<title>FX Risk — Arauco Mexico</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-/* ── Design Tokens ───────────────────────────────────────────────────────── */
 :root{
-  --orange:#F97316; --orange-l:#FFF7ED; --orange-m:#FFEDD5; --orange-d:#C2410C;
-  --text:#111827; --muted:#6B7280; --muted-l:#9CA3AF;
-  --border:#E5E7EB; --bg:#F9FAFB; --white:#FFFFFF;
-  --green:#10B981; --green-l:#ECFDF5; --red:#EF4444; --red-l:#FEF2F2;
-  --blue:#3B82F6; --blue-l:#EFF6FF;
+  --orange:#F97316;--orange-l:#FFF7ED;--orange-m:#FFEDD5;--orange-d:#C2410C;
+  --text:#111827;--muted:#6B7280;--muted-l:#9CA3AF;
+  --border:#E5E7EB;--bg:#F9FAFB;--white:#FFFFFF;
+  --green:#10B981;--green-l:#ECFDF5;--red:#EF4444;--red-l:#FEF2F2;
+  --blue:#3B82F6;--blue-l:#EFF6FF;
   --sh:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.05);
-  --sh-md:0 4px 6px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.04);
+  --sh-md:0 4px 8px rgba(0,0,0,.09),0 2px 4px rgba(0,0,0,.05);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:14px}
@@ -23,88 +22,110 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
 ::-webkit-scrollbar-track{background:var(--border)}
 ::-webkit-scrollbar-thumb{background:var(--muted-l);border-radius:2px}
 
-/* ── Navbar ──────────────────────────────────────────────────────────────── */
+/* Navbar */
 .nav{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;
-  display:flex;align-items:center;padding:0 2rem;height:54px;box-shadow:var(--sh);gap:0}
-.nav-logo{font-weight:800;font-size:1rem;color:var(--orange);text-decoration:none;
-  letter-spacing:-.5px;display:flex;align-items:center;gap:.4rem;margin-right:1.5rem;white-space:nowrap}
-.nav-logo svg{width:20px;height:20px;flex-shrink:0}
-.nav-tabs{display:flex;height:100%;gap:.1rem}
-.nav-tab{height:100%;padding:0 1.1rem;border:none;background:none;color:var(--muted);font-size:.875rem;
-  font-weight:500;cursor:pointer;position:relative;transition:color .15s;border-bottom:2px solid transparent;
-  white-space:nowrap}
+  display:flex;align-items:center;padding:0 2rem;height:54px;box-shadow:var(--sh)}
+.nav-logo{font-weight:800;font-size:.95rem;color:var(--orange);text-decoration:none;
+  letter-spacing:-.3px;display:flex;align-items:center;gap:.4rem;margin-right:1.5rem;white-space:nowrap}
+.nav-logo svg{width:18px;height:18px;flex-shrink:0}
+.nav-tabs{display:flex;height:100%}
+.nav-tab{height:100%;padding:0 1.1rem;border:none;background:none;color:var(--muted);font-size:.84rem;
+  font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:color .15s;white-space:nowrap}
 .nav-tab:hover{color:var(--text)}
 .nav-tab.on{color:var(--orange);border-bottom-color:var(--orange);font-weight:600}
 .nav-space{flex:1}
 .nav-info{display:flex;align-items:center;gap:1rem;font-size:.75rem;color:var(--muted);white-space:nowrap}
-.live-badge{display:flex;align-items:center;gap:.3rem;font-weight:500;color:var(--text)}
+.live-badge{display:flex;align-items:center;gap:.35rem;font-weight:600;color:var(--text)}
 .live-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:blink 2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
-/* ── Pages ───────────────────────────────────────────────────────────────── */
+/* Layout */
 .page{display:none}
 .page.on{display:block}
 .body{max-width:1200px;margin:0 auto;padding:2rem}
 
-/* ── Type ────────────────────────────────────────────────────────────────── */
-.h1{font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:.2rem}
-.sub{font-size:.875rem;color:var(--muted);margin-bottom:1.75rem;line-height:1.5}
-.sh{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
-.sh .cnt{background:var(--orange);color:#fff;font-size:.65rem;font-weight:700;border-radius:99px;padding:.1rem .45rem;line-height:1.4}
+/* Typography */
+.h1{font-size:1.45rem;font-weight:800;color:var(--text);margin-bottom:.2rem}
+.sub{font-size:.855rem;color:var(--muted);margin-bottom:1.75rem;line-height:1.55}
+.sh{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.875rem;
+  display:flex;align-items:center;gap:.5rem}
+.sh .cnt{background:var(--orange);color:#fff;font-size:.63rem;font-weight:700;
+  border-radius:99px;padding:.1rem .45rem;line-height:1.4}
+.step-badge{width:22px;height:22px;border-radius:50%;background:var(--orange);color:#fff;
+  font-size:.68rem;font-weight:700;display:inline-flex;align-items:center;
+  justify-content:center;flex-shrink:0}
 
-/* ── Card ────────────────────────────────────────────────────────────────── */
+/* Cards */
 .card{background:var(--white);border:1px solid var(--border);border-radius:10px;box-shadow:var(--sh);padding:1.25rem}
 
-/* ── KPI Grid ────────────────────────────────────────────────────────────── */
-.kpi-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:.875rem;margin-bottom:1.5rem}
+/* KPI */
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:.875rem;margin-bottom:1.5rem}
 .kpi{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1rem;box-shadow:var(--sh)}
-.kpi-lbl{font-size:.7rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:.4rem}
-.kpi-val{font-size:1.6rem;font-weight:800;color:var(--text);line-height:1}
-.kpi-sub{font-size:.7rem;color:var(--muted);margin-top:.3rem}
-.badge{display:inline-block;padding:.15rem .45rem;border-radius:4px;font-size:.68rem;font-weight:600}
+.kpi-lbl{font-size:.68rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.4rem}
+.kpi-val{font-size:1.55rem;font-weight:800;color:var(--text);line-height:1}
+.kpi-sub{font-size:.68rem;color:var(--muted);margin-top:.3rem}
+
+/* Badge */
+.badge{display:inline-block;padding:.15rem .45rem;border-radius:4px;font-size:.67rem;font-weight:600}
 .badge-up{background:#DCFCE7;color:#15803D}
 .badge-dn{background:#FEE2E2;color:#B91C1C}
 .badge-or{background:var(--orange-m);color:var(--orange-d)}
 
-/* ── Chart Cards ─────────────────────────────────────────────────────────── */
-.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(480px,1fr));gap:1rem}
+/* Chart cards */
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(460px,1fr));gap:1rem}
 .cc{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1.25rem;box-shadow:var(--sh)}
-.cc-title{font-size:.875rem;font-weight:700;color:var(--text);margin-bottom:.2rem}
-.cc-desc{font-size:.75rem;color:var(--muted);margin-bottom:.875rem;line-height:1.45}
+.cc-title{font-size:.855rem;font-weight:700;color:var(--text);margin-bottom:.2rem}
+.cc-desc{font-size:.73rem;color:var(--muted);margin-bottom:.875rem;line-height:1.5}
 .cw{position:relative;height:200px}
 
-/* ── Section ─────────────────────────────────────────────────────────────── */
+/* Section */
 .sec{margin-bottom:2rem}
 
-/* ── Form ────────────────────────────────────────────────────────────────── */
-.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:1rem;margin-bottom:1rem}
+/* Step Indicator */
+.steps{display:flex;align-items:center;background:var(--white);border:1px solid var(--border);
+  border-radius:10px;padding:1rem 1.5rem;margin-bottom:1.75rem;box-shadow:var(--sh)}
+.step{display:flex;flex-direction:column;align-items:center;gap:.3rem;flex-shrink:0}
+.step-num{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;
+  color:var(--muted);background:var(--bg);transition:all .25s}
+.step.active .step-num{background:var(--orange);border-color:var(--orange);color:#fff}
+.step.done .step-num{background:var(--green);border-color:var(--green);color:#fff}
+.step-lbl{font-size:.63rem;font-weight:600;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.3px;white-space:nowrap;transition:color .25s}
+.step.active .step-lbl{color:var(--orange);font-weight:700}
+.step.done .step-lbl{color:var(--green)}
+.step-con{flex:1;height:2px;background:var(--border);margin:0 .4rem;margin-bottom:.9rem;transition:background .3s}
+.step-con.done{background:var(--green)}
+
+/* Form */
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:1rem;margin-bottom:1rem}
 .fi{display:flex;flex-direction:column;gap:.3rem}
-.fl{font-size:.7rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
-.inp{padding:.6rem .75rem;border:1px solid var(--border);border-radius:6px;font-size:.875rem;color:var(--text);
-  background:var(--white);transition:border-color .15s;outline:none;width:100%}
-.inp:focus{border-color:var(--orange);box-shadow:0 0 0 2px rgba(249,115,22,.12)}
+.fl{font-size:.68rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.inp{padding:.6rem .75rem;border:1px solid var(--border);border-radius:6px;font-size:.875rem;
+  color:var(--text);background:var(--white);transition:border-color .15s;outline:none;width:100%}
+.inp:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(249,115,22,.1)}
 .tog{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden}
-.tb{flex:1;padding:.6rem .5rem;border:none;background:var(--white);color:var(--muted);
-  font-size:.8rem;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap}
+.tb{flex:1;padding:.58rem .4rem;border:none;background:var(--white);color:var(--muted);
+  font-size:.78rem;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap;text-align:center}
 .tb.on{background:var(--orange);color:#fff;font-weight:600}
-.btn{padding:.65rem 1.4rem;border:none;border-radius:6px;font-size:.875rem;font-weight:600;cursor:pointer;transition:all .15s}
+.btn{padding:.65rem 1.4rem;border:none;border-radius:6px;font-size:.855rem;font-weight:600;cursor:pointer;transition:all .15s}
 .btn-p{background:var(--orange);color:#fff}
 .btn-p:hover{background:var(--orange-d)}
-.btn-p:disabled{opacity:.55;cursor:not-allowed}
-.btn-sm{padding:.3rem .65rem;font-size:.75rem;border-radius:5px}
+.btn-p:disabled{opacity:.5;cursor:not-allowed}
+.btn-sm{padding:.3rem .7rem;font-size:.74rem;border-radius:5px}
 .btn-del{background:var(--red-l);color:var(--red);border:1px solid #FCA5A5}
 .btn-del:hover{background:#FCA5A5}
 .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
 .btn-ghost:hover{background:var(--bg)}
 
-/* ── Table ───────────────────────────────────────────────────────────────── */
-.tbl{width:100%;border-collapse:collapse;font-size:.8rem}
-.tbl th{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--border);font-size:.68rem;
-  font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;background:var(--bg)}
-.tbl td{padding:.6rem .75rem;border-bottom:1px solid var(--border)}
+/* Table */
+.tbl{width:100%;border-collapse:collapse;font-size:.79rem}
+.tbl th{text-align:left;padding:.5rem .8rem;border-bottom:1px solid var(--border);font-size:.66rem;
+  font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;background:var(--bg)}
+.tbl td{padding:.65rem .8rem;border-bottom:1px solid var(--border);vertical-align:middle}
 .tbl tr:last-child td{border-bottom:none}
-.tbl tr:hover td{background:#FAFAFA}
-.tag{display:inline-flex;align-items:center;padding:.18rem .45rem;border-radius:4px;font-size:.68rem;font-weight:600}
+.tbl tbody tr:hover td{background:#FAFAFA}
+.tag{display:inline-flex;align-items:center;padding:.2rem .48rem;border-radius:4px;font-size:.67rem;font-weight:600}
 .tag-obl{background:#FEE2E2;color:#B91C1C}
 .tag-der{background:#DCFCE7;color:#15803D}
 .tag-usd{background:var(--orange-m);color:var(--orange-d)}
@@ -113,95 +134,100 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
 .tag-cad{background:#FEF9C3;color:#854D0E}
 .tag-gbp{background:#FCE7F3;color:#9D174D}
 
-/* ── Alert ───────────────────────────────────────────────────────────────── */
-.alert{display:flex;align-items:flex-start;gap:.75rem;padding:.875rem 1rem;border-radius:8px;
-  margin-bottom:.75rem;font-size:.8rem;line-height:1.5}
-.alert-g{background:var(--green-l);border:1px solid #A7F3D0}
-.alert-o{background:var(--orange-l);border:1px solid #FED7AA}
-.alert-b{background:var(--blue-l);border:1px solid #BFDBFE}
-.alert-icon{font-size:1rem;flex-shrink:0;line-height:1.4}
-.alert strong{display:block;margin-bottom:.1rem}
+/* Info blocks */
+.info{border-radius:8px;padding:.85rem 1rem .85rem 1.1rem;margin-bottom:.75rem;
+  font-size:.81rem;line-height:1.6;border-left:3px solid}
+.info-g{background:var(--green-l);border-color:var(--green)}
+.info-o{background:var(--orange-l);border-color:var(--orange)}
+.info-b{background:var(--blue-l);border-color:var(--blue)}
+.info-r{background:var(--red-l);border-color:var(--red)}
+.info strong{display:block;margin-bottom:.15rem;font-size:.84rem}
 
-/* ── Timeline ────────────────────────────────────────────────────────────── */
+/* Timeline */
 .tl-wrap{overflow-x:auto;padding:0 1.5rem;background:var(--white);border-radius:10px;
   border:1px solid var(--border);box-shadow:var(--sh)}
 .tl-inner{position:relative;min-width:700px;padding:3.5rem 0 2rem}
 .tl-axis{position:absolute;top:50%;left:0;right:0;height:2px;background:var(--border);transform:translateY(-50%)}
-.tl-today{position:absolute;top:0;bottom:0;width:1px;background:var(--orange)}
-.tl-today::before{content:'Hoy';position:absolute;top:.5rem;left:50%;transform:translateX(-50%);
-  font-size:.65rem;color:var(--orange);font-weight:700;white-space:nowrap;background:var(--white);padding:0 .2rem}
+.tl-today{position:absolute;top:0;bottom:0;width:2px;background:var(--orange)}
+.tl-today::before{content:'Today';position:absolute;top:.5rem;left:50%;transform:translateX(-50%);
+  font-size:.64rem;color:var(--orange);font-weight:700;white-space:nowrap;background:var(--white);padding:0 .25rem}
 .tl-event{position:absolute;display:flex;flex-direction:column;align-items:center;transform:translateX(-50%)}
 .tl-event.obl{top:0;padding-bottom:calc(50% + 8px)}
 .tl-event.der{bottom:0;flex-direction:column-reverse;padding-top:calc(50% + 8px)}
-.tl-event-card{background:var(--white);border-radius:7px;padding:.35rem .6rem;box-shadow:var(--sh-md);
-  font-size:.68rem;text-align:center;min-width:90px;border:1.5px solid var(--border);white-space:nowrap}
-.tl-line{width:2px;height:36px;flex-shrink:0}
+.tl-card{background:var(--white);border-radius:7px;padding:.38rem .65rem;box-shadow:var(--sh-md);
+  font-size:.67rem;text-align:center;min-width:88px;border:1.5px solid var(--border);white-space:nowrap}
+.tl-line{width:2px;height:34px;flex-shrink:0}
 .tl-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--white);flex-shrink:0;box-shadow:var(--sh)}
 
-/* ── Monte Carlo ──────────────────────────────────────────────────────────── */
-.mc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(480px,1fr));gap:1rem}
-.mc-stats{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem;border-top:1px solid var(--border);padding-top:.6rem}
+/* Monte Carlo */
+.mc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(460px,1fr));gap:1rem}
+.mc-stats{display:flex;gap:.5rem;flex-wrap:wrap;padding-top:.6rem}
 .mc-stat{flex:1;min-width:70px;text-align:center}
-.mc-lbl{font-size:.62rem;color:var(--muted);font-weight:600;text-transform:uppercase}
-.mc-val{font-size:.85rem;font-weight:700;color:var(--text)}
+.mc-lbl{font-size:.6rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.mc-val{font-size:.84rem;font-weight:700;color:var(--text)}
 
-/* ── Hedge Controls ───────────────────────────────────────────────────────── */
-.hg{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1rem}
+/* Hedge Controls */
+.hg{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:1rem}
 .hc{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1rem;box-shadow:var(--sh)}
-.hc-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem}
-.hc-pct{font-size:1.5rem;font-weight:800;color:var(--orange)}
-.range{width:100%;-webkit-appearance:none;height:4px;background:var(--border);border-radius:2px;outline:none;cursor:pointer;margin:.5rem 0}
+.hc-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem}
+.hc-pct{font-size:1.5rem;font-weight:800;color:var(--orange);line-height:1}
+.range{width:100%;-webkit-appearance:none;height:4px;background:var(--border);border-radius:2px;
+  outline:none;cursor:pointer;margin:.5rem 0}
 .range::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;
   background:var(--orange);cursor:pointer;border:2px solid #fff;box-shadow:var(--sh)}
-.hc-info{display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted)}
-.prima-pill{background:var(--orange-l);border:1px solid #FED7AA;border-radius:5px;padding:.4rem .6rem;
-  font-size:.7rem;margin-top:.5rem;line-height:1.5}
+.hc-meta{display:flex;justify-content:space-between;font-size:.69rem;color:var(--muted)}
+.prima-pill{background:var(--orange-l);border:1px solid #FED7AA;border-radius:6px;
+  padding:.42rem .65rem;font-size:.69rem;margin-top:.5rem;line-height:1.55}
 
-/* ── Comparison ───────────────────────────────────────────────────────────── */
+/* Comparison */
 .cmp{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
 .cmp-side{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
-.cmp-side h4{font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:.75rem}
+.cmp-label{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.4px;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+.cmp-label .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 
-/* ── Summary ──────────────────────────────────────────────────────────────── */
-.sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:1rem}
-.sum-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1.25rem;text-align:center;box-shadow:var(--sh)}
-.sum-icon{font-size:1.75rem;margin-bottom:.4rem}
-.sum-val{font-size:1.4rem;font-weight:800;color:var(--orange);margin-bottom:.2rem;line-height:1.1}
-.sum-lbl{font-size:.72rem;color:var(--muted);font-weight:500}
-.sum-note{background:var(--orange-l);border:1px solid #FED7AA;border-radius:10px;padding:1rem 1.25rem;font-size:.8rem;line-height:1.6}
+/* Summary */
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:1rem}
+.sum-card{background:var(--white);border:1px solid var(--border);border-radius:10px;
+  padding:1.25rem;text-align:center;box-shadow:var(--sh)}
+.sum-bar{height:3px;width:36px;border-radius:2px;margin:0 auto .65rem}
+.sum-val{font-size:1.35rem;font-weight:800;color:var(--orange);margin-bottom:.2rem;line-height:1.1}
+.sum-lbl{font-size:.7rem;color:var(--muted);font-weight:500}
+.sum-note{background:var(--orange-l);border:1px solid #FED7AA;border-radius:10px;
+  padding:1rem 1.25rem;font-size:.81rem;line-height:1.7;grid-column:1/-1}
 
-/* ── Misc ────────────────────────────────────────────────────────────────── */
-.empty{text-align:center;padding:2.5rem 1rem;color:var(--muted)}
-.empty-icon{font-size:2rem;margin-bottom:.5rem}
-.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--orange);
-  border-radius:50%;animation:rot .6s linear infinite;vertical-align:middle}
+/* Misc */
+.empty{text-align:center;padding:2.5rem 1rem;color:var(--muted);font-size:.84rem}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--border);
+  border-top-color:var(--orange);border-radius:50%;animation:rot .6s linear infinite;vertical-align:middle}
 @keyframes rot{to{transform:rotate(360deg)}}
 hr{border:none;border-top:1px solid var(--border);margin:1.75rem 0}
 
-/* ── Responsive ───────────────────────────────────────────────────────────── */
-@media(max-width:680px){
-  .fg{grid-template-columns:1fr}
-  .cg,.mc-grid{grid-template-columns:1fr}
+@media(max-width:700px){
+  .fg,.cg,.mc-grid{grid-template-columns:1fr}
   .cmp{grid-template-columns:1fr}
   .kpi-row{grid-template-columns:repeat(2,1fr)}
   .body{padding:1rem}
+  .step-lbl{display:none}
+  .steps{padding:.75rem 1rem}
 }
 </style>
 </head>
 <body>
 
-<!-- ══ NAVBAR ═══════════════════════════════════════════════════════════════ -->
+<!-- NAVBAR -->
 <nav class="nav">
   <a class="nav-logo" href="#">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+         stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
     </svg>
-    FX Cobertura
+    Arauco FX
   </a>
   <div class="nav-tabs">
     <button class="nav-tab on" onclick="switchTab('e')" id="btn-e">FX Exposure</button>
-    <button class="nav-tab" onclick="switchTab('n')" id="btn-n">Noticias</button>
-    <button class="nav-tab" onclick="switchTab('c')" id="btn-c">Cobertura</button>
+    <button class="nav-tab" onclick="switchTab('n')" id="btn-n">Macro</button>
+    <button class="nav-tab" onclick="switchTab('c')" id="btn-c">Hedging</button>
   </div>
   <div class="nav-space"></div>
   <div class="nav-info">
@@ -210,185 +236,158 @@ hr{border:none;border-top:1px solid var(--border);margin:1.75rem 0}
   </div>
 </nav>
 
-<!-- ══ FX EXPOSURE ═══════════════════════════════════════════════════════════ -->
+<!-- PAGE: FX EXPOSURE -->
 <div id="page-e" class="page on">
   <div class="body">
     <div class="h1">FX Risk Exposure — Arauco Mexico</div>
     <div class="sub">USD exposure analysis for the June–December 2026 horizon · Raw materials: urea &amp; methanol</div>
 
-    <!-- 0 — Company Overview -->
     <div class="sec">
       <div style="background:var(--orange-l);border:1px solid #FED7AA;border-radius:10px;padding:1.25rem 1.5rem">
-        <div style="font-size:1rem;font-weight:800;color:var(--text);margin-bottom:.6rem">Arauco Mexico</div>
-        <p style="font-size:.855rem;color:var(--muted);line-height:1.7;margin-bottom:1rem">
-          Arauco is one of the world's leading forestry and wood-panel companies, headquartered in Chile
-          with operations in more than 80 countries. In Mexico, it runs three production plants in
-          Chihuahua, Durango, and Zitácuaro (Michoacán), manufacturing MDF boards, particle boards
-          (PB/MDP), and melamine panels. The Durango site also hosts a Chemical Plant dedicated to
-          urea-formaldehyde (UF) resin production — the primary adhesive used across all panel products.
+        <div style="font-size:.95rem;font-weight:800;margin-bottom:.55rem">Arauco Mexico</div>
+        <p style="font-size:.84rem;color:var(--muted);line-height:1.7;margin-bottom:1rem">
+          Arauco is one of the world's leading forestry and wood-panel companies, headquartered in Chile with
+          operations in more than 80 countries. In Mexico it runs three production plants in Chihuahua, Durango,
+          and Zitácuaro (Michoacán), manufacturing MDF boards, particle boards (PB/MDP) and melamine panels.
+          The Durango site also hosts a Chemical Plant producing urea-formaldehyde (UF) resin — the primary adhesive
+          used across all panel products.
         </p>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:.75rem">
-          <div class="kpi">
-            <div class="kpi-lbl">Global Presence</div>
-            <div class="kpi-val">+80</div>
-            <div class="kpi-sub">countries</div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-lbl">Plants in Mexico</div>
-            <div class="kpi-val">3</div>
-            <div class="kpi-sub">Chihuahua · Durango · Zitácuaro</div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-lbl">Group Net Debt</div>
-            <div class="kpi-val" style="font-size:1.3rem">~$7.2B</div>
-            <div class="kpi-sub">USD</div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-lbl">Products</div>
-            <div class="kpi-val" style="font-size:.95rem;line-height:1.3">MDF · PB/MDP</div>
-            <div class="kpi-sub">Melamine panels</div>
-          </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:.75rem">
+          <div class="kpi"><div class="kpi-lbl">Global Presence</div><div class="kpi-val">+80</div><div class="kpi-sub">countries</div></div>
+          <div class="kpi"><div class="kpi-lbl">Plants in Mexico</div><div class="kpi-val">3</div><div class="kpi-sub">Chihuahua · Durango · Zitácuaro</div></div>
+          <div class="kpi"><div class="kpi-lbl">Group Net Debt</div><div class="kpi-val" style="font-size:1.2rem">~$7.2B</div><div class="kpi-sub">USD</div></div>
+          <div class="kpi"><div class="kpi-lbl">Products</div><div class="kpi-val" style="font-size:.9rem;line-height:1.3">MDF · PB/MDP</div><div class="kpi-sub">Melamine panels</div></div>
         </div>
       </div>
     </div>
 
-    <!-- 1 — USD Raw Material Exposure -->
     <div class="sec">
       <div class="sh">USD Raw Material Exposure</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-bottom:1rem">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1rem;margin-bottom:1rem">
         <div class="card">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.875rem">
-            <div style="font-size:.9rem;font-weight:700">UREA (Industrial Grade)</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.85rem">
+            <span style="font-size:.875rem;font-weight:700">UREA — Industrial Grade</span>
             <span class="badge badge-or">USD-priced</span>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
-            <div><div class="kpi-lbl">Monthly Volume</div><div style="font-size:1.05rem;font-weight:800">3,000 tons</div></div>
-            <div><div class="kpi-lbl">2026 Unit Price</div><div style="font-size:1.05rem;font-weight:800">$655 / ton</div></div>
-            <div><div class="kpi-lbl">Monthly Cost</div><div style="font-size:1.05rem;font-weight:800;color:var(--red)">$1,965,000</div></div>
-            <div><div class="kpi-lbl">6-Month Cost</div><div style="font-size:1.05rem;font-weight:800;color:var(--red)">$11,790,000</div></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem">
+            <div><div class="kpi-lbl">Monthly Volume</div><div style="font-size:1rem;font-weight:800">3,000 tons</div></div>
+            <div><div class="kpi-lbl">2026 Unit Price</div><div style="font-size:1rem;font-weight:800">$655 / ton</div></div>
+            <div><div class="kpi-lbl">Monthly Cost</div><div style="font-size:1rem;font-weight:800;color:var(--red)">$1,965,000</div></div>
+            <div><div class="kpi-lbl">6-Month Cost</div><div style="font-size:1rem;font-weight:800;color:var(--red)">$11,790,000</div></div>
           </div>
         </div>
         <div class="card">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.875rem">
-            <div style="font-size:.9rem;font-weight:700">METHANOL</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.85rem">
+            <span style="font-size:.875rem;font-weight:700">METHANOL</span>
             <span class="badge badge-or">USD-priced</span>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
-            <div><div class="kpi-lbl">Monthly Volume</div><div style="font-size:1.05rem;font-weight:800">1,000 tons</div></div>
-            <div><div class="kpi-lbl">2026 Unit Price</div><div style="font-size:1.05rem;font-weight:800">$1,200 / ton</div></div>
-            <div><div class="kpi-lbl">Monthly Cost</div><div style="font-size:1.05rem;font-weight:800;color:var(--red)">$1,200,000</div></div>
-            <div><div class="kpi-lbl">6-Month Cost</div><div style="font-size:1.05rem;font-weight:800;color:var(--red)">$7,200,000</div></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem">
+            <div><div class="kpi-lbl">Monthly Volume</div><div style="font-size:1rem;font-weight:800">1,000 tons</div></div>
+            <div><div class="kpi-lbl">2026 Unit Price</div><div style="font-size:1rem;font-weight:800">$1,200 / ton</div></div>
+            <div><div class="kpi-lbl">Monthly Cost</div><div style="font-size:1rem;font-weight:800;color:var(--red)">$1,200,000</div></div>
+            <div><div class="kpi-lbl">6-Month Cost</div><div style="font-size:1rem;font-weight:800;color:var(--red)">$7,200,000</div></div>
           </div>
         </div>
       </div>
       <div class="card" style="background:var(--orange-l);border-color:#FED7AA">
-        <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--orange-d);margin-bottom:.75rem">Total USD Exposure — Jun–Dec 2026</div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:1rem">
-          <div><div class="kpi-lbl">Combined Volume</div><div style="font-size:1.2rem;font-weight:800">4,000 tons/mo</div></div>
-          <div><div class="kpi-lbl">Monthly Cost</div><div style="font-size:1.2rem;font-weight:800;color:var(--orange-d)">$3,165,000 USD</div></div>
-          <div><div class="kpi-lbl">6-Month Cost</div><div style="font-size:1.2rem;font-weight:800;color:var(--orange-d)">$18,990,000 USD</div></div>
+        <div style="font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--orange-d);margin-bottom:.75rem">Total USD Exposure — Jun–Dec 2026</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:1rem">
+          <div><div class="kpi-lbl">Combined Volume</div><div style="font-size:1.15rem;font-weight:800">4,000 tons / mo</div></div>
+          <div><div class="kpi-lbl">Monthly Cost</div><div style="font-size:1.15rem;font-weight:800;color:var(--orange-d)">USD 3,165,000</div></div>
+          <div><div class="kpi-lbl">6-Month Cost</div><div style="font-size:1.15rem;font-weight:800;color:var(--orange-d)">USD 18,990,000</div></div>
         </div>
       </div>
     </div>
 
-    <!-- 2 — MDF Variable Cost Structure -->
     <div class="sec">
       <div class="sh">MDF Variable Cost Structure (per m³)</div>
       <div class="card">
-        <div style="display:flex;flex-direction:column;gap:.7rem;margin-bottom:1rem">
+        <div style="display:flex;flex-direction:column;gap:.65rem;margin-bottom:1rem">
           <div>
-            <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.3rem">
+            <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.28rem">
               <span style="font-weight:600">Wood — local, paid in MXN</span>
               <span style="color:var(--muted);font-weight:600">$80/m³ · 50%</span>
             </div>
-            <div style="background:var(--bg);border-radius:4px;height:20px;overflow:hidden;border:1px solid var(--border)">
-              <div style="width:50%;background:#3B82F6;height:100%;border-radius:3px;display:flex;align-items:center;padding:0 .5rem">
-                <span style="font-size:.68rem;color:#fff;font-weight:600">MXN</span>
+            <div style="background:var(--bg);border-radius:4px;height:18px;overflow:hidden;border:1px solid var(--border)">
+              <div style="width:50%;background:#3B82F6;height:100%;display:flex;align-items:center;padding:0 .5rem">
+                <span style="font-size:.65rem;color:#fff;font-weight:700">MXN</span>
               </div>
             </div>
           </div>
           <div>
-            <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.3rem">
+            <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.28rem">
               <span style="font-weight:800;color:var(--orange-d)">UF Resin (urea + formaldehyde + methanol) — PAID IN USD</span>
               <span style="color:var(--orange-d);font-weight:800">$40/m³ · 25%</span>
             </div>
-            <div style="background:var(--bg);border-radius:4px;height:20px;overflow:hidden;border:1px solid #FED7AA">
-              <div style="width:25%;background:var(--orange);height:100%;border-radius:3px;display:flex;align-items:center;padding:0 .5rem">
-                <span style="font-size:.68rem;color:#fff;font-weight:700">USD</span>
+            <div style="background:var(--bg);border-radius:4px;height:18px;overflow:hidden;border:1px solid #FED7AA">
+              <div style="width:25%;background:var(--orange);height:100%;display:flex;align-items:center;padding:0 .5rem">
+                <span style="font-size:.65rem;color:#fff;font-weight:700">USD</span>
               </div>
             </div>
           </div>
           <div>
-            <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.3rem">
+            <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.28rem">
               <span style="font-weight:600">Energy</span>
               <span style="color:var(--muted);font-weight:600">$20/m³ · 12.5%</span>
             </div>
-            <div style="background:var(--bg);border-radius:4px;height:20px;overflow:hidden;border:1px solid var(--border)">
-              <div style="width:12.5%;background:#6B7280;height:100%;border-radius:3px"></div>
+            <div style="background:var(--bg);border-radius:4px;height:18px;overflow:hidden;border:1px solid var(--border)">
+              <div style="width:12.5%;background:#6B7280;height:100%"></div>
             </div>
           </div>
           <div>
-            <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.3rem">
+            <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.28rem">
               <span style="font-weight:600">Packaging / Labor / Other</span>
               <span style="color:var(--muted);font-weight:600">$20/m³ · 12.5%</span>
             </div>
-            <div style="background:var(--bg);border-radius:4px;height:20px;overflow:hidden;border:1px solid var(--border)">
-              <div style="width:12.5%;background:#9CA3AF;height:100%;border-radius:3px"></div>
+            <div style="background:var(--bg);border-radius:4px;height:18px;overflow:hidden;border:1px solid var(--border)">
+              <div style="width:12.5%;background:#9CA3AF;height:100%"></div>
             </div>
           </div>
         </div>
-        <div style="display:flex;justify-content:space-between;padding:.65rem .75rem;background:var(--bg);border-radius:6px;margin-bottom:.875rem">
-          <span style="font-weight:700;font-size:.875rem">TOTAL</span>
-          <span style="font-size:1rem;font-weight:800">$160 / m³</span>
+        <div style="display:flex;justify-content:space-between;padding:.6rem .75rem;background:var(--bg);border-radius:6px;margin-bottom:.85rem">
+          <span style="font-weight:700">TOTAL</span><span style="font-weight:800;font-size:.9rem">$160 / m³</span>
         </div>
-        <div style="font-size:.8rem;color:var(--muted);margin-bottom:.875rem;line-height:1.5">
-          UF resin represents approximately <strong style="color:var(--orange)">25%</strong> of total variable cost per m³.
-          All resin inputs (urea, formaldehyde, methanol) are sourced and priced in USD on international commodity markets.
+        <div style="font-size:.79rem;color:var(--muted);margin-bottom:.85rem;line-height:1.5">
+          UF resin represents approximately <strong style="color:var(--orange)">25%</strong> of total variable cost per m³. All resin inputs are sourced and priced in USD on international commodity markets.
         </div>
-        <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:.5rem">Resin Component Breakdown (estimated)</div>
+        <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:.5rem">Resin Composition (estimated)</div>
         <div style="display:flex;flex-wrap:wrap;gap:.4rem">
-          <span style="background:var(--orange-m);color:var(--orange-d);border-radius:5px;padding:.3rem .65rem;font-size:.75rem;font-weight:600">Urea: 45–55%</span>
-          <span style="background:var(--blue-l);color:#1D4ED8;border-radius:5px;padding:.3rem .65rem;font-size:.75rem;font-weight:600">Formaldehyde: 25–30%</span>
-          <span style="background:var(--green-l);color:#065F46;border-radius:5px;padding:.3rem .65rem;font-size:.75rem;font-weight:600">Methanol: 8–12%</span>
-          <span style="background:#F3F4F6;color:#374151;border-radius:5px;padding:.3rem .65rem;font-size:.75rem;font-weight:600">Additives &amp; logistics: 8–10%</span>
+          <span style="background:var(--orange-m);color:var(--orange-d);border-radius:5px;padding:.28rem .6rem;font-size:.73rem;font-weight:600">Urea: 45–55%</span>
+          <span style="background:var(--blue-l);color:#1D4ED8;border-radius:5px;padding:.28rem .6rem;font-size:.73rem;font-weight:600">Formaldehyde: 25–30%</span>
+          <span style="background:var(--green-l);color:#065F46;border-radius:5px;padding:.28rem .6rem;font-size:.73rem;font-weight:600">Methanol: 8–12%</span>
+          <span style="background:#F3F4F6;color:#374151;border-radius:5px;padding:.28rem .6rem;font-size:.73rem;font-weight:600">Additives &amp; logistics: 8–10%</span>
         </div>
       </div>
     </div>
 
-    <!-- 3 — FX Risk Direction -->
     <div class="sec">
       <div class="sh">FX Risk Position</div>
       <div class="card" style="border-left:3px solid var(--orange);margin-bottom:.75rem">
-        <div style="font-size:.9rem;font-weight:700;margin-bottom:.75rem">Structural position: Short USD / Long MXN</div>
-        <ul style="font-size:.83rem;color:var(--muted);line-height:2;padding-left:1.2rem">
+        <div style="font-size:.875rem;font-weight:700;margin-bottom:.7rem">Structural position: Short USD / Long MXN</div>
+        <ul style="font-size:.82rem;color:var(--muted);line-height:2.1;padding-left:1.2rem">
           <li>Purchases urea and methanol in USD on international commodity markets</li>
           <li>Operates plants and pays payroll in MXN</li>
           <li>Sells panels primarily in MXN in the domestic market</li>
           <li>Reports and services corporate debt in USD (~USD 7.2B net debt at group level)</li>
         </ul>
       </div>
-      <div style="display:flex;align-items:flex-start;gap:.75rem;padding:.9rem 1rem;border-radius:8px;
-        background:var(--red-l);border:1px solid #FCA5A5;font-size:.82rem;line-height:1.55">
-        <div>
-          <strong style="color:var(--red)">Arauco LOSES when the peso DEPRECIATES.</strong>
-          Every 1-peso increase in USD/MXN raises the 6-month raw material cost by approximately
-          <strong style="color:var(--red)">MXN 18.99 million</strong>.
-        </div>
+      <div class="info info-r">
+        <strong style="color:var(--red)">Arauco LOSES when the peso DEPRECIATES.</strong>
+        Every 1-peso increase in USD/MXN raises the 6-month raw material cost by approximately <strong style="color:var(--red)">MXN 18.99 million</strong>.
       </div>
     </div>
 
-    <!-- 4 — Scenarios Jun–Dec 2026 -->
     <div class="sec">
       <div class="sh">Exchange Rate Scenarios — Jun–Dec 2026</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:1rem;margin-bottom:1.5rem">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:1rem;margin-bottom:1.5rem">
         <div class="card" style="border-top:3px solid var(--green)">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
-            <div style="font-size:.78rem;font-weight:700;color:var(--green)">BULLISH MXN — Strong Peso</div>
+            <span style="font-size:.77rem;font-weight:700;color:var(--green)">BULLISH MXN — Strong Peso</span>
             <span class="badge" style="background:var(--green-l);color:#065F46">20% prob.</span>
           </div>
-          <div style="font-size:2.2rem;font-weight:900;color:var(--green);margin-bottom:.5rem;line-height:1">17.00</div>
-          <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:.4rem">Key Triggers</div>
-          <ul style="font-size:.78rem;color:var(--muted);line-height:1.8;padding-left:1rem">
+          <div style="font-size:2.1rem;font-weight:900;color:var(--green);line-height:1;margin-bottom:.5rem">17.00</div>
+          <div style="font-size:.66rem;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:.4px;margin-bottom:.4rem">Key Triggers</div>
+          <ul style="font-size:.77rem;color:var(--muted);line-height:1.85;padding-left:1rem">
             <li>Favorable USMCA resolution</li>
             <li>Nearshoring FDI accelerates</li>
             <li>Banxico pauses rate cuts</li>
@@ -397,74 +396,63 @@ hr{border:none;border-top:1px solid var(--border);margin:1.75rem 0}
         </div>
         <div class="card" style="border-top:3px solid #F59E0B">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
-            <div style="font-size:.78rem;font-weight:700;color:#92400E">BASE CASE</div>
+            <span style="font-size:.77rem;font-weight:700;color:#92400E">BASE CASE</span>
             <span class="badge" style="background:#FEF9C3;color:#854D0E">50% prob.</span>
           </div>
-          <div style="font-size:2.2rem;font-weight:900;color:#92400E;margin-bottom:.5rem;line-height:1">18.50</div>
-          <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:.4rem">Key Triggers</div>
-          <ul style="font-size:.78rem;color:var(--muted);line-height:1.8;padding-left:1rem">
-            <li>Gradual depreciation in line with Citi/Banxico/Monex consensus</li>
-            <li>Rate differential compresses but carry trade persists</li>
+          <div style="font-size:2.1rem;font-weight:900;color:#92400E;line-height:1;margin-bottom:.5rem">18.50</div>
+          <div style="font-size:.66rem;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:.4px;margin-bottom:.4rem">Key Triggers</div>
+          <ul style="font-size:.77rem;color:var(--muted);line-height:1.85;padding-left:1rem">
+            <li>Gradual depreciation per Citi/Banxico/Monex consensus</li>
+            <li>Rate differential compresses; carry trade persists</li>
             <li>No major USMCA shock</li>
           </ul>
         </div>
         <div class="card" style="border-top:3px solid var(--red)">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
-            <div style="font-size:.78rem;font-weight:700;color:var(--red)">BEARISH MXN — Weak Peso</div>
+            <span style="font-size:.77rem;font-weight:700;color:var(--red)">BEARISH MXN — Weak Peso</span>
             <span class="badge badge-dn">30% prob.</span>
           </div>
-          <div style="font-size:2.2rem;font-weight:900;color:var(--red);margin-bottom:.5rem;line-height:1">20.50</div>
-          <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:.4rem">Key Triggers</div>
-          <ul style="font-size:.78rem;color:var(--muted);line-height:1.8;padding-left:1rem">
+          <div style="font-size:2.1rem;font-weight:900;color:var(--red);line-height:1;margin-bottom:.5rem">20.50</div>
+          <div style="font-size:.66rem;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:.4px;margin-bottom:.4rem">Key Triggers</div>
+          <ul style="font-size:.77rem;color:var(--muted);line-height:1.85;padding-left:1rem">
             <li>Adverse USMCA outcome</li>
             <li>Carry trade unwind</li>
             <li>Deepening Mexican recession</li>
-            <li>Global risk-off / geopolitical escalation (SHCP/Banorte scenario)</li>
+            <li>Global risk-off / geopolitical escalation</li>
           </ul>
         </div>
       </div>
     </div>
 
-    <!-- 5 — P&L Impact Table -->
     <div class="sec">
       <div class="sh">P&amp;L Impact by Scenario</div>
       <div class="card" style="padding:0;overflow:hidden">
         <table class="tbl">
-          <thead>
-            <tr>
-              <th>Scenario</th>
-              <th>USD/MXN</th>
-              <th>6-Month Cost (MXN)</th>
-              <th>vs. Spot (17.34)</th>
-              <th>Pass-through to Total Cost</th>
-            </tr>
-          </thead>
+          <thead><tr>
+            <th>Scenario</th><th>USD/MXN</th><th>6-Month Cost (MXN)</th>
+            <th>vs. Spot (17.34)</th><th>Pass-through</th>
+          </tr></thead>
           <tbody>
             <tr>
               <td><span class="badge" style="background:#F3F4F6;color:#374151">Current Spot</span></td>
-              <td><strong>17.34</strong></td>
-              <td><strong>MXN 329.3M</strong></td>
-              <td style="color:var(--muted)">Reference</td>
-              <td style="color:var(--muted)">—</td>
+              <td><strong>17.34</strong></td><td><strong>MXN 329.3M</strong></td>
+              <td style="color:var(--muted)">Reference</td><td style="color:var(--muted)">—</td>
             </tr>
             <tr style="background:var(--green-l)">
               <td><span class="badge" style="background:#A7F3D0;color:#065F46">Bullish MXN</span></td>
-              <td><strong style="color:var(--green)">17.00</strong></td>
-              <td>MXN 323.0M</td>
+              <td><strong style="color:var(--green)">17.00</strong></td><td>MXN 323.0M</td>
               <td><strong style="color:var(--green)">–MXN 6.3M (saving)</strong></td>
               <td><strong style="color:var(--green)">–1.9%</strong></td>
             </tr>
             <tr style="background:#FFFBEB">
               <td><span class="badge" style="background:#FEF9C3;color:#854D0E">Base Case</span></td>
-              <td><strong style="color:#92400E">18.50</strong></td>
-              <td>MXN 351.3M</td>
+              <td><strong style="color:#92400E">18.50</strong></td><td>MXN 351.3M</td>
               <td><strong style="color:#92400E">+MXN 22.0M (extra cost)</strong></td>
               <td><strong style="color:#92400E">+6.7%</strong></td>
             </tr>
             <tr style="background:var(--red-l)">
               <td><span class="badge badge-dn">Bearish MXN</span></td>
-              <td><strong style="color:var(--red)">20.50</strong></td>
-              <td>MXN 389.3M</td>
+              <td><strong style="color:var(--red)">20.50</strong></td><td>MXN 389.3M</td>
               <td><strong style="color:var(--red)">+MXN 60.0M (extra cost)</strong></td>
               <td><strong style="color:var(--red)">+18.2%</strong></td>
             </tr>
@@ -472,73 +460,80 @@ hr{border:none;border-top:1px solid var(--border);margin:1.75rem 0}
         </table>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- ══ NOTICIAS ══════════════════════════════════════════════════════════════ -->
+<!-- PAGE: MACRO -->
 <div id="page-n" class="page">
   <div class="body">
-    <div class="h1">Panorama Macroeconómico</div>
-    <div class="sub">Variables clave para la gestión de riesgo cambiario · <span id="upd-date">—</span></div>
-
-    <div class="kpi-row" id="kpi-row">
-      <div class="kpi"><div class="kpi-lbl">Cargando...</div></div>
-    </div>
-
+    <div class="h1">Macroeconomic Overview</div>
+    <div class="sub">Key variables for FX risk management · Updated <span id="upd-date">—</span></div>
+    <div class="kpi-row" id="kpi-row"><div class="kpi"><div class="kpi-lbl">Loading…</div></div></div>
     <div class="cg">
       <div class="cc">
-        <div class="cc-title">USD/MXN — Histórico y Pronóstico</div>
-        <div class="cc-desc">Tipo de cambio spot vs consenso analistas y escenario pesimista fin 2026. El diferencial de tasas comprimido (+2.875 pp) sostiene presión depreciadora.</div>
+        <div class="cc-title">USD/MXN — Historical &amp; Forecast</div>
+        <div class="cc-desc">Spot rate vs. analyst consensus and pessimistic scenario for end-2026. Compressed rate differential (+2.875 pp) sustains depreciation pressure.</div>
         <div class="cw"><canvas id="ch-fx"></canvas></div>
       </div>
       <div class="cc">
-        <div class="cc-title">Inflación: México vs EE.UU. (%)</div>
-        <div class="cc-desc">Banxico meta: 3% ± 1 pp. La inflación MX sigue por encima del objetivo, limitando recortes adicionales de tasa.</div>
+        <div class="cc-title">Inflation: Mexico vs. U.S. (%)</div>
+        <div class="cc-desc">Banxico target: 3% ±1 pp. Mexican inflation remains above target, limiting further rate cuts.</div>
         <div class="cw"><canvas id="ch-inf"></canvas></div>
       </div>
       <div class="cc">
-        <div class="cc-title">Tasas de Referencia (%)</div>
-        <div class="cc-desc">Diferencial Banxico–Fed: de 7.6% (pico 2023) a 2.875% actual. Carry trade en retroceso, mayor volatilidad esperada en el peso.</div>
+        <div class="cc-title">Policy Rates (%)</div>
+        <div class="cc-desc">Banxico–Fed differential: from 7.6% (2023 peak) to 2.875% today. Carry trade retreating, higher expected peso volatility.</div>
         <div class="cw"><canvas id="ch-tasas"></canvas></div>
       </div>
       <div class="cc">
-        <div class="cc-title">Crecimiento PIB (%)</div>
-        <div class="cc-desc">México contrajo -0.8% en Q1-2026. Banxico revisó pronóstico 2026 a 1.0–1.2%. EE.UU. mantiene expansión moderada.</div>
+        <div class="cc-title">GDP Growth (%)</div>
+        <div class="cc-desc">Mexico contracted –0.8% in Q1-2026. Banxico revised 2026 forecast to 1.0–1.2%. U.S. maintains moderate expansion.</div>
         <div class="cw"><canvas id="ch-pib"></canvas></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ COBERTURA ════════════════════════════════════════════════════════════ -->
+<!-- PAGE: HEDGING -->
 <div id="page-c" class="page">
   <div class="body">
-    <div class="h1">Gestión de Coberturas FX</div>
-    <div class="sub">Registra tus transacciones, calcula la prima con Garman-Kohlhagen, visualiza tu exposición y simula escenarios Monte Carlo.</div>
+    <div class="h1">FX Hedge Management</div>
+    <div class="sub">Register transactions, calculate option premiums (Garman-Kohlhagen 1983), visualize exposure, and run Monte Carlo risk simulations.</div>
 
-    <!-- 1 ── Registro ─────────────────────────────────────────────────────── -->
+    <div class="steps">
+      <div class="step active" id="step-1"><div class="step-num">1</div><div class="step-lbl">Register</div></div>
+      <div class="step-con" id="sc-12"></div>
+      <div class="step" id="step-2"><div class="step-num">2</div><div class="step-lbl">Timeline</div></div>
+      <div class="step-con" id="sc-23"></div>
+      <div class="step" id="step-3"><div class="step-num">3</div><div class="step-lbl">Risk Sim</div></div>
+      <div class="step-con" id="sc-34"></div>
+      <div class="step" id="step-4"><div class="step-num">4</div><div class="step-lbl">Hedge</div></div>
+      <div class="step-con" id="sc-45"></div>
+      <div class="step" id="step-5"><div class="step-num">5</div><div class="step-lbl">Summary</div></div>
+    </div>
+
+    <!-- 1: New Transaction -->
     <div class="sec">
-      <div class="sh">Nueva Transacción</div>
+      <div class="sh"><span class="step-badge">1</span> New Transaction</div>
       <div class="card">
         <div class="fg">
           <div class="fi" style="grid-column:span 2">
-            <label class="fl">Nombre del registro</label>
-            <input class="inp" id="f-nom" type="text" placeholder="Ej: Pago proveedor XYZ">
+            <label class="fl">Transaction name</label>
+            <input class="inp" id="f-nom" type="text" placeholder="e.g. Supplier payment Q3">
           </div>
           <div class="fi">
-            <label class="fl">Monto</label>
-            <input class="inp" id="f-monto" type="number" min="0" step="any" placeholder="100000">
+            <label class="fl">Amount</label>
+            <input class="inp" id="f-monto" type="number" min="0" step="any" placeholder="100,000">
           </div>
           <div class="fi">
-            <label class="fl">Tipo</label>
+            <label class="fl">Type</label>
             <div class="tog">
-              <button class="tb on" id="btn-obl" onclick="setTipo('obligacion')">↓ Obligación</button>
-              <button class="tb" id="btn-der" onclick="setTipo('derecho')">↑ Derecho</button>
+              <button class="tb on" id="btn-obl" onclick="setTipo('obligacion')">Obligation (pay)</button>
+              <button class="tb" id="btn-der" onclick="setTipo('derecho')">Right (receive)</button>
             </div>
           </div>
           <div class="fi">
-            <label class="fl">Moneda</label>
+            <label class="fl">Currency</label>
             <div class="tog">
               <button class="tb on" id="btn-USD" onclick="setMon('USD')">USD</button>
               <button class="tb" id="btn-MXN" onclick="setMon('MXN')">MXN</button>
@@ -547,143 +542,139 @@ hr{border:none;border-top:1px solid var(--border);margin:1.75rem 0}
             </div>
           </div>
           <div class="fi">
-            <label class="fl">Strike (tipo de cambio objetivo)</label>
+            <label class="fl">Strike rate (target FX rate)</label>
             <input class="inp" id="f-strike" type="number" step="any" placeholder="17.50">
           </div>
           <div class="fi">
-            <label class="fl">Fecha de la transacción</label>
+            <label class="fl">Settlement date</label>
             <input class="inp" id="f-fecha" type="date">
           </div>
         </div>
         <div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap">
-          <button class="btn btn-p" id="btn-add" onclick="addTxn()">Registrar y Calcular Prima</button>
+          <button class="btn btn-p" id="btn-add" onclick="addTxn()">Register &amp; Calculate Premium</button>
           <span id="f-msg" style="font-size:.8rem"></span>
         </div>
       </div>
     </div>
 
-    <!-- 2 ── Transacciones ───────────────────────────────────────────────── -->
+    <!-- 2: Transactions table -->
     <div class="sec" id="sec-txns" style="display:none">
       <div class="sh">
-        Transacciones Registradas
+        <span class="step-badge">2</span> Registered Transactions
         <span class="cnt" id="txn-cnt">0</span>
-        <button class="btn btn-ghost btn-sm" onclick="recalcAll()" style="margin-left:.5rem">↻ Recalcular</button>
+        <button class="btn btn-ghost btn-sm" onclick="recalcAll()" style="margin-left:.5rem">Refresh Prices</button>
       </div>
       <div class="card" style="padding:0;overflow:hidden">
         <table class="tbl">
-          <thead>
-            <tr>
-              <th>Nombre</th><th>Monto</th><th>Tipo</th><th>Moneda</th>
-              <th>Strike</th><th>Fecha</th><th>Prima Total (MXN)</th><th>% Prima</th><th></th>
-            </tr>
-          </thead>
+          <thead><tr>
+            <th>Name</th><th>Amount</th><th>Type</th><th>Currency</th>
+            <th>Strike</th><th>Date</th><th>Premium (MXN)</th><th>Prem. %</th><th></th>
+          </tr></thead>
           <tbody id="txn-body"></tbody>
         </table>
       </div>
     </div>
 
-    <!-- 3 ── Timeline ────────────────────────────────────────────────────── -->
+    <!-- Exposure Timeline -->
     <div class="sec" id="sec-tl" style="display:none">
-      <div class="sh">Línea de Tiempo de Exposición</div>
+      <div class="sh">Exposure Timeline</div>
       <div id="nh-alerts"></div>
       <div class="tl-wrap" id="tl-wrap">
-        <div class="empty"><div class="empty-icon">📅</div><p>Cargando...</p></div>
+        <div class="empty"><span class="spin"></span></div>
       </div>
     </div>
 
-    <!-- 4 ── Monte Carlo ─────────────────────────────────────────────────── -->
+    <!-- 3: Monte Carlo -->
     <div class="sec" id="sec-mc" style="display:none">
-      <div class="sh">Simulación Monte Carlo — Riesgo Cambiario</div>
-      <div class="alert alert-o">
-        <span class="alert-icon">⚡</span>
-        <div>
-          <strong>¿Qué muestra esta simulación?</strong>
-          500 trayectorias GBM (movimiento browniano geométrico) para el tipo de cambio hasta cada fecha de transacción.
-          Sin cobertura, tu costo final en MXN depende de dónde aterrice el mercado. Las bandas muestran la incertidumbre real.
-        </div>
+      <div class="sh"><span class="step-badge">3</span> Monte Carlo Risk Simulation</div>
+      <div class="info info-o" style="margin-bottom:1rem">
+        <strong>How to read this chart</strong>
+        500 GBM paths for the exchange rate up to each settlement date. The shaded fan shows the P5–P95 uncertainty band; the orange line is the P50 median. Without hedging, your MXN cost lands anywhere within this range.
       </div>
       <div class="mc-grid" id="mc-grid">
-        <div class="cc"><div class="empty"><span class="spin"></span></div></div>
+        <div class="cc"><div class="empty"><span class="spin"></span> Running 500 simulations…</div></div>
       </div>
     </div>
 
-    <!-- 5 ── Coberturas ──────────────────────────────────────────────────── -->
+    <!-- 4: Hedge Controls -->
     <div class="sec" id="sec-hg" style="display:none">
-      <div class="sh">Agregar Coberturas</div>
-      <div class="alert alert-b">
-        <span class="alert-icon">🛡️</span>
-        <div>
-          <strong>Define el porcentaje a cubrir con la opción calculada.</strong>
-          Mueve el deslizador para cada transacción. La prima es proporcional al porcentaje elegido.
-          Al guardar, la línea de tiempo y el comparativo se actualizan automáticamente.
-        </div>
+      <div class="sh"><span class="step-badge">4</span> Set Hedge Coverage</div>
+      <div class="info info-b" style="margin-bottom:1rem">
+        <strong>Slide to set the coverage percentage for each transaction.</strong>
+        The premium scales proportionally. Moving a slider immediately updates the timeline, comparison charts, and summary below.
       </div>
       <div class="hg" id="hg-grid"></div>
     </div>
 
-    <!-- 6 ── Comparativo ─────────────────────────────────────────────────── -->
+    <!-- 5: Comparison -->
     <div class="sec" id="sec-cmp" style="display:none">
-      <div class="sh">Comparativo: Con vs. Sin Cobertura</div>
+      <div class="sh"><span class="step-badge">5</span> Hedged vs. Unhedged</div>
       <div class="cmp">
         <div class="cmp-side">
-          <h4>❌ Sin cobertura — exposición al spot</h4>
+          <div class="cmp-label"><div class="dot" style="background:var(--red)"></div>Unhedged — Market Spot Exposure</div>
           <div class="cw"><canvas id="ch-sin"></canvas></div>
         </div>
         <div class="cmp-side">
-          <h4>✅ Con cobertura — exposición al strike</h4>
+          <div class="cmp-label"><div class="dot" style="background:var(--green)"></div>Hedged — Strike-Rate Exposure</div>
           <div class="cw"><canvas id="ch-con"></canvas></div>
         </div>
       </div>
       <div class="card">
-        <div class="cc-title" style="margin-bottom:.5rem">Reducción de incertidumbre por transacción (rango P5–P95 en MXN)</div>
-        <div class="cw" style="height:175px"><canvas id="ch-rng"></canvas></div>
+        <div class="cc-title" style="margin-bottom:.5rem">Uncertainty Reduction by Transaction — P5–P95 range (MXN)</div>
+        <div class="cw" style="height:170px"><canvas id="ch-rng"></canvas></div>
       </div>
     </div>
 
-    <!-- 7 ── Resumen ─────────────────────────────────────────────────────── -->
+    <!-- Summary -->
     <div class="sec" id="sec-sum" style="display:none">
-      <div class="sh">Resumen de Coberturas</div>
+      <div class="sh">Coverage Summary</div>
       <div class="sum-grid" id="sum-grid"></div>
     </div>
-
-  </div><!-- /body -->
-</div><!-- /page-c -->
+  </div>
+</div>
 
 <script>
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/*  STATE                                                                      */
-/* ═══════════════════════════════════════════════════════════════════════════ */
 const ST = { tipo:'obligacion', moneda:'USD', txns:[], mc:{}, charts:{} };
 
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/*  INIT                                                                       */
-/* ═══════════════════════════════════════════════════════════════════════════ */
+/* ── Init ── */
 document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('nav-date').textContent =
-    new Date().toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});
-
+    new Date().toLocaleDateString('en-US',{day:'numeric',month:'short',year:'numeric'});
   const d = new Date(); d.setMonth(d.getMonth()+3);
   document.getElementById('f-fecha').value = d.toISOString().split('T')[0];
-
   loadMarket();
   loadMacro();
   await refreshTxns();
 });
 
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/*  TAB SWITCHING                                                              */
-/* ═══════════════════════════════════════════════════════════════════════════ */
+/* ── Tabs ── */
 function switchTab(t) {
   ['e','n','c'].forEach(id => {
     document.getElementById('page-'+id).classList.toggle('on', id===t);
     document.getElementById('btn-'+id).classList.toggle('on', id===t);
   });
-  if (t==='c' && ST.txns.length) { renderMC(); }
+  if (t==='c' && ST.txns.length) renderMC();
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/*  FORM HELPERS                                                               */
-/* ═══════════════════════════════════════════════════════════════════════════ */
+/* ── Step Indicator ── */
+function updateSteps(has, hasHedge) {
+  const cfg = [
+    {id:'step-1', active:!has,   done:has},
+    {id:'step-2', active:has&&!hasHedge, done:has},
+    {id:'step-3', active:has&&!hasHedge, done:has},
+    {id:'step-4', active:has&&!hasHedge, done:hasHedge},
+    {id:'step-5', active:hasHedge, done:false},
+  ];
+  const cons = ['sc-12','sc-23','sc-34','sc-45'];
+  cfg.forEach((s,i) => {
+    const el = document.getElementById(s.id);
+    el.className = 'step' + (s.done?' done':s.active?' active':'');
+    if(i < cons.length)
+      document.getElementById(cons[i]).classList.toggle('done', s.done);
+  });
+}
+
+/* ── Form ── */
 function setTipo(v) {
   ST.tipo = v;
   document.getElementById('btn-obl').classList.toggle('on', v==='obligacion');
@@ -691,17 +682,17 @@ function setTipo(v) {
 }
 function setMon(v) {
   ST.moneda = v;
-  ['USD','MXN','EUR','CAD'].forEach(c => document.getElementById('btn-'+c).classList.toggle('on', c===v));
-  document.getElementById('f-strike').placeholder = v==='MXN' ? '—' : v==='EUR' ? '18.50' : v==='CAD' ? '12.70' : '17.50';
+  ['USD','MXN','EUR','CAD'].forEach(c =>
+    document.getElementById('btn-'+c).classList.toggle('on', c===v));
+  document.getElementById('f-strike').placeholder =
+    v==='MXN'?'—':v==='EUR'?'18.50':v==='CAD'?'12.70':'17.50';
 }
 function msg(html, color) {
   const el = document.getElementById('f-msg');
   el.innerHTML = html; el.style.color = color;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/*  MARKET DATA                                                                */
-/* ═══════════════════════════════════════════════════════════════════════════ */
+/* ── Market ── */
 async function loadMarket() {
   try {
     const r = await fetch('/api/market').then(r=>r.json());
@@ -713,28 +704,26 @@ async function loadMarket() {
   } catch(e){}
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/*  MACRO CHARTS                                                               */
-/* ═══════════════════════════════════════════════════════════════════════════ */
+/* ── Macro ── */
 async function loadMacro() {
   try {
     const {macro, charts} = await fetch('/api/macro').then(r=>r.json());
     renderKPIs(macro);
     renderMacroCharts(charts);
     document.getElementById('upd-date').textContent =
-      new Date().toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});
+      new Date().toLocaleDateString('en-US',{day:'numeric',month:'short',year:'numeric'});
   } catch(e){}
 }
 
 function renderKPIs(m) {
   const items = [
-    {l:'USD/MXN',    v:m.usd_mxn.actual.toFixed(4),    sub:`Fcst: ${m.usd_mxn.forecast_low}–${m.usd_mxn.forecast_high}`, cls:'badge-or'},
-    {l:'Inflación MX', v:m.inflacion_mx.actual.toFixed(2)+'%', sub:`Meta: ${m.inflacion_mx.meta}%`, cls:'badge-dn'},
-    {l:'Inflación US', v:m.inflacion_us.actual.toFixed(2)+'%', sub:`Core: ${m.inflacion_us.core}%`, cls:'badge-dn'},
-    {l:'Banxico',    v:m.tasa_banxico.actual.toFixed(3)+'%', sub:`Pico: ${m.tasa_banxico.pico_2023}%`, cls:'badge-or'},
-    {l:'Fed Funds',  v:m.tasa_fed.actual.toFixed(3)+'%', sub:`Rango: ${m.tasa_fed.rango_low}–${m.tasa_fed.rango_high}%`, cls:'badge-or'},
-    {l:'PIB MX Q1-26', v:m.pib_mx.q1_2026.toFixed(1)+'%', sub:`Fcst 2026: ${m.pib_mx.forecast_2026}%`, cls:'badge-dn'},
-    {l:'PIB US Fcst', v:m.pib_us.forecast_2026.toFixed(1)+'%', sub:`2025: ${m.pib_us.actual_2025}%`, cls:'badge-up'},
+    {l:'USD/MXN',      v:m.usd_mxn.actual.toFixed(4),          sub:'Fcst: '+m.usd_mxn.forecast_low+'–'+m.usd_mxn.forecast_high, cls:'badge-or'},
+    {l:'MX Inflation', v:m.inflacion_mx.actual.toFixed(2)+'%',  sub:'Target: '+m.inflacion_mx.meta+'%', cls:'badge-dn'},
+    {l:'US Inflation', v:m.inflacion_us.actual.toFixed(2)+'%',  sub:'Core: '+m.inflacion_us.core+'%',   cls:'badge-dn'},
+    {l:'Banxico Rate', v:m.tasa_banxico.actual.toFixed(3)+'%',  sub:'Peak: '+m.tasa_banxico.pico_2023+'%', cls:'badge-or'},
+    {l:'Fed Funds',    v:m.tasa_fed.actual.toFixed(3)+'%',      sub:'Range: '+m.tasa_fed.rango_low+'–'+m.tasa_fed.rango_high+'%', cls:'badge-or'},
+    {l:'MX GDP Q1-26', v:m.pib_mx.q1_2026.toFixed(1)+'%',      sub:'Fcst 2026: '+m.pib_mx.forecast_2026+'%', cls:'badge-dn'},
+    {l:'US GDP Fcst',  v:m.pib_us.forecast_2026.toFixed(1)+'%', sub:'2025: '+m.pib_us.actual_2025+'%',  cls:'badge-up'},
   ];
   document.getElementById('kpi-row').innerHTML = items.map(k=>`
     <div class="kpi">
@@ -744,14 +733,22 @@ function renderKPIs(m) {
     </div>`).join('');
 }
 
+const TT = {
+  backgroundColor:'rgba(17,24,39,.88)',
+  titleColor:'#F9FAFB', bodyColor:'#D1D5DB',
+  padding:10, cornerRadius:6,
+  mode:'index', intersect:false,
+};
+
 function mkChart(id, type, data, extra={}) {
   const ctx = document.getElementById(id); if(!ctx) return;
   if(ST.charts[id]) ST.charts[id].destroy();
   ST.charts[id] = new Chart(ctx, {type, data, options:{
     responsive:true, maintainAspectRatio:false,
+    interaction:{mode:'index',intersect:false},
     plugins:{
       legend:{labels:{boxWidth:10,font:{size:11},color:'#6B7280'}},
-      tooltip:{mode:'index',intersect:false},
+      tooltip:{...TT, ...(extra.tt||{})},
     },
     scales:{
       x:{ticks:{color:'#9CA3AF',font:{size:9}},grid:{color:'#F3F4F6'}},
@@ -763,43 +760,39 @@ function mkChart(id, type, data, extra={}) {
 }
 
 function renderMacroCharts(c) {
-  const d = {tension:.3,pointRadius:3,borderWidth:2};
+  const d = {tension:.35,pointRadius:3,borderWidth:2};
   mkChart('ch-fx','line',{labels:c.fx.labels,datasets:[
-    {...d,label:'Spot',data:c.fx.spot,borderColor:'#F97316',backgroundColor:'rgba(249,115,22,.07)',fill:true,pointBackgroundColor:'#F97316'},
-    {...d,label:'Consenso',data:c.fx.consenso,borderColor:'#3B82F6',borderDash:[4,3],pointBackgroundColor:'#3B82F6'},
-    {...d,label:'Pesimista',data:c.fx.pesimista,borderColor:'#EF4444',borderDash:[4,3],pointBackgroundColor:'#EF4444'},
+    {...d,label:'Spot',data:c.fx.spot,borderColor:'#F97316',backgroundColor:'rgba(249,115,22,.08)',fill:true,pointBackgroundColor:'#F97316'},
+    {...d,label:'Consensus',data:c.fx.consenso,borderColor:'#3B82F6',borderDash:[4,3],pointBackgroundColor:'#3B82F6'},
+    {...d,label:'Pessimistic',data:c.fx.pesimista,borderColor:'#EF4444',borderDash:[4,3],pointBackgroundColor:'#EF4444'},
   ]},{yTitle:'MXN/USD'});
   mkChart('ch-inf','line',{labels:c.inflacion.labels,datasets:[
-    {...d,label:'México',data:c.inflacion.mx,borderColor:'#F97316',backgroundColor:'rgba(249,115,22,.07)',fill:true,pointBackgroundColor:'#F97316'},
-    {...d,label:'EE.UU.',data:c.inflacion.us,borderColor:'#3B82F6',pointBackgroundColor:'#3B82F6'},
+    {...d,label:'Mexico',data:c.inflacion.mx,borderColor:'#F97316',backgroundColor:'rgba(249,115,22,.08)',fill:true,pointBackgroundColor:'#F97316'},
+    {...d,label:'U.S.',data:c.inflacion.us,borderColor:'#3B82F6',pointBackgroundColor:'#3B82F6'},
   ]},{yTitle:'%'});
   mkChart('ch-tasas','line',{labels:c.tasas.labels,datasets:[
-    {...d,label:'Banxico',data:c.tasas.banxico,borderColor:'#F97316',backgroundColor:'rgba(249,115,22,.07)',fill:true,pointBackgroundColor:'#F97316'},
+    {...d,label:'Banxico',data:c.tasas.banxico,borderColor:'#F97316',backgroundColor:'rgba(249,115,22,.08)',fill:true,pointBackgroundColor:'#F97316'},
     {...d,label:'Fed',data:c.tasas.fed,borderColor:'#3B82F6',pointBackgroundColor:'#3B82F6'},
   ]},{yTitle:'%'});
   mkChart('ch-pib','bar',{labels:c.pib.labels,datasets:[{
-    label:'PIB %', data:c.pib.valores, borderRadius:4,
+    label:'GDP %',data:c.pib.valores,borderRadius:5,
     backgroundColor:c.pib.valores.map(v=>v<0?'rgba(239,68,68,.65)':v>2?'rgba(16,185,129,.65)':'rgba(249,115,22,.65)'),
   }]},{yTitle:'%'});
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/*  TRANSACTIONS                                                               */
-/* ═══════════════════════════════════════════════════════════════════════════ */
+/* ── Transactions ── */
 async function refreshTxns() {
   ST.txns = await fetch('/api/transactions').then(r=>r.json());
-  renderTxns();
-  renderTimeline();
-  renderHedgeControls();
-  renderComparison();
-  loadSummary();
-  toggleSecs();
+  renderTxns(); renderTimeline(); renderHedgeControls();
+  renderComparison(); loadSummary(); toggleSecs();
 }
 
 function toggleSecs() {
   const has = ST.txns.length > 0;
+  const hasHedge = has && ST.txns.some(t=>(t.cobertura_pct||0)>0);
   ['sec-txns','sec-tl','sec-mc','sec-hg','sec-cmp','sec-sum']
     .forEach(id=>{ const e=document.getElementById(id); if(e) e.style.display=has?'':'none'; });
+  updateSteps(has, hasHedge);
 }
 
 function renderTxns() {
@@ -807,47 +800,46 @@ function renderTxns() {
   if(!ST.txns.length){ document.getElementById('txn-body').innerHTML=''; return; }
   document.getElementById('txn-body').innerHTML = ST.txns.map(t=>{
     const p = t.prima||{};
-    const pt = p.premium_total_mxn||0;
-    const pp = p.premium_pct||0;
-    const liveBadge = p.source==='live'
-      ? '<span class="badge badge-up" style="font-size:.6rem">live</span>'
-      : '<span class="badge" style="background:#F3F4F6;color:#6B7280;font-size:.6rem">est.</span>';
-    const fd = new Date(t.fecha+'T00:00:00').toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});
-    const monTag = `tag-${t.moneda.toLowerCase()}`;
+    const pt = p.premium_total_mxn||0, pp = p.premium_pct||0;
+    const src = p.source==='live'
+      ? '<span class="badge badge-up" style="font-size:.6rem;margin-left:.3rem">live</span>'
+      : '<span class="badge" style="background:#F3F4F6;color:#6B7280;font-size:.6rem;margin-left:.3rem">est.</span>';
+    const fd = new Date(t.fecha+'T00:00:00').toLocaleDateString('en-US',{day:'2-digit',month:'short',year:'numeric'});
+    const isObl = t.tipo==='obligacion';
     return `<tr>
       <td><strong>${esc(t.nombre)}</strong></td>
       <td>${fmtN(t.monto)}</td>
-      <td><span class="tag ${t.tipo==='obligacion'?'tag-obl':'tag-der'}">${t.tipo==='obligacion'?'↓ Obligación':'↑ Derecho'}</span></td>
-      <td><span class="tag ${monTag}">${t.moneda}</span></td>
+      <td><span class="tag ${isObl?'tag-obl':'tag-der'}">${isObl?'Obligation':'Right'}</span></td>
+      <td><span class="tag tag-${t.moneda.toLowerCase()}">${t.moneda}</span></td>
       <td>${t.strike.toFixed(4)}</td>
       <td>${fd}</td>
-      <td><strong>${pt>0?'MX$ '+fmtN(pt,2):'—'}</strong> ${liveBadge}</td>
+      <td><strong>${pt>0?'MX$ '+fmtN(pt,2):'—'}</strong>${src}</td>
       <td>${pp>0?pp.toFixed(3)+'%':'—'}</td>
-      <td><button class="btn btn-del btn-sm" onclick="delTxn('${t.id}')">✕</button></td>
+      <td><button class="btn btn-del btn-sm" onclick="delTxn('${t.id}')">Remove</button></td>
     </tr>`;
   }).join('');
 }
 
 async function addTxn() {
-  const nom   = document.getElementById('f-nom').value.trim();
-  const monto = parseFloat(document.getElementById('f-monto').value);
-  const strike= parseFloat(document.getElementById('f-strike').value);
-  const fecha = document.getElementById('f-fecha').value;
+  const nom=document.getElementById('f-nom').value.trim();
+  const monto=parseFloat(document.getElementById('f-monto').value);
+  const strike=parseFloat(document.getElementById('f-strike').value);
+  const fecha=document.getElementById('f-fecha').value;
   if(!nom||isNaN(monto)||monto<=0||isNaN(strike)||!fecha){
-    msg('Completa todos los campos.','#EF4444'); return;
+    msg('Please fill in all fields.','#EF4444'); return;
   }
-  const btn = document.getElementById('btn-add');
-  btn.disabled = true;
-  msg('<span class="spin"></span> Calculando prima con Yahoo Finance…','#6B7280');
+  const btn=document.getElementById('btn-add');
+  btn.disabled=true;
+  msg('<span class="spin"></span> Fetching live FX data and computing premium…','#6B7280');
   try {
-    const r = await fetch('/api/transactions',{
-      method:'POST', headers:{'Content-Type':'application/json'},
+    const r=await fetch('/api/transactions',{
+      method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({nombre:nom,monto,tipo:ST.tipo,moneda:ST.moneda,strike,fecha}),
     });
-    if(!r.ok) throw new Error('Error servidor');
+    if(!r.ok) throw new Error('Server error');
     document.getElementById('f-nom').value='';
     document.getElementById('f-monto').value='';
-    msg('✓ Transacción registrada','#10B981');
+    msg('Transaction registered.','#10B981');
     await refreshTxns();
     if(ST.txns.length) renderMC();
     setTimeout(()=>msg('',''),3000);
@@ -862,101 +854,81 @@ async function delTxn(id) {
 }
 
 async function recalcAll() {
-  msg('<span class="spin"></span> Recalculando…','#6B7280');
-  ST.txns = await fetch('/api/recalculate',{method:'POST'}).then(r=>r.json());
-  renderTxns();
-  renderHedgeControls();
-  renderComparison();
-  loadSummary();
-  renderMC();
-  msg('✓ Primas actualizadas','#10B981');
+  msg('<span class="spin"></span> Refreshing…','#6B7280');
+  ST.txns=await fetch('/api/recalculate',{method:'POST'}).then(r=>r.json());
+  renderTxns(); renderHedgeControls(); renderComparison(); loadSummary(); renderMC();
+  msg('Premiums updated.','#10B981');
   setTimeout(()=>msg('',''),3000);
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/*  TIMELINE                                                                   */
-/* ═══════════════════════════════════════════════════════════════════════════ */
+/* ── Timeline ── */
 function renderTimeline() {
   if(!ST.txns.length) return;
-  const wrap = document.getElementById('tl-wrap');
-  const txns = [...ST.txns].sort((a,b)=>a.fecha.localeCompare(b.fecha));
+  const txns=[...ST.txns].sort((a,b)=>a.fecha.localeCompare(b.fecha));
+  const nh=detectNH(ST.txns);
+  const nhIds=new Set(nh.flatMap(h=>[h.obl_id,h.der_id]));
 
-  // Natural hedge detection
-  const nhedges = detectNH(ST.txns);
-  const nhIds = new Set(nhedges.flatMap(h=>[h.obl_id,h.der_id]));
-  const nh_html = nhedges.length
-    ? nhedges.map(h=>`
-        <div class="alert alert-g">
-          <span class="alert-icon">🔄</span>
-          <div>
-            <strong>Cobertura Natural Detectada — ${h.currency}</strong>
-            Tienes una obligación y un derecho en ${h.currency} con solo
-            <strong>${h.days_diff} día(s)</strong> de diferencia.
-            Monto neteado: <strong>${fmtN(h.monto_neteado)} ${h.currency}</strong>
-            (${h.pct_obl}% oblig. · ${h.pct_der}% der.).
-            Esa porción se cancela naturalmente — sin costo de prima.
-          </div>
-        </div>`).join('')
-    : `<div class="alert alert-o"><span class="alert-icon">⚠️</span>
-        <div><strong>Sin cobertura natural detectada.</strong> No hay flujos opuestos en la misma moneda dentro de una ventana de 30 días.</div>
-       </div>`;
-  document.getElementById('nh-alerts').innerHTML = nh_html;
-
-  // Build horizontal timeline
-  const today = new Date();
-  const maxD = new Date(txns[txns.length-1].fecha+'T00:00:00');
-  const totalMs = Math.max(maxD - today, 1);
-  const tlW = Math.max(800, txns.length*160);
-
-  const events = txns.map(t=>{
-    const d = new Date(t.fecha+'T00:00:00');
-    const pct = Math.max((d - today)/totalMs, 0.02);
-    const left = (pct * 100).toFixed(1) + '%';
-    const isObl = t.tipo==='obligacion';
-    const col = isObl ? '#EF4444' : '#10B981';
-    const bgCol = isObl ? 'rgba(239,68,68,.06)' : 'rgba(16,185,129,.06)';
-    const fd = new Date(t.fecha+'T00:00:00').toLocaleDateString('es-MX',{day:'2-digit',month:'short'});
-    const pt = (t.prima||{}).premium_total_mxn||0;
-    const cob = t.cobertura_pct>0?`<div style="color:var(--orange);margin-top:.15rem;font-size:.6rem">🛡️ ${t.cobertura_pct}% cubierto</div>`:'';
-    const natMark = nhIds.has(t.id)?'🔄 ':'';
-    return `
-      <div class="tl-event ${isObl?'obl':'der'}" style="left:${left}">
-        <div class="tl-event-card" style="border-color:${col};background:${bgCol}">
-          <div style="font-weight:800;color:${col};font-size:.75rem">${isObl?'↓':'↑'} ${natMark}${fmtN(t.monto)} ${t.moneda}</div>
-          <div style="color:var(--muted);margin-top:.1rem">${esc(t.nombre)}</div>
-          ${pt>0?`<div style="color:var(--orange);font-size:.6rem;margin-top:.1rem">Prima: MX$ ${fmtN(pt,0)}</div>`:''}
-          ${cob}
-        </div>
-        <div class="tl-line ${isObl?'':'tl-line'}" style="background:${col};opacity:.4"></div>
-        <div class="tl-dot" style="background:${col}"></div>
-        <div style="font-size:.62rem;color:var(--muted);margin-top:.2rem">${fd}</div>
+  document.getElementById('nh-alerts').innerHTML = nh.length
+    ? nh.map(h=>`<div class="info info-g" style="margin-bottom:.6rem">
+        <strong>Natural Hedge Detected — ${h.currency}</strong>
+        An obligation and a right in ${h.currency} are <strong>${h.days_diff} day(s)</strong> apart.
+        Netted amount: <strong>${fmtN(h.monto_neteado)} ${h.currency}</strong>
+        (${h.pct_obl}% of obligation · ${h.pct_der}% of right). This portion offsets naturally — no premium required.
+      </div>`).join('')
+    : `<div class="info info-o" style="margin-bottom:.6rem">
+        <strong>No natural hedge detected.</strong>
+        No offsetting flows in the same currency within a 30-day window.
       </div>`;
-  }).join('');
 
-  wrap.innerHTML = `
+  const today=new Date();
+  const maxD=new Date(txns[txns.length-1].fecha+'T00:00:00');
+  const totalMs=Math.max(maxD-today,1);
+  const tlW=Math.max(800,txns.length*160);
+
+  document.getElementById('tl-wrap').innerHTML=`
     <div class="tl-inner" style="min-width:${tlW}px">
       <div class="tl-axis"></div>
       <div class="tl-today" style="left:0"></div>
-      ${events}
+      ${txns.map(t=>{
+        const d=new Date(t.fecha+'T00:00:00');
+        const pct=Math.max((d-today)/totalMs,0.02);
+        const isObl=t.tipo==='obligacion';
+        const col=isObl?'#EF4444':'#10B981';
+        const bg=isObl?'rgba(239,68,68,.06)':'rgba(16,185,129,.06)';
+        const fd=d.toLocaleDateString('en-US',{day:'2-digit',month:'short'});
+        const pt=(t.prima||{}).premium_total_mxn||0;
+        return `
+          <div class="tl-event ${isObl?'obl':'der'}" style="left:${(pct*100).toFixed(1)}%">
+            <div class="tl-card" style="border-color:${col};background:${bg}">
+              <div style="font-weight:800;color:${col};font-size:.73rem">${isObl?'PAY':'RCV'} ${nhIds.has(t.id)?'[H] ':''}${fmtN(t.monto)} ${t.moneda}</div>
+              <div style="color:var(--muted);margin-top:.1rem;font-size:.65rem">${esc(t.nombre)}</div>
+              ${pt>0?`<div style="color:var(--orange);font-size:.6rem;margin-top:.1rem">Premium: MX$ ${fmtN(pt,0)}</div>`:''}
+              ${t.cobertura_pct>0?`<div style="color:var(--orange);font-size:.6rem">${t.cobertura_pct}% hedged</div>`:''}
+            </div>
+            <div class="tl-line" style="background:${col};opacity:.4"></div>
+            <div class="tl-dot" style="background:${col}"></div>
+            <div style="font-size:.61rem;color:var(--muted);margin-top:.2rem">${fd}</div>
+          </div>`;
+      }).join('')}
     </div>`;
 }
 
-function detectNH(txns, win=30) {
-  const byCurr = {};
+function detectNH(txns,win=30) {
+  const m={};
   txns.forEach(t=>{
-    if(!byCurr[t.moneda]) byCurr[t.moneda]={o:[],d:[]};
-    byCurr[t.moneda][t.tipo==='obligacion'?'o':'d'].push(t);
+    if(!m[t.moneda]) m[t.moneda]={o:[],d:[]};
+    m[t.moneda][t.tipo==='obligacion'?'o':'d'].push(t);
   });
-  const res = [];
-  Object.entries(byCurr).forEach(([cur,{o,d}])=>{
+  const res=[];
+  Object.entries(m).forEach(([cur,{o,d}])=>{
     o.forEach(ob=>{
-      const d1 = new Date(ob.fecha);
+      const d1=new Date(ob.fecha);
       d.forEach(de=>{
-        const diff = Math.abs((d1-new Date(de.fecha))/86400000);
+        const diff=Math.abs((d1-new Date(de.fecha))/86400000);
         if(diff<=win){
-          const m = Math.min(ob.monto,de.monto);
+          const n=Math.min(ob.monto,de.monto);
           res.push({obl_id:ob.id,der_id:de.id,currency:cur,days_diff:Math.round(diff),
-            monto_neteado:m,pct_obl:+(m/ob.monto*100).toFixed(1),pct_der:+(m/de.monto*100).toFixed(1)});
+            monto_neteado:n,pct_obl:+(n/ob.monto*100).toFixed(1),pct_der:+(n/de.monto*100).toFixed(1)});
         }
       });
     });
@@ -964,50 +936,52 @@ function detectNH(txns, win=30) {
   return res;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/*  MONTE CARLO                                                                */
-/* ═══════════════════════════════════════════════════════════════════════════ */
+/* ── Monte Carlo ── */
 async function renderMC() {
   if(!ST.txns.length) return;
-  const grid = document.getElementById('mc-grid');
-  grid.innerHTML = '<div class="cc"><div class="empty"><span class="spin"></span> Simulando 500 trayectorias…</div></div>';
+  const grid=document.getElementById('mc-grid');
+  grid.innerHTML='<div class="cc"><div class="empty"><span class="spin"></span> Running 500 GBM paths…</div></div>';
   try {
-    ST.mc = await fetch('/api/montecarlo').then(r=>r.json());
+    ST.mc=await fetch('/api/montecarlo').then(r=>r.json());
     if(!Object.keys(ST.mc).length){
-      grid.innerHTML = '<div class="cc"><div class="empty"><div class="empty-icon">📊</div><p>Agrega transacciones en moneda extranjera para ver la simulación Monte Carlo.</p></div></div>';
+      grid.innerHTML='<div class="cc"><div class="empty">Add foreign-currency transactions to see the Monte Carlo simulation.</div></div>';
       return;
     }
-    grid.innerHTML = '';
-    for(const [cur, mc] of Object.entries(ST.mc)){
-      if(mc.error){ grid.innerHTML+=`<div class="cc"><p style="color:var(--red)">Error MC (${cur}): ${mc.error}</p></div>`; continue; }
-      const cid = 'mc-'+cur;
-      const div = document.createElement('div'); div.className='cc';
-      div.innerHTML = `
-        <div class="cc-title">${cur}/MXN — Monte Carlo (500 simulaciones GBM)</div>
-        <div class="cc-desc">
-          Volatilidad anualizada: <strong>${(mc.sigma*100).toFixed(2)}%</strong> ·
-          Spot actual: <strong>${mc.spot.toFixed(4)}</strong> ·
-          Banda exterior: P5–P95 · Línea: P50 (mediana)
-        </div>
+    grid.innerHTML='';
+    for(const [cur,mc] of Object.entries(ST.mc)){
+      if(mc.error){ grid.innerHTML+=`<div class="cc"><p style="color:var(--red)">MC Error (${cur}): ${mc.error}</p></div>`; continue; }
+      const cid='mc-'+cur;
+      const div=document.createElement('div'); div.className='cc';
+      div.innerHTML=`
+        <div class="cc-title">${cur}/MXN — Monte Carlo (500 GBM Simulations)</div>
+        <div class="cc-desc">Annualized vol: <strong>${(mc.sigma*100).toFixed(2)}%</strong> · Current spot: <strong>${mc.spot.toFixed(4)}</strong> · Shaded band: P5–P95 · Orange line: P50 median</div>
         <div class="cw"><canvas id="${cid}"></canvas></div>
         <div id="mc-stats-${cur}"></div>`;
       grid.appendChild(div);
 
-      // Fan chart: P95 top band, P5 bottom fills to P95, P50 median line
-      const labels = mc.labels.map(l=>new Date(l+'T00:00:00').toLocaleDateString('es-MX',{day:'numeric',month:'short'}));
+      const lbl=mc.labels.map(l=>new Date(l+'T00:00:00').toLocaleDateString('en-US',{day:'numeric',month:'short'}));
       if(ST.charts[cid]) ST.charts[cid].destroy();
-      ST.charts[cid] = new Chart(document.getElementById(cid),{
-        type:'line', data:{labels, datasets:[
-          {label:'P95',data:mc.p95,borderColor:'rgba(249,115,22,.2)',borderWidth:1,fill:false,pointRadius:0,tension:.3},
-          {label:'P75',data:mc.p75,borderColor:'transparent',backgroundColor:'rgba(249,115,22,.12)',fill:'-1',pointRadius:0,tension:.3},
-          {label:'P50 (mediana)',data:mc.p50,borderColor:'#F97316',borderWidth:2,fill:false,pointRadius:0,tension:.3},
-          {label:'P25',data:mc.p25,borderColor:'transparent',backgroundColor:'rgba(249,115,22,.12)',fill:'+1',pointRadius:0,tension:.3},
-          {label:'P5',data:mc.p5,borderColor:'rgba(249,115,22,.2)',borderWidth:1,fill:false,pointRadius:0,tension:.3},
+      ST.charts[cid]=new Chart(document.getElementById(cid),{
+        type:'line',
+        data:{labels:lbl,datasets:[
+          {label:'P95',data:mc.p95,borderColor:'rgba(249,115,22,.2)',borderWidth:1,fill:false,pointRadius:0,tension:.35},
+          {label:'P75',data:mc.p75,borderColor:'transparent',backgroundColor:'rgba(249,115,22,.13)',fill:'-1',pointRadius:0,tension:.35},
+          {label:'P50 (median)',data:mc.p50,borderColor:'#F97316',borderWidth:2,fill:false,pointRadius:0,tension:.35},
+          {label:'P25',data:mc.p25,borderColor:'transparent',backgroundColor:'rgba(249,115,22,.13)',fill:'+1',pointRadius:0,tension:.35},
+          {label:'P5',data:mc.p5,borderColor:'rgba(249,115,22,.2)',borderWidth:1,fill:false,pointRadius:0,tension:.35},
         ]},
-        options:{responsive:true,maintainAspectRatio:false,
+        options:{
+          responsive:true,maintainAspectRatio:false,
+          interaction:{mode:'index',intersect:false},
           plugins:{
             legend:{labels:{filter:l=>l.text.includes('P50'),boxWidth:10,font:{size:11},color:'#6B7280'}},
-            tooltip:{mode:'index',intersect:false},
+            tooltip:{...TT,callbacks:{
+              title:items=>'Date: '+items[0].label,
+              label:ctx=>{
+                const n=['P5','P25','P50 (median)','P75','P95'];
+                return (n[ctx.datasetIndex]||ctx.dataset.label)+': '+ctx.parsed.y.toFixed(4);
+              }
+            }},
           },
           scales:{
             x:{ticks:{color:'#9CA3AF',font:{size:9},maxTicksLimit:8},grid:{color:'#F9FAFB'}},
@@ -1016,232 +990,196 @@ async function renderMC() {
         },
       });
 
-      // Per-transaction distribution
-      const txnsCur = ST.txns.filter(t=>t.moneda===cur);
-      const statsEl = document.getElementById('mc-stats-'+cur);
-      if(txnsCur.length && mc.txn_dist){
-        statsEl.innerHTML = txnsCur.map(t=>{
-          const dist = mc.txn_dist[t.fecha]; if(!dist) return '';
-          const rng = ((dist.p95-dist.p5)/mc.spot*100).toFixed(1);
-          const fd = new Date(t.fecha+'T00:00:00').toLocaleDateString('es-MX',{month:'short',day:'2-digit'});
-          return `
-            <div class="mc-stats" style="border-top:1px solid var(--border);padding-top:.6rem;margin-top:.5rem">
-              <div style="width:100%;font-size:.72rem;font-weight:700;margin-bottom:.35rem">${esc(t.nombre)} · ${fd}</div>
-              ${['p5','p25','p50','p75','p95'].map(p=>`
-                <div class="mc-stat">
-                  <div class="mc-lbl">${p.toUpperCase()}</div>
-                  <div class="mc-val">${dist[p].toFixed(3)}</div>
-                </div>`).join('')}
-              <div style="width:100%;font-size:.7rem;color:var(--muted);margin-top:.25rem">
-                Rango P5–P95: <strong>${dist.p5.toFixed(3)} – ${dist.p95.toFixed(3)}</strong>
-                (<strong style="color:var(--orange)">${rng}% de spread</strong> respecto al spot actual)
-              </div>
-            </div>`;
+      const statsEl=document.getElementById('mc-stats-'+cur);
+      const txnsCur=ST.txns.filter(t=>t.moneda===cur);
+      if(txnsCur.length&&mc.txn_dist){
+        statsEl.innerHTML=txnsCur.map(t=>{
+          const dist=mc.txn_dist[t.fecha]; if(!dist) return '';
+          const rng=((dist.p95-dist.p5)/mc.spot*100).toFixed(1);
+          const fd=new Date(t.fecha+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'2-digit'});
+          return `<div class="mc-stats" style="border-top:1px solid var(--border);padding-top:.6rem;margin-top:.6rem">
+            <div style="width:100%;font-size:.71rem;font-weight:700;margin-bottom:.35rem">${esc(t.nombre)} · ${fd}</div>
+            ${['p5','p25','p50','p75','p95'].map(p=>`
+              <div class="mc-stat">
+                <div class="mc-lbl">${p.toUpperCase()}</div>
+                <div class="mc-val">${dist[p].toFixed(3)}</div>
+              </div>`).join('')}
+            <div style="width:100%;font-size:.69rem;color:var(--muted);margin-top:.25rem">
+              P5–P95 range: <strong>${dist.p5.toFixed(3)} – ${dist.p95.toFixed(3)}</strong>
+              — <strong style="color:var(--orange)">${rng}% spread</strong> vs. current spot
+            </div>
+          </div>`;
         }).join('');
       }
     }
-    renderComparison(); // update comparison after MC loads
+    renderComparison();
   } catch(e){
-    document.getElementById('mc-grid').innerHTML = `<div class="cc"><p style="color:var(--red)">Error: ${e.message}</p></div>`;
+    document.getElementById('mc-grid').innerHTML=`<div class="cc"><p style="color:var(--red)">Error: ${e.message}</p></div>`;
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/*  HEDGE CONTROLS                                                             */
-/* ═══════════════════════════════════════════════════════════════════════════ */
+/* ── Hedge Controls ── */
 function renderHedgeControls() {
-  const grid = document.getElementById('hg-grid');
+  const grid=document.getElementById('hg-grid');
   if(!ST.txns.length){ grid.innerHTML=''; return; }
-  grid.innerHTML = ST.txns.map(t=>{
-    const p = t.prima||{};
-    const pt = p.premium_total_mxn||0;
-    const pct = t.cobertura_pct||0;
-    const pForPct = pt*pct/100;
-    const isObl = t.tipo==='obligacion';
-    const col = isObl?'var(--red)':'var(--green)';
-    return `
-      <div class="hc">
-        <div class="hc-head">
-          <div>
-            <div style="font-weight:700;font-size:.875rem">${esc(t.nombre)}</div>
-            <div style="font-size:.72rem;color:var(--muted);margin-top:.1rem">
-              <span style="color:${col}">${isObl?'↓ Obligación':'↑ Derecho'}</span> ·
-              ${fmtN(t.monto)} ${t.moneda} · ${new Date(t.fecha+'T00:00:00').toLocaleDateString('es-MX',{month:'short',day:'2-digit',year:'numeric'})}
-            </div>
+  grid.innerHTML=ST.txns.map(t=>{
+    const p=t.prima||{}, pt=p.premium_total_mxn||0, pct=t.cobertura_pct||0;
+    const isObl=t.tipo==='obligacion';
+    const col=isObl?'var(--red)':'var(--green)';
+    return `<div class="hc">
+      <div class="hc-head">
+        <div>
+          <div style="font-weight:700;font-size:.875rem">${esc(t.nombre)}</div>
+          <div style="font-size:.71rem;color:var(--muted);margin-top:.1rem">
+            <span style="color:${col}">${isObl?'Obligation':'Right'}</span> ·
+            ${fmtN(t.monto)} ${t.moneda} ·
+            ${new Date(t.fecha+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'2-digit',year:'numeric'})}
           </div>
-          <div class="hc-pct" id="pct-${t.id}">${pct}%</div>
         </div>
-        <input type="range" class="range" min="0" max="100" step="5" value="${pct}"
-          oninput="onRange('${t.id}',this.value)"
-          onchange="saveHedge('${t.id}',this.value)">
-        <div class="hc-info">
-          <span>Strike: ${t.strike.toFixed(4)} ${t.moneda==='MXN'?'—':'MXN/'+t.moneda}</span>
-          <span id="pdisp-${t.id}">Prima real: MX$ ${fmtN(pForPct,2)}</span>
-        </div>
-        ${pt>0?`
-          <div class="prima-pill">
-            <strong>Prima al 100%:</strong> MX$ ${fmtN(pt,2)} ·
-            Tipo opción: <strong>${(p.option_type||'—').toUpperCase()}</strong> ·
+        <div class="hc-pct" id="pct-${t.id}">${pct}%</div>
+      </div>
+      <input type="range" class="range" min="0" max="100" step="5" value="${pct}"
+        oninput="onRange('${t.id}',this.value)"
+        onchange="saveHedge('${t.id}',this.value)">
+      <div class="hc-meta">
+        <span>Strike: ${t.strike.toFixed(4)} ${t.moneda==='MXN'?'—':'MXN/'+t.moneda}</span>
+        <span id="pdisp-${t.id}">Premium cost: MX$ ${fmtN(pt*pct/100,2)}</span>
+      </div>
+      ${pt>0
+        ?`<div class="prima-pill">
+            <strong>Full premium (100%):</strong> MX$ ${fmtN(pt,2)} ·
+            Type: <strong>${(p.option_type||'—').toUpperCase()}</strong> ·
             Vol: <strong>${p.vol_30d?(p.vol_30d*100).toFixed(1)+'%':'—'}</strong> ·
             Delta: <strong>${p.delta?.toFixed(3)||'—'}</strong> ·
-            T: <strong>${p.T?p.T.toFixed(3)+'a':'—'}</strong>
+            T: <strong>${p.T?p.T.toFixed(3)+' yr':'—'}</strong>
           </div>`
-        :'<div style="font-size:.7rem;color:var(--muted);margin-top:.4rem">Moneda MXN — no se requiere opción FX.</div>'}
-      </div>`;
+        :'<div style="font-size:.69rem;color:var(--muted);margin-top:.4rem">MXN currency — no FX option required.</div>'}
+    </div>`;
   }).join('');
 }
 
-function onRange(id, pct) {
-  document.getElementById('pct-'+id).textContent = pct+'%';
-  const t = ST.txns.find(x=>x.id===id);
-  if(t&&t.prima&&t.prima.premium_total_mxn){
-    document.getElementById('pdisp-'+id).textContent =
-      'Prima real: MX$ '+fmtN(t.prima.premium_total_mxn*pct/100,2);
-  }
+function onRange(id,pct){
+  document.getElementById('pct-'+id).textContent=pct+'%';
+  const t=ST.txns.find(x=>x.id===id);
+  if(t?.prima?.premium_total_mxn)
+    document.getElementById('pdisp-'+id).textContent='Premium cost: MX$ '+fmtN(t.prima.premium_total_mxn*pct/100,2);
 }
 
-async function saveHedge(id, pct) {
+async function saveHedge(id,pct){
   await fetch('/api/transactions/'+id+'/hedge',{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({pct:parseFloat(pct)}),
   });
-  const t = ST.txns.find(x=>x.id===id);
-  if(t) t.cobertura_pct = parseFloat(pct);
-  renderTimeline();
-  renderTxns();
-  renderComparison();
-  loadSummary();
+  const t=ST.txns.find(x=>x.id===id);
+  if(t) t.cobertura_pct=parseFloat(pct);
+  renderTimeline(); renderTxns(); renderComparison(); loadSummary(); toggleSecs();
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/*  COMPARISON CHARTS                                                          */
-/* ═══════════════════════════════════════════════════════════════════════════ */
-function renderComparison() {
+/* ── Comparison ── */
+function renderComparison(){
   if(!ST.txns.length) return;
-  const txns = ST.txns;
-  const labels = txns.map(t=>t.nombre.length>14?t.nombre.slice(0,14)+'…':t.nombre);
-
-  // Exposure at spot (sin cobertura)
-  const sinData = txns.map(t=>t.moneda==='MXN'?t.monto:t.monto*(t.prima?.spot||17.34));
-
-  // Exposure at strike for hedged portion (con cobertura)
-  const conData = txns.map(t=>{
-    const spot = t.moneda==='MXN'?1:(t.prima?.spot||17.34);
-    const pct = (t.cobertura_pct||0)/100;
-    const atSpot  = t.monto*spot*(1-pct);
-    const atStrike= t.monto*t.strike*pct;
-    return atSpot+atStrike;
+  const txns=ST.txns;
+  const lbl=txns.map(t=>t.nombre.length>14?t.nombre.slice(0,14)+'…':t.nombre);
+  const sinData=txns.map(t=>t.moneda==='MXN'?t.monto:t.monto*(t.prima?.spot||17.34));
+  const conData=txns.map(t=>{
+    const sp=t.moneda==='MXN'?1:(t.prima?.spot||17.34);
+    const pc=(t.cobertura_pct||0)/100;
+    return t.monto*sp*(1-pc)+t.monto*t.strike*pc;
   });
-
-  // Uncertainty range (MC p5–p95, in MXN)
-  const sinRng = txns.map(t=>{
+  const sinRng=txns.map(t=>{
     if(t.moneda==='MXN') return 0;
-    const mc = ST.mc[t.moneda]; if(!mc||!mc.txn_dist) return t.monto*(t.prima?.spot||17.34)*0.08;
-    const dist = mc.txn_dist[t.fecha]; if(!dist) return 0;
-    return (dist.p95-dist.p5)*t.monto;
+    const mc=ST.mc[t.moneda]; if(!mc?.txn_dist) return t.monto*(t.prima?.spot||17.34)*0.08;
+    const dist=mc.txn_dist[t.fecha]; return dist?(dist.p95-dist.p5)*t.monto:0;
   });
-  const conRng = txns.map((t,i)=>{
-    const unc = 1-(t.cobertura_pct||0)/100;
-    return sinRng[i]*unc;
-  });
+  const conRng=txns.map((t,i)=>sinRng[i]*(1-(t.cobertura_pct||0)/100));
 
-  const oblColors = txns.map(t=>t.tipo==='obligacion'?'rgba(239,68,68,.65)':'rgba(59,130,246,.65)');
-  const conColors = txns.map(t=>t.tipo==='obligacion'?'rgba(249,115,22,.65)':'rgba(16,185,129,.65)');
-  const opts = {
+  const sc={
+    x:{ticks:{color:'#9CA3AF',font:{size:9}},grid:{color:'#F9FAFB'}},
+    y:{ticks:{color:'#9CA3AF',font:{size:9},callback:v=>'MX$'+fmtK(v)},grid:{color:'#F3F4F6'}},
+  };
+  const baseOpts={
     responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'MX$ '+fmtN(ctx.raw,0)}}},
-    scales:{
-      x:{ticks:{color:'#9CA3AF',font:{size:9}},grid:{color:'#F9FAFB'}},
-      y:{ticks:{color:'#9CA3AF',font:{size:9},callback:v=>'MX$'+fmtK(v)},grid:{color:'#F3F4F6'}},
-    },
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:ctx=>'MX$ '+fmtN(ctx.raw,0)}}},
+    scales:sc,
   };
 
   if(ST.charts['ch-sin']) ST.charts['ch-sin'].destroy();
-  ST.charts['ch-sin'] = new Chart(document.getElementById('ch-sin'),{
-    type:'bar',data:{labels,datasets:[{label:'Exposición al spot (MXN)',data:sinData,backgroundColor:oblColors,borderRadius:4}]},
-    options:{...opts},
+  ST.charts['ch-sin']=new Chart(document.getElementById('ch-sin'),{
+    type:'bar',
+    data:{labels:lbl,datasets:[{label:'Unhedged (MXN)',data:sinData,borderRadius:5,
+      backgroundColor:txns.map(t=>t.tipo==='obligacion'?'rgba(239,68,68,.65)':'rgba(59,130,246,.65)')}]},
+    options:baseOpts,
   });
 
   if(ST.charts['ch-con']) ST.charts['ch-con'].destroy();
-  ST.charts['ch-con'] = new Chart(document.getElementById('ch-con'),{
-    type:'bar',data:{labels,datasets:[{label:'Exposición al strike (MXN)',data:conData,backgroundColor:conColors,borderRadius:4}]},
-    options:{...opts},
+  ST.charts['ch-con']=new Chart(document.getElementById('ch-con'),{
+    type:'bar',
+    data:{labels:lbl,datasets:[{label:'Hedged (MXN)',data:conData,borderRadius:5,
+      backgroundColor:txns.map(t=>t.tipo==='obligacion'?'rgba(249,115,22,.65)':'rgba(16,185,129,.65)')}]},
+    options:baseOpts,
   });
 
-  // Range comparison chart
   if(ST.charts['ch-rng']) ST.charts['ch-rng'].destroy();
-  ST.charts['ch-rng'] = new Chart(document.getElementById('ch-rng'),{
+  ST.charts['ch-rng']=new Chart(document.getElementById('ch-rng'),{
     type:'bar',
-    data:{labels,datasets:[
-      {label:'Incertidumbre sin cobertura (P5–P95, MXN)',data:sinRng,backgroundColor:'rgba(239,68,68,.6)',borderRadius:4},
-      {label:'Incertidumbre con cobertura (P5–P95, MXN)',data:conRng,backgroundColor:'rgba(249,115,22,.6)',borderRadius:4},
+    data:{labels:lbl,datasets:[
+      {label:'Uncertainty unhedged (P5–P95)',data:sinRng,backgroundColor:'rgba(239,68,68,.6)',borderRadius:5},
+      {label:'Uncertainty hedged (P5–P95)',data:conRng,backgroundColor:'rgba(249,115,22,.6)',borderRadius:5},
     ]},
     options:{
       responsive:true,maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
       plugins:{
         legend:{labels:{boxWidth:10,font:{size:11},color:'#6B7280'}},
-        tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': MX$ '+fmtN(ctx.raw,0)}},
+        tooltip:{...TT,callbacks:{label:ctx=>ctx.dataset.label+': MX$ '+fmtN(ctx.raw,0)}},
       },
-      scales:{
-        x:{ticks:{color:'#9CA3AF',font:{size:9}},grid:{color:'#F9FAFB'}},
-        y:{ticks:{color:'#9CA3AF',font:{size:9},callback:v=>'MX$'+fmtK(v)},grid:{color:'#F3F4F6'}},
-      },
+      scales:sc,
     },
   });
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/*  SUMMARY                                                                    */
-/* ═══════════════════════════════════════════════════════════════════════════ */
-async function loadSummary() {
+/* ── Summary ── */
+async function loadSummary(){
   try {
-    const s = await fetch('/api/summary').then(r=>r.json());
-    const costRatio = s.exposure_sin>0?(s.total_prima_mxn/s.exposure_sin*100).toFixed(3):'—';
-    document.getElementById('sum-grid').innerHTML = `
+    const s=await fetch('/api/summary').then(r=>r.json());
+    const ratio=s.exposure_sin>0?(s.total_prima_mxn/s.exposure_sin*100).toFixed(3):'—';
+    document.getElementById('sum-grid').innerHTML=`
       <div class="sum-card">
-        <div class="sum-icon">💰</div>
-        <div class="sum-val">MX$ ${fmtN(s.total_prima_mxn,2)}</div>
-        <div class="sum-lbl">Costo total de primas</div>
+        <div class="sum-bar" style="background:var(--orange)"></div>
+        <div class="sum-val">MX$ ${fmtN(s.total_prima_mxn,2)}</div>
+        <div class="sum-lbl">Total Premium Cost</div>
       </div>
       <div class="sum-card">
-        <div class="sum-icon">🛡️</div>
-        <div class="sum-val">MX$ ${fmtN(s.exposure_ahorrada,2)}</div>
-        <div class="sum-lbl">Exposición cubierta</div>
+        <div class="sum-bar" style="background:var(--green)"></div>
+        <div class="sum-val">MX$ ${fmtN(s.exposure_ahorrada,2)}</div>
+        <div class="sum-lbl">Exposure Hedged</div>
       </div>
       <div class="sum-card">
-        <div class="sum-icon">⚡</div>
-        <div class="sum-val">MX$ ${fmtN(s.exposure_con,2)}</div>
-        <div class="sum-lbl">Exposición residual</div>
+        <div class="sum-bar" style="background:var(--blue)"></div>
+        <div class="sum-val">MX$ ${fmtN(s.exposure_con,2)}</div>
+        <div class="sum-lbl">Residual Exposure</div>
       </div>
       <div class="sum-card">
-        <div class="sum-icon">✅</div>
+        <div class="sum-bar" style="background:var(--green)"></div>
         <div class="sum-val">${s.pct_cubierto}%</div>
-        <div class="sum-lbl">% de exposición cubierta</div>
+        <div class="sum-lbl">% Coverage</div>
       </div>
-      <div class="sum-note" style="grid-column:1/-1">
-        <strong style="color:var(--orange)">Análisis costo–beneficio:</strong>
-        Has cubierto el <strong>${s.pct_cubierto}%</strong> de tu exposición total de
-        <strong>MX$ ${fmtN(s.exposure_sin,2)}</strong> por un costo de prima de
-        <strong>MX$ ${fmtN(s.total_prima_mxn,2)}</strong>
-        (${costRatio}% de la exposición total).
-        Tu exposición residual sin cubrir es <strong>MX$ ${fmtN(s.exposure_con,2)}</strong>.
-        La cobertura te da <em>certidumbre</em> sobre el ${s.pct_cubierto}% cubierto,
-        eliminando la volatilidad cambiaria de esa porción independientemente de dónde cierre el mercado.
+      <div class="sum-note">
+        <strong style="color:var(--orange)">Cost–Benefit Analysis:</strong>
+        You have hedged <strong>${s.pct_cubierto}%</strong> of your total exposure of
+        <strong>MX$ ${fmtN(s.exposure_sin,2)}</strong> for a premium cost of
+        <strong>MX$ ${fmtN(s.total_prima_mxn,2)}</strong> (${ratio}% of total exposure).
+        Residual unhedged exposure: <strong>MX$ ${fmtN(s.exposure_con,2)}</strong>.
+        The hedge locks in certainty on the covered portion, eliminating FX volatility
+        on that share regardless of where the market closes.
       </div>`;
   } catch(e){}
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/*  UTILS                                                                      */
-/* ═══════════════════════════════════════════════════════════════════════════ */
-function fmtN(n, dec=0) {
-  return (n||0).toLocaleString('es-MX',{minimumFractionDigits:dec,maximumFractionDigits:dec});
-}
-function fmtK(v) {
-  if(Math.abs(v)>=1e6) return (v/1e6).toFixed(1)+'M';
-  if(Math.abs(v)>=1e3) return (v/1e3).toFixed(0)+'K';
-  return v.toFixed(0);
-}
+/* ── Utils ── */
+function fmtN(n,dec=0){ return (n||0).toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec}); }
+function fmtK(v){ return Math.abs(v)>=1e6?(v/1e6).toFixed(1)+'M':Math.abs(v)>=1e3?(v/1e3).toFixed(0)+'K':v.toFixed(0); }
 function esc(s){ const d=document.createElement('div');d.textContent=s;return d.innerHTML; }
 </script>
 </body>
