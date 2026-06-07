@@ -526,8 +526,8 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
     </div>
 
     <div style="display:flex;justify-content:center;padding:1rem 0">
-      <button onclick="switchTab('c')" class="btn btn-p" style="display:inline-flex;align-items:center;gap:.5rem">
-        Go to Hedging Tool
+      <button onclick="switchTab('n')" class="btn btn-p" style="display:inline-flex;align-items:center;gap:.5rem">
+        Continue to Macro
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </button>
     </div>
@@ -545,7 +545,7 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:.65rem;margin-bottom:1.4rem" id="kpi-row">
       <div class="kpi"><div class="kpi-lbl">Loading…</div></div>
     </div>
-    <div class="cg">
+    <div class="cg" style="margin-bottom:1.75rem">
       <div class="cc"><div class="cc-title">USD/MXN — Historical &amp; Forecast</div>
         <div class="cc-desc">Spot vs. consensus and pessimistic scenario end-2026.</div><div class="cw"><canvas id="ch-fx"></canvas></div></div>
       <div class="cc"><div class="cc-title">Inflation: Mexico vs. U.S. (%)</div>
@@ -554,6 +554,12 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
         <div class="cc-desc">Banxico–Fed differential: 7.6% (2023 peak) → 2.875% today.</div><div class="cw"><canvas id="ch-tasas"></canvas></div></div>
       <div class="cc"><div class="cc-title">GDP Growth (%)</div>
         <div class="cc-desc">Mexico –0.8% Q1-2026. Banxico revised 2026 forecast to 1.0–1.2%.</div><div class="cw"><canvas id="ch-pib"></canvas></div></div>
+    </div>
+    <div style="display:flex;justify-content:center;padding:1rem 0">
+      <button onclick="switchTab('c')" class="btn btn-p" style="display:inline-flex;align-items:center;gap:.5rem">
+        Continue to Hedging Tool
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
     </div>
   </div>
 </div>
