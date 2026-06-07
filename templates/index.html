@@ -48,8 +48,8 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
 .page{display:none}
 .page.on{display:block}
 
-/* ── Hero ── */
-.hero{position:relative;padding:4rem 2rem 3.5rem;overflow:hidden;border-bottom:1px solid var(--border)}
+/* ── Hero (default) ── */
+.hero{position:relative;padding:3rem 2rem 2.75rem;overflow:hidden;border-bottom:1px solid var(--border)}
 .hero::before{content:'';position:absolute;inset:0;
   background:radial-gradient(ellipse 65% 100% at 15% 60%,rgba(249,115,22,.07) 0%,transparent 60%),
              radial-gradient(ellipse 45% 70% at 85% 20%,rgba(96,165,250,.04) 0%,transparent 55%),
@@ -60,34 +60,55 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
                    linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);
   background-size:48px 48px;pointer-events:none}
 .hero-inner{position:relative;z-index:1;max-width:1200px;margin:0 auto}
-.hero-eye{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;
-  color:var(--orange);margin-bottom:.85rem;display:flex;align-items:center;gap:.5rem}
-.hero-eye::before{content:'';width:24px;height:1px;background:var(--orange);opacity:.6}
-.hero-title{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;color:var(--text);line-height:1.1;
-  margin-bottom:.75rem;letter-spacing:-.03em}
+.hero-eye{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;
+  color:var(--orange);margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+.hero-eye::before{content:'';width:20px;height:1px;background:var(--orange);opacity:.6}
+.hero-title{font-size:clamp(1.9rem,5vw,3rem);font-weight:800;color:var(--text);line-height:1.1;
+  margin-bottom:.65rem;letter-spacing:-.03em}
 .hero-title em{color:var(--orange);font-style:normal}
-.hero-sub{font-size:.875rem;color:var(--muted);max-width:540px;line-height:1.65}
+.hero-sub{font-size:.855rem;color:var(--muted);max-width:540px;line-height:1.65}
+
+/* ── Hero ARAUCO (image) ── */
+.hero-arauco{
+  background-image:url('/static/wood.jpg');
+  background-size:cover;background-position:center 40%;
+  min-height:360px;display:flex;align-items:center;justify-content:center;
+  padding:5rem 2rem 4rem;border-bottom:none}
+.hero-arauco::before{
+  background:linear-gradient(
+    to bottom,
+    rgba(8,12,20,.55) 0%,
+    rgba(8,12,20,.75) 55%,
+    rgba(8,12,20,1) 100%) !important}
+.hero-arauco::after{display:none}
+.hero-arauco .hero-inner{text-align:center;display:flex;flex-direction:column;align-items:center}
+.hero-arauco .hero-eye{justify-content:center}
+.hero-arauco .hero-eye::before{display:none}
+.hero-arauco .hero-eye::after{content:'';width:20px;height:1px;background:var(--orange);opacity:.6}
+.hero-arauco .hero-title{font-size:clamp(3rem,9vw,5.5rem);font-weight:900;letter-spacing:-.04em;
+  text-shadow:0 2px 40px rgba(0,0,0,.6)}
+.hero-arauco .hero-sub{text-align:center;max-width:460px}
 
 /* ── Layout ── */
-.body{max-width:1200px;margin:0 auto;padding:2.5rem 2rem}
+.body{max-width:1200px;margin:0 auto;padding:1.75rem 2rem}
 
 /* ── Type ── */
-.sh{font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:.875rem;
+.sh{font-size:.78rem;font-weight:700;color:var(--text);margin-bottom:.75rem;
   display:flex;align-items:center;gap:.5rem;text-transform:uppercase;letter-spacing:.6px}
 .sh .cnt{background:var(--orange);color:#fff;font-size:.62rem;font-weight:700;border-radius:99px;padding:.1rem .45rem}
 .step-badge{width:20px;height:20px;border-radius:50%;background:var(--orange);color:#fff;
   font-size:.65rem;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
 
 /* ── Section ── */
-.sec{margin-bottom:2.25rem}
+.sec{margin-bottom:1.5rem}
 
 /* ── Card ── */
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;box-shadow:var(--sh);padding:1.25rem}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;box-shadow:var(--sh);padding:1.1rem}
 .card-glow{border-color:rgba(249,115,22,.25);box-shadow:0 0 0 1px rgba(249,115,22,.1),var(--sh)}
 
 /* ── KPI ── */
-.kpi-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:.75rem;margin-bottom:1.5rem}
-.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1rem;box-shadow:var(--sh)}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:.65rem;margin-bottom:1.25rem}
+.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:.85rem;box-shadow:var(--sh)}
 .kpi-lbl{font-size:.66rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.4rem}
 .kpi-val{font-size:1.5rem;font-weight:800;color:var(--text);line-height:1}
 .kpi-sub{font-size:.67rem;color:var(--muted-l);margin-top:.3rem}
@@ -269,7 +290,7 @@ hr{border:none;border-top:1px solid var(--border);margin:1.75rem 0}
     Arauco FX
   </a>
   <div class="nav-tabs">
-    <button class="nav-tab on" onclick="switchTab('e')" id="btn-e">FX Exposure</button>
+    <button class="nav-tab on" onclick="switchTab('e')" id="btn-e">ARAUCO</button>
     <button class="nav-tab" onclick="switchTab('n')" id="btn-n">Macro</button>
     <button class="nav-tab" onclick="switchTab('c')" id="btn-c">Hedging</button>
   </div>
@@ -283,10 +304,10 @@ hr{border:none;border-top:1px solid var(--border);margin:1.75rem 0}
 <!-- ════════════════════════════════ FX EXPOSURE ════════════════════════════ -->
 <div id="page-e" class="page on">
 
-  <div class="hero">
+  <div class="hero hero-arauco">
     <div class="hero-inner">
       <div class="hero-eye">Arauco Mexico · FX Risk Management</div>
-      <h1 class="hero-title">FX Risk <em>Exposure</em></h1>
+      <h1 class="hero-title">ARAUCO</h1>
       <p class="hero-sub">USD exposure analysis for the June–December 2026 horizon. Raw materials: urea &amp; methanol.</p>
     </div>
   </div>
@@ -316,10 +337,10 @@ hr{border:none;border-top:1px solid var(--border);margin:1.75rem 0}
     <!-- Raw material exposure -->
     <div class="sec">
       <div class="sh">USD Raw Material Exposure</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1rem;margin-bottom:1rem">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:.75rem;margin-bottom:.75rem">
         <div class="card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.9rem">
-            <span style="font-size:.875rem;font-weight:700">UREA — Industrial Grade</span>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem">
+            <span style="font-size:.855rem;font-weight:700">UREA — Industrial Grade</span>
             <span class="badge badge-or">USD-priced</span>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem">
