@@ -546,14 +546,42 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
       <div class="kpi"><div class="kpi-lbl">Loading…</div></div>
     </div>
     <div class="cg" style="margin-bottom:1.75rem">
-      <div class="cc"><div class="cc-title">USD/MXN — Historical &amp; Forecast</div>
-        <div class="cc-desc">Spot vs. consensus and pessimistic scenario end-2026.</div><div class="cw"><canvas id="ch-fx"></canvas></div></div>
-      <div class="cc"><div class="cc-title">Inflation: Mexico vs. U.S. (%)</div>
-        <div class="cc-desc">Banxico target: 3% ±1 pp. MX inflation above target limits further cuts.</div><div class="cw"><canvas id="ch-inf"></canvas></div></div>
-      <div class="cc"><div class="cc-title">Policy Rates (%)</div>
-        <div class="cc-desc">Banxico–Fed differential: 7.6% (2023 peak) → 2.875% today.</div><div class="cw"><canvas id="ch-tasas"></canvas></div></div>
-      <div class="cc"><div class="cc-title">GDP Growth (%)</div>
-        <div class="cc-desc">Mexico –0.8% Q1-2026. Banxico revised 2026 forecast to 1.0–1.2%.</div><div class="cw"><canvas id="ch-pib"></canvas></div></div>
+      <div class="cc">
+        <div class="cc-title">USD/MXN — Historical &amp; Forecast</div>
+        <div class="cc-desc">
+          The spot rate is the primary driver of Arauco's raw material costs. The orange line shows realized data through May-26;
+          blue (consensus) and dark orange (pessimistic) lines represent analyst projections to Dec-26.
+          A move from 17.34 → 20.50 (bearish scenario) would add <strong style="color:var(--orange)">~MXN 60M</strong> to the 6-month cost base.
+        </div>
+        <div class="cw"><canvas id="ch-fx"></canvas></div>
+      </div>
+      <div class="cc">
+        <div class="cc-title">Inflation: Mexico vs. U.S. (%)</div>
+        <div class="cc-desc">
+          Banxico's target is 3% ±1 pp. MX inflation remains above the ceiling (4.53%) — this constrains rate cuts and
+          helps sustain the Banxico–Fed carry spread. If US inflation re-accelerates, the Fed pauses cuts, strengthening
+          the dollar and pressuring MXN.
+        </div>
+        <div class="cw"><canvas id="ch-inf"></canvas></div>
+      </div>
+      <div class="cc">
+        <div class="cc-title">Policy Rates (%)</div>
+        <div class="cc-desc">
+          The Banxico–Fed spread determines carry trade attractiveness. At its 2023 peak (7.6 pp), foreign investors
+          poured capital into MXN-denominated assets, keeping the peso strong. Today the spread is only <strong style="color:var(--orange)">2.875 pp</strong>
+          — the carry trade unwind is a key bearish risk for the peso.
+        </div>
+        <div class="cw"><canvas id="ch-tasas"></canvas></div>
+      </div>
+      <div class="cc">
+        <div class="cc-title">GDP Growth (%)</div>
+        <div class="cc-desc">
+          Mexico contracted –0.8% in Q1-2026 amid weak consumption and USMCA uncertainty, raising recession risk.
+          Slower growth reduces FDI inflows → less peso demand → depreciation pressure. Banxico revised 2026 growth
+          to 1.0–1.2%. Bars in blue represent the U.S., which maintains moderate expansion.
+        </div>
+        <div class="cw"><canvas id="ch-pib"></canvas></div>
+      </div>
     </div>
     <div style="display:flex;justify-content:center;padding:1rem 0">
       <button onclick="switchTab('c')" class="btn btn-p" style="display:inline-flex;align-items:center;gap:.5rem">
@@ -887,18 +915,36 @@ async function loadMacro(){
   }catch(e){}}
 function renderKPIs(m){
   const items=[
-    {l:'USD/MXN',v:m.usd_mxn.actual.toFixed(4),sub:'Fcst: '+m.usd_mxn.forecast_low+'–'+m.usd_mxn.forecast_high,or:true},
-    {l:'MX Inflation',v:m.inflacion_mx.actual.toFixed(2)+'%',sub:'Target: '+m.inflacion_mx.meta+'%'},
-    {l:'US Inflation',v:m.inflacion_us.actual.toFixed(2)+'%',sub:'Core: '+m.inflacion_us.core+'%'},
-    {l:'Banxico Rate',v:m.tasa_banxico.actual.toFixed(3)+'%',sub:'Peak: '+m.tasa_banxico.pico_2023+'%',or:true},
-    {l:'Fed Funds',v:m.tasa_fed.actual.toFixed(3)+'%',sub:m.tasa_fed.rango_low+'–'+m.tasa_fed.rango_high+'%',or:true},
-    {l:'MX GDP Q1-26',v:m.pib_mx.q1_2026.toFixed(1)+'%',sub:'Fcst 26: '+m.pib_mx.forecast_2026+'%'},
-    {l:'US GDP Fcst',v:m.pib_us.forecast_2026.toFixed(1)+'%',sub:'2025: '+m.pib_us.actual_2025+'%',bl:true},
+    {l:'USD/MXN',v:m.usd_mxn.actual.toFixed(4),
+     sub:'Fcst: '+m.usd_mxn.forecast_low+'–'+m.usd_mxn.forecast_high,or:true,
+     note:'Direct FX rate. Every +1 MXN/USD raises Arauco\'s 6-month raw material cost by ~MXN 18.99M.'},
+    {l:'MX Inflation',v:m.inflacion_mx.actual.toFixed(2)+'%',
+     sub:'Target: '+m.inflacion_mx.meta+'%',
+     note:'Above Banxico\'s 3% target. Limits rate cuts → sustains carry trade → moderates peso depreciation.'},
+    {l:'US Inflation',v:m.inflacion_us.actual.toFixed(2)+'%',
+     sub:'Core: '+m.inflacion_us.core+'%',
+     note:'Drives Fed rate path. Persistent US inflation keeps USD strong, adding depreciation pressure on MXN.'},
+    {l:'Banxico Rate',v:m.tasa_banxico.actual.toFixed(3)+'%',
+     sub:'Peak: '+m.tasa_banxico.pico_2023+'%',or:true,
+     note:'Higher rate vs. Fed sustains carry trade inflows that support MXN. Now at 2.875 pp spread — down from 7.6 pp peak.'},
+    {l:'Fed Funds',v:m.tasa_fed.actual.toFixed(3)+'%',
+     sub:m.tasa_fed.rango_low+'–'+m.tasa_fed.rango_high+'%',or:true,
+     note:'Counter-rate to Banxico. The tighter the spread, the weaker the carry trade and the more vulnerable the peso.'},
+    {l:'MX GDP Q1-26',v:m.pib_mx.q1_2026.toFixed(1)+'%',
+     sub:'Fcst 26: '+m.pib_mx.forecast_2026+'%',
+     note:'Contraction signals weakening fundamentals → lower FDI → MXN depreciation risk. Monitoring for recession.'},
+    {l:'US GDP Fcst',v:m.pib_us.forecast_2026.toFixed(1)+'%',
+     sub:'2025: '+m.pib_us.actual_2025+'%',bl:true,
+     note:'Stronger US growth → stronger dollar demand → additional MXN depreciation pressure for importers like Arauco.'},
   ];
   document.getElementById('kpi-row').innerHTML=items.map(k=>`
-    <div class="kpi"><div class="kpi-lbl">${k.l}</div>
-    <div class="kpi-val ${k.or?'val-or':k.bl?'val-bl':''}">${k.v}</div>
-    <div class="kpi-sub">${k.sub}</div></div>`).join('');
+    <div class="kpi" style="cursor:default">
+      <div class="kpi-lbl">${k.l}</div>
+      <div class="kpi-val ${k.or?'val-or':k.bl?'val-bl':''}">${k.v}</div>
+      <div class="kpi-sub">${k.sub}</div>
+      <div style="margin-top:.5rem;padding-top:.5rem;border-top:1px solid var(--border);
+        font-size:.63rem;color:var(--muted-l);line-height:1.5">${k.note}</div>
+    </div>`).join('');
 }
 function mkChart(id,type,data,extra={}){
   const ctx=document.getElementById(id);if(!ctx)return;
