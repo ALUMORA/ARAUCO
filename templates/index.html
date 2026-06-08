@@ -15,7 +15,7 @@
   --sh:0 2px 8px rgba(0,0,0,.45);--sh-lg:0 12px 40px rgba(0,0,0,.5);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:14px;scroll-behavior:smooth}
+html{font-size:16px;scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   -webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden}
 ::-webkit-scrollbar{width:4px;height:4px}
@@ -31,12 +31,12 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
 .nav-mark{width:7px;height:7px;border-radius:50%;background:var(--orange);
   box-shadow:0 0 10px rgba(249,115,22,.7)}
 .nav-tabs{display:flex;height:100%}
-.nav-tab{height:100%;padding:0 1rem;border:none;background:none;color:var(--muted);font-size:.8rem;
+.nav-tab{height:100%;padding:0 1rem;border:none;background:none;color:var(--muted);font-size:.9rem;
   font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
 .nav-tab:hover{color:var(--text)}
 .nav-tab.on{color:var(--orange);border-bottom-color:var(--orange);font-weight:700}
 .nav-space{flex:1}
-.nav-info{display:flex;align-items:center;gap:.75rem;font-size:.72rem;color:var(--muted)}
+.nav-info{display:flex;align-items:center;gap:.75rem;font-size:.82rem;color:var(--muted)}
 .live-badge{display:flex;align-items:center;gap:.3rem;font-weight:600;color:var(--text)}
 .live-dot{width:5px;height:5px;background:var(--blue);border-radius:50%;
   box-shadow:0 0 6px rgba(96,165,250,.8);animation:blink 2s infinite}
@@ -57,11 +57,11 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
 /* ── Sub-hero strip ── */
 .sub-hero{border-bottom:1px solid var(--border);padding:2rem 0 1.75rem;
   background:linear-gradient(to bottom,var(--bg),var(--bg2))}
-.sub-hero .eye{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;
+.sub-hero .eye{font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;
   color:var(--orange);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
 .sub-hero .eye span{display:inline-block;width:14px;height:1px;background:var(--orange)}
 .sub-hero h2{font-size:1.85rem;font-weight:800;color:var(--text);letter-spacing:-.025em;margin-bottom:.3rem}
-.sub-hero p{font-size:.83rem;color:var(--muted);line-height:1.6}
+.sub-hero p{font-size:.92rem;color:var(--muted);line-height:1.6}
 
 /* ── Card ── */
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;
@@ -71,24 +71,24 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
 .card-or:hover{border-color:rgba(249,115,22,.4)}
 
 /* ── Section header ── */
-.sh{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;
+.sh{font-size:.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;
   letter-spacing:.8px;margin-bottom:.75rem;display:flex;align-items:center;gap:.45rem}
 .sh-bar{width:14px;height:2px;background:var(--orange);border-radius:1px;flex-shrink:0}
 
 /* ── KPI ── */
 .kpi{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:.8rem .9rem}
-.kpi-lbl{font-size:.6rem;font-weight:700;color:var(--muted-l);text-transform:uppercase;letter-spacing:.6px;margin-bottom:.35rem}
+.kpi-lbl{font-size:.72rem;font-weight:700;color:var(--muted-l);text-transform:uppercase;letter-spacing:.6px;margin-bottom:.35rem}
 .kpi-val{font-size:1.5rem;font-weight:800;color:var(--text);line-height:1}
-.kpi-sub{font-size:.65rem;color:var(--muted-l);margin-top:.25rem}
+.kpi-sub{font-size:.75rem;color:var(--muted-l);margin-top:.25rem}
 
 /* ── Badge ── */
-.badge{display:inline-block;padding:.13rem .42rem;border-radius:4px;font-size:.64rem;font-weight:700}
+.badge{display:inline-block;padding:.13rem .42rem;border-radius:4px;font-size:.74rem;font-weight:700}
 .badge-or{background:var(--orange-m);color:#FDBA74}
 .badge-bl{background:var(--blue-l);color:var(--blue)}
 .badge-dim{background:rgba(255,255,255,.06);color:var(--muted)}
 
 /* ── Tag ── */
-.tag{display:inline-flex;align-items:center;padding:.18rem .44rem;border-radius:4px;font-size:.64rem;font-weight:700}
+.tag{display:inline-flex;align-items:center;padding:.18rem .44rem;border-radius:4px;font-size:.74rem;font-weight:700}
 .tag-obl{background:var(--orange-l);color:var(--orange)}
 .tag-der{background:var(--blue-l);color:var(--blue)}
 .tag-usd{background:var(--orange-m);color:#FDBA74}
@@ -96,7 +96,7 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
 .tag-eur{background:rgba(139,92,246,.15);color:#C4B5FD}
 
 /* ── Label / Value ── */
-.label{font-size:.62rem;font-weight:700;color:var(--muted-l);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.3rem}
+.label{font-size:.74rem;font-weight:700;color:var(--muted-l);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.3rem}
 .val-lg{font-size:1.15rem;font-weight:800;color:var(--text)}
 .val-or{color:var(--orange)}
 .val-bl{color:var(--blue)}
@@ -114,21 +114,21 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
 .cost-hd{display:flex;justify-content:space-between;font-size:.78rem}
 .cost-track{background:var(--bg4);border-radius:3px;height:16px;overflow:hidden;border:1px solid var(--border)}
 .cost-fill{height:100%;border-radius:2px;display:flex;align-items:center;padding:0 .45rem}
-.cost-fill span{font-size:.62rem;color:#fff;font-weight:700}
+.cost-fill span{font-size:.73rem;color:#fff;font-weight:700}
 
 /* ── Chart cards ── */
 .cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:1rem}
 .cc{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.1rem;
   box-shadow:var(--sh);transition:border-color .2s}
 .cc:hover{border-color:var(--border2)}
-.cc-title{font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:.15rem}
-.cc-desc{font-size:.71rem;color:var(--muted);margin-bottom:.8rem;line-height:1.5}
+.cc-title{font-size:.94rem;font-weight:700;color:var(--text);margin-bottom:.15rem}
+.cc-desc{font-size:.82rem;color:var(--muted);margin-bottom:.8rem;line-height:1.5}
 .cw{position:relative;height:200px}
 
 /* ── Table ── */
 .tbl-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.tbl{width:100%;border-collapse:collapse;font-size:.78rem}
-.tbl th{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--border);font-size:.62rem;
+.tbl{width:100%;border-collapse:collapse;font-size:.88rem}
+.tbl th{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--border);font-size:.74rem;
   font-weight:700;color:var(--muted-l);text-transform:uppercase;letter-spacing:.6px;background:var(--bg)}
 .tbl td{padding:.6rem .75rem;border-bottom:1px solid var(--border);vertical-align:middle}
 .tbl tr:last-child td{border-bottom:none}
@@ -143,21 +143,21 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
 .wiz-steps{display:flex;align-items:center;margin-bottom:.75rem}
 .wiz-step{display:flex;flex-direction:column;align-items:center;gap:.28rem;cursor:pointer;flex-shrink:0}
 .wiz-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  font-size:.72rem;font-weight:800;transition:all .25s;border:2px solid var(--border2);
+  font-size:.82rem;font-weight:800;transition:all .25s;border:2px solid var(--border2);
   background:var(--bg3);color:var(--muted)}
 .wiz-step.active .wiz-num{background:var(--orange);border-color:var(--orange);color:#fff;
   box-shadow:0 0 14px rgba(249,115,22,.45)}
 .wiz-step.done .wiz-num{background:var(--blue);border-color:var(--blue);color:#fff}
 .wiz-step.locked .wiz-num{opacity:.4;cursor:not-allowed}
-.wiz-lbl{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px;
+.wiz-lbl{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px;
   color:var(--muted-l);white-space:nowrap;transition:color .25s}
 .wiz-step.active .wiz-lbl{color:var(--orange)}
 .wiz-step.done .wiz-lbl{color:var(--blue)}
 .wiz-con{flex:1;height:1px;background:var(--border2);margin:0 .35rem;margin-bottom:.9rem;transition:background .3s}
 .wiz-con.done{background:var(--blue)}
 .wiz-info{display:flex;align-items:center;justify-content:space-between}
-.wiz-name{font-size:.78rem;font-weight:600;color:var(--text)}
-.wiz-count{font-size:.7rem;color:var(--muted-l)}
+.wiz-name{font-size:.9rem;font-weight:600;color:var(--text)}
+.wiz-count{font-size:.8rem;color:var(--muted-l)}
 
 /* Wizard panels */
 .wiz-panel{animation:wpIn .3s cubic-bezier(.22,1,.36,1) both}
@@ -167,7 +167,7 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
 .wiz-controls{display:flex;align-items:center;justify-content:space-between;
   margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border)}
 .wiz-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.5rem;
-  border-radius:8px;font-size:.84rem;font-weight:700;cursor:pointer;transition:all .2s;border:none}
+  border-radius:8px;font-size:.94rem;font-weight:700;cursor:pointer;transition:all .2s;border:none}
 .wiz-btn-next{background:var(--orange);color:#fff;box-shadow:0 0 16px rgba(249,115,22,.2)}
 .wiz-btn-next:hover{background:var(--orange-d);box-shadow:0 0 24px rgba(249,115,22,.35);transform:translateY(-1px)}
 .wiz-btn-next:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
@@ -188,7 +188,7 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
 .tl-today-mark{position:absolute;top:0;bottom:0;width:2px;background:var(--orange);
   box-shadow:0 0 8px rgba(249,115,22,.5)}
 .tl-today-mark::before{content:'Today';position:absolute;top:8px;left:50%;transform:translateX(-50%);
-  font-size:.6rem;color:var(--orange);font-weight:700;white-space:nowrap;
+  font-size:.72rem;color:var(--orange);font-weight:700;white-space:nowrap;
   background:var(--bg2);padding:0 .25rem}
 /* events */
 .tl-ev{position:absolute;display:flex;flex-direction:column;align-items:center;
@@ -196,14 +196,14 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
 .tl-ev.above{bottom:50%;padding-bottom:20px}
 .tl-ev.below{top:50%;padding-top:20px;flex-direction:column-reverse}
 .tl-ev-card{background:var(--bg3);border-radius:8px;padding:.5rem .65rem;width:148px;
-  border:1px solid var(--border);font-size:.67rem;
+  border:1px solid var(--border);font-size:.78rem;
   transition:transform .18s,box-shadow .18s;cursor:default}
 .tl-ev-card:hover{transform:translateY(-3px);box-shadow:var(--sh-lg)}
 .tl-ev.above .tl-ev-card{border-top:2px solid var(--orange)}
 .tl-ev.below .tl-ev-card{border-bottom:2px solid var(--blue)}
 .tl-ev-stem{width:1px;height:22px;flex-shrink:0}
 .tl-ev-dot{width:9px;height:9px;border-radius:50%;border:2px solid var(--bg2);flex-shrink:0}
-.tl-date-lbl{position:absolute;font-size:.58rem;color:var(--muted-l);white-space:nowrap;
+.tl-date-lbl{position:absolute;font-size:.7rem;color:var(--muted-l);white-space:nowrap;
   transform:translateX(-50%)}
 .tl-date-lbl.above{bottom:calc(50% - 16px)}
 .tl-date-lbl.below{top:calc(50% - 16px)}
@@ -211,20 +211,20 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
 /* ── Form ── */
 .fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(182px,1fr));gap:.9rem;margin-bottom:.9rem}
 .fi{display:flex;flex-direction:column;gap:.28rem}
-.fl{font-size:.65rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-.inp{padding:.58rem .75rem;border:1px solid var(--border2);border-radius:8px;font-size:.845rem;
+.fl{font-size:.77rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.inp{padding:.58rem .75rem;border:1px solid var(--border2);border-radius:8px;font-size:.95rem;
   color:var(--text);background:var(--bg3);transition:all .15s;outline:none;width:100%}
 .inp:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(249,115,22,.12);background:var(--bg4)}
 .inp::placeholder{color:var(--muted-l)}
 .tog{display:flex;border:1px solid var(--border2);border-radius:8px;overflow:hidden;background:var(--bg3)}
 .tb{flex:1;padding:.56rem .35rem;border:none;background:transparent;color:var(--muted);
-  font-size:.76rem;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap;text-align:center}
+  font-size:.86rem;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap;text-align:center}
 .tb.on{background:var(--orange);color:#fff;font-weight:700}
-.btn{padding:.62rem 1.3rem;border:none;border-radius:8px;font-size:.845rem;font-weight:700;cursor:pointer;transition:all .2s}
+.btn{padding:.62rem 1.3rem;border:none;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s}
 .btn-p{background:var(--orange);color:#fff;box-shadow:0 0 18px rgba(249,115,22,.2)}
 .btn-p:hover{background:var(--orange-d);transform:translateY(-1px)}
 .btn-p:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
-.btn-sm{padding:.27rem .62rem;font-size:.72rem;border-radius:6px}
+.btn-sm{padding:.27rem .62rem;font-size:.82rem;border-radius:6px}
 .btn-del{background:var(--orange-l);color:var(--orange);border:1px solid rgba(249,115,22,.2)}
 .btn-del:hover{background:var(--orange-m)}
 .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border2)}
@@ -241,14 +241,14 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
   outline:none;cursor:pointer;margin:.45rem 0}
 .range::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;
   background:var(--orange);cursor:pointer;border:2px solid var(--bg2);box-shadow:0 0 8px rgba(249,115,22,.4)}
-.hc-meta{display:flex;justify-content:space-between;font-size:.67rem;color:var(--muted)}
+.hc-meta{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}
 .prima-pill{background:var(--orange-l);border:1px solid rgba(249,115,22,.18);border-radius:6px;
-  padding:.38rem .6rem;font-size:.67rem;margin-top:.45rem;line-height:1.6;color:var(--muted)}
+  padding:.38rem .6rem;font-size:.78rem;margin-top:.45rem;line-height:1.6;color:var(--muted)}
 
 /* ── Comparison ── */
 .cmp{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
 .cmp-side{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.1rem}
-.cmp-label{font-size:.67rem;font-weight:700;color:var(--muted);text-transform:uppercase;
+.cmp-label{font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;
   letter-spacing:.5px;margin-bottom:.7rem;display:flex;align-items:center;gap:.45rem}
 .cmp-label .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 
@@ -260,17 +260,17 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
 .sum-card:hover{transform:translateY(-2px);box-shadow:var(--sh-lg)}
 .sum-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--orange)}
 .sum-val{font-size:1.25rem;font-weight:800;color:var(--orange);margin-bottom:.2rem;line-height:1.1}
-.sum-lbl{font-size:.68rem;color:var(--muted);font-weight:500}
+.sum-lbl{font-size:.8rem;color:var(--muted);font-weight:500}
 .sum-note{background:var(--orange-l);border:1px solid rgba(249,115,22,.2);border-radius:12px;
-  padding:.9rem 1.1rem;font-size:.79rem;line-height:1.7;color:var(--muted)}
+  padding:.9rem 1.1rem;font-size:.88rem;line-height:1.7;color:var(--muted)}
 .sum-note strong{color:var(--text)}
 
 /* ── MC ── */
 .mc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:1rem}
 .mc-stats{display:flex;gap:.45rem;flex-wrap:wrap;padding-top:.55rem}
 .mc-stat{flex:1;min-width:65px;text-align:center}
-.mc-lbl{font-size:.58rem;color:var(--muted-l);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
-.mc-val{font-size:.82rem;font-weight:700;color:var(--text)}
+.mc-lbl{font-size:.72rem;color:var(--muted-l);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.mc-val{font-size:.92rem;font-weight:700;color:var(--text)}
 
 /* ── Scenario cards ── */
 .scen-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.1rem;
@@ -278,7 +278,7 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
 .scen-card:hover{transform:translateY(-3px);box-shadow:var(--sh-lg)}
 
 /* ── Misc ── */
-.empty{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.82rem}
+.empty{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.92rem}
 .spin{display:inline-block;width:13px;height:13px;border:2px solid var(--bg4);
   border-top-color:var(--orange);border-radius:50%;animation:rot .6s linear infinite;vertical-align:middle}
 @keyframes rot{to{transform:rotate(360deg)}}
@@ -304,10 +304,11 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
     <div class="nav-mark"></div>Arauco FX
   </a>
   <div class="nav-tabs">
-    <button class="nav-tab on"  onclick="switchTab('i')" id="btn-i">Inicio</button>
-    <button class="nav-tab"     onclick="switchTab('x')" id="btn-x">Contexto</button>
+    <button class="nav-tab on"  onclick="switchTab('i')" id="btn-i">Home</button>
+    <button class="nav-tab"     onclick="switchTab('x')" id="btn-x">Context</button>
     <button class="nav-tab"     onclick="switchTab('n')" id="btn-n">Macro</button>
     <button class="nav-tab"     onclick="switchTab('c')" id="btn-c">Hedging</button>
+    <button class="nav-tab"     onclick="switchTab('pf')" id="btn-pf">Str. Products</button>
   </div>
   <div class="nav-space"></div>
   <div class="nav-info">
@@ -790,6 +791,180 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-ap
   </div><!-- /body -->
 </div><!-- /page-c -->
 
+<!-- ══════════ STRUCTURED PRODUCTS · PARTICIPATING FORWARD ══════════ -->
+<div id="page-pf" class="page" style="padding-top:54px">
+  <div class="sub-hero"><div class="wrap">
+    <div class="eye"><span></span>Zero-Cost Derivative · Garman-Kohlhagen 1983</div>
+    <h2>Participating Forward</h2>
+    <p>Smart FX hedging: full downside protection with market upside — structured at zero premium.</p>
+  </div></div>
+  <div class="body">
+
+    <!-- How it works -->
+    <div class="sec grid2" style="align-items:start">
+      <div>
+        <div class="sh"><div class="sh-bar"></div>How It Works</div>
+        <div class="info info-bl" style="margin-bottom:.75rem">
+          <strong>At expiry, one of two paths applies:</strong>
+          <ul style="margin:.45rem 0 0;padding-left:1.1rem;line-height:2.2">
+            <li><strong style="color:var(--text)">MXN weakens — Spot ≥ Strike:</strong>
+              Buy 100% of notional at the protected Strike rate. Full budget certainty.</li>
+            <li><strong style="color:var(--text)">MXN strengthens — Spot &lt; Strike:</strong>
+              Buy <span id="pf-cov-desc">70%</span> at Strike +
+              <span id="pf-par-desc">30%</span> at the cheaper spot rate. Reduced average cost.</li>
+          </ul>
+        </div>
+        <div class="info info-dk">
+          <strong>Zero-Cost Mechanism (GK 1983)</strong>
+          The structure embeds a long call (100% notional) and a short put ((1−p)× notional) at the same Strike K<sub>PF</sub>.
+          The zero-cost condition <strong style="color:var(--orange)">C(K<sub>PF</sub>) = (1−p)·P(K<sub>PF</sub>)</strong>
+          is solved numerically to find the exact Strike that makes the net premium equal to $0.
+          K<sub>PF</sub> sits slightly above the vanilla forward rate — that spread funds the participation benefit.
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.75rem">
+        <div class="sh"><div class="sh-bar"></div>Payoff at Expiry</div>
+        <div class="card card-or">
+          <div style="font-size:.82rem;color:var(--muted);line-height:1.8">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:.4rem .6rem;background:rgba(249,115,22,.08);border-radius:7px;margin-bottom:.4rem">
+              <span><strong style="color:var(--orange)">S<sub>T</sub> ≥ K<sub>PF</sub></strong></span>
+              <span style="color:var(--text);font-weight:700">Pay K<sub>PF</sub> — full protection</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:.4rem .6rem;background:rgba(96,165,250,.08);border-radius:7px">
+              <span><strong style="color:var(--blue)">S<sub>T</sub> &lt; K<sub>PF</sub></strong></span>
+              <span style="color:var(--text);font-weight:700">Pay (1−p)·K<sub>PF</sub> + p·S<sub>T</sub></span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="sh" style="margin-bottom:.6rem"><div class="sh-bar"></div>vs. Vanilla Forward</div>
+          <div style="display:grid;grid-template-columns:auto 1fr;gap:.35rem .75rem;font-size:.82rem;align-items:center">
+            <span style="color:var(--muted)">If USD rises</span>
+            <span><span style="color:var(--orange);font-weight:700">Both capped</span> at their respective Strike</span>
+            <span style="color:var(--muted)">If USD falls</span>
+            <span><span style="color:var(--blue);font-weight:700">PF benefits</span> · Vanilla forward locked in</span>
+            <span style="color:var(--muted)">Strike level</span>
+            <span><span style="color:var(--orange)">PF Strike &gt; Forward</span> (compensation for benefit)</span>
+            <span style="color:var(--muted)">Upfront cost</span>
+            <span><strong style="color:var(--text)">Both $0 — zero premium</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calculator -->
+    <div class="sec">
+      <div class="sh"><div class="sh-bar"></div>Zero-Cost Strike Calculator</div>
+      <div class="card">
+        <div class="fg">
+          <div class="fi">
+            <label class="fl">Currency to Buy</label>
+            <div class="tog">
+              <button class="tb on" id="pf-btn-USD" onclick="pfSetCur('USD')">USD</button>
+              <button class="tb" id="pf-btn-EUR" onclick="pfSetCur('EUR')">EUR</button>
+              <button class="tb" id="pf-btn-CAD" onclick="pfSetCur('CAD')">CAD</button>
+            </div>
+          </div>
+          <div class="fi">
+            <label class="fl">Notional Amount</label>
+            <input class="inp" id="pf-notional" type="number" min="0" step="10000" value="1000000" placeholder="1,000,000">
+          </div>
+          <div class="fi" style="grid-column:span 2">
+            <label class="fl">
+              Participation Rate —
+              <span id="pf-par-lbl" style="color:var(--orange);font-weight:700">30%</span>
+              of notional benefits from favorable spot
+            </label>
+            <input type="range" class="range" id="pf-par-range" min="10" max="50" step="5" value="30"
+              oninput="pfOnRange(this.value)" style="margin:.4rem 0">
+            <div style="display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted-l)">
+              <span>10% — tighter strike penalty</span>
+              <span>50% — more benefit, wider strike gap</span>
+            </div>
+          </div>
+          <div class="fi">
+            <label class="fl">Settlement Date</label>
+            <input class="inp" id="pf-fecha" type="date">
+          </div>
+        </div>
+        <div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;margin-top:.5rem">
+          <button class="btn btn-p" id="pf-btn-calc" onclick="pfCalc()">
+            Calculate Zero-Cost Strike
+          </button>
+          <span id="pf-msg" style="font-size:.82rem"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div id="pf-results" style="display:none">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:.65rem;margin-bottom:1.4rem"
+           id="pf-kpi-row"></div>
+
+      <div class="sec grid2">
+        <div>
+          <div class="sh"><div class="sh-bar"></div>Effective Rate vs. Spot at Expiry</div>
+          <div class="cc">
+            <div class="cc-desc" id="pf-chart-desc">Payoff comparison across strategies.</div>
+            <div class="cw" style="height:255px"><canvas id="ch-pf"></canvas></div>
+          </div>
+        </div>
+        <div>
+          <div class="sh"><div class="sh-bar"></div>Scenario Analysis</div>
+          <div class="tbl-wrap">
+            <table class="tbl">
+              <thead><tr>
+                <th>Scenario</th><th>Spot</th><th>Eff. Rate</th>
+                <th>MXN Cost</th><th>Saving vs. Unhedged</th>
+              </tr></thead>
+              <tbody id="pf-scen-body"></tbody>
+            </table>
+          </div>
+          <div id="pf-sum-note" class="sum-note" style="margin-top:.75rem;display:none"></div>
+        </div>
+      </div>
+
+      <div class="sec grid2">
+        <div>
+          <div class="sh"><div class="sh-bar"></div>Key Advantages</div>
+          <div style="display:flex;flex-direction:column;gap:.6rem">
+            <div class="card" style="border-left:2px solid var(--blue);padding:.85rem 1rem">
+              <div style="font-weight:700;font-size:.92rem;margin-bottom:.25rem">Total Downside Protection</div>
+              <div style="font-size:.82rem;color:var(--muted);line-height:1.65">Maximum execution rate capped from day one — absolute budget certainty for your FX liabilities.</div>
+            </div>
+            <div class="card" style="border-left:2px solid var(--blue);padding:.85rem 1rem">
+              <div style="font-weight:700;font-size:.92rem;margin-bottom:.25rem">Market Upside Participation</div>
+              <div style="font-size:.82rem;color:var(--muted);line-height:1.65">Treasury captures Peso appreciation — direct cash savings if MXN strengthens below the Strike.</div>
+            </div>
+            <div class="card" style="border-left:2px solid var(--blue);padding:.85rem 1rem">
+              <div style="font-weight:700;font-size:.92rem;margin-bottom:.25rem">Zero Upfront Premium</div>
+              <div style="font-size:.82rem;color:var(--muted);line-height:1.65">Self-funded via embedded options — no initial cash outflow, no margin calls, operates via credit line.</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="sh"><div class="sh-bar"></div>Important Considerations</div>
+          <div style="display:flex;flex-direction:column;gap:.6rem">
+            <div class="card" style="border-left:2px solid var(--orange);padding:.85rem 1rem">
+              <div style="font-weight:700;font-size:.92rem;margin-bottom:.25rem;color:var(--orange)">Adjusted Strike Price</div>
+              <div style="font-size:.82rem;color:var(--muted);line-height:1.65">K<sub>PF</sub> is slightly above the vanilla forward. The spread is not a cash cost — it is the implicit "price" of the participation benefit.</div>
+            </div>
+            <div class="card" style="border-left:2px solid var(--orange);padding:.85rem 1rem">
+              <div style="font-weight:700;font-size:.92rem;margin-bottom:.25rem;color:var(--orange)">Fixed Parameters at Inception</div>
+              <div style="font-size:.82rem;color:var(--muted);line-height:1.65">Strike and participation rate are locked once the contract is executed — cannot be modified during the hedge life.</div>
+            </div>
+            <div class="card" style="border-left:2px solid var(--orange);padding:.85rem 1rem">
+              <div style="font-weight:700;font-size:.92rem;margin-bottom:.25rem;color:var(--orange)">OTC Bilateral Contract</div>
+              <div style="font-size:.82rem;color:var(--muted);line-height:1.65">Over-the-counter agreement via corporate credit line. Requires established bank counterparty — no daily margin calls.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <script>
 Chart.defaults.color='#8B949E';
 Chart.defaults.borderColor='rgba(255,255,255,.07)';
@@ -812,13 +987,15 @@ document.addEventListener('DOMContentLoaded',async()=>{
     new Date().toLocaleDateString('en-US',{day:'numeric',month:'short',year:'numeric'});
   const d=new Date(); d.setMonth(d.getMonth()+3);
   document.getElementById('f-fecha').value=d.toISOString().split('T')[0];
+  const pfd=new Date(); pfd.setMonth(pfd.getMonth()+6);
+  document.getElementById('pf-fecha').value=pfd.toISOString().split('T')[0];
   loadMarket(); loadMacro();
   await refreshTxns();
 });
 
 /* ── Tab switch ── */
 function switchTab(t){
-  ['i','x','n','c'].forEach(id=>{
+  ['i','x','n','c','pf'].forEach(id=>{
     const p=document.getElementById('page-'+id), b=document.getElementById('btn-'+id);
     if(p){p.classList.remove('on');if(id===t){void p.offsetWidth;p.classList.add('on');}}
     if(b) b.classList.toggle('on',id===t);
@@ -1306,6 +1483,121 @@ async function loadSummary(){
         The hedge locks in certainty regardless of where the market closes.
       </div>`;
   }catch(e){}}
+
+/* ── Participating Forward ── */
+const PF={cur:'USD',data:null};
+
+function pfSetCur(c){
+  PF.cur=c;
+  ['USD','EUR','CAD'].forEach(x=>document.getElementById('pf-btn-'+x).classList.toggle('on',x===c));
+}
+
+function pfOnRange(v){
+  document.getElementById('pf-par-lbl').textContent=v+'%';
+  document.getElementById('pf-par-desc').textContent=v+'%';
+  document.getElementById('pf-cov-desc').textContent=(100-parseInt(v))+'%';
+}
+
+async function pfCalc(){
+  const notional=parseFloat(document.getElementById('pf-notional').value);
+  const p=parseFloat(document.getElementById('pf-par-range').value)/100;
+  const fecha=document.getElementById('pf-fecha').value;
+  if(!fecha||isNaN(notional)||notional<=0){
+    document.getElementById('pf-msg').innerHTML='<span style="color:var(--orange)">Please fill in all fields.</span>';
+    return;
+  }
+  const btn=document.getElementById('pf-btn-calc');
+  btn.disabled=true;
+  document.getElementById('pf-msg').innerHTML='<span class="spin"></span> Computing zero-cost strike…';
+  try{
+    const r=await fetch('/api/participating_forward',{method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({currency:PF.cur,notional,participation_rate:p,fecha})});
+    if(!r.ok)throw new Error('Server error');
+    PF.data=await r.json();
+    document.getElementById('pf-msg').innerHTML='';
+    pfRenderResults(PF.data);
+  }catch(e){
+    document.getElementById('pf-msg').innerHTML=`<span style="color:var(--orange)">Error: ${e.message}</span>`;
+  }finally{btn.disabled=false;}
+}
+
+function pfRenderResults(d){
+  const res=document.getElementById('pf-results');
+  res.style.display='block';
+  res.scrollIntoView({behavior:'smooth',block:'start'});
+
+  const adj=((d.pf_strike/d.forward_rate-1)*100).toFixed(3);
+  const src=d.source==='live'
+    ?'<span class="badge badge-bl" style="font-size:.65rem;margin-left:.3rem">live</span>'
+    :'<span class="badge badge-dim" style="font-size:.65rem;margin-left:.3rem">est.</span>';
+
+  document.getElementById('pf-kpi-row').innerHTML=[
+    {l:'Current Spot',    v:d.spot.toFixed(4),              sub:PF.cur+'/MXN'+src},
+    {l:'Vanilla Forward', v:d.forward_rate.toFixed(4),       sub:'T = '+d.T.toFixed(3)+' yr', bl:true},
+    {l:'PF Strike Kₚₛ',v:d.pf_strike.toFixed(4), sub:'+'+adj+'% vs. Forward', or:true},
+    {l:'Participation',   v:(d.participation_rate*100).toFixed(0)+'%', sub:'Benefits from MXN gain', bl:true},
+    {l:'Coverage',        v:((1-d.participation_rate)*100).toFixed(0)+'%', sub:'At Strike if Spot ≥ K', or:true},
+    {l:'Implied Vol',     v:d.sigma.toFixed(2)+'%',          sub:'30d annualized'},
+  ].map(k=>`<div class="kpi">
+    <div class="kpi-lbl">${k.l}</div>
+    <div class="kpi-val ${k.or?'val-or':k.bl?'val-bl':''}">${k.v}</div>
+    <div class="kpi-sub">${k.sub}</div>
+  </div>`).join('');
+
+  document.getElementById('pf-scen-body').innerHTML=d.scenarios.map(s=>{
+    const sv=s.saving_mxn;
+    const sc=sv>0?'var(--blue)':sv<0?'var(--orange-d)':'var(--muted)';
+    return`<tr>
+      <td><strong>${s.label}</strong>
+        <div style="font-size:.72rem;color:var(--muted-l);margin-top:.1rem">${s.mode}</div></td>
+      <td><strong>${s.spot.toFixed(4)}</strong></td>
+      <td><strong style="color:var(--orange)">${s.effective_rate.toFixed(4)}</strong></td>
+      <td>MX$ ${fmtN(s.cost_mxn,0)}</td>
+      <td><strong style="color:${sc}">${sv>=0?'+':''}MX$ ${fmtN(sv,0)}</strong></td>
+    </tr>`;
+  }).join('');
+
+  const base=d.scenarios.find(s=>s.label==='Base Case');
+  const bull=d.scenarios.find(s=>s.label==='Bullish MXN');
+  if(base&&bull){
+    const note=document.getElementById('pf-sum-note');
+    note.style.display='block';
+    note.innerHTML=`<strong>Base case:</strong> At spot 18.50, fully protected at <strong>${base.effective_rate.toFixed(4)}</strong>
+      — saving <strong>MX$ ${fmtN(base.saving_mxn,0)}</strong> vs. unhedged.
+      <strong>Bullish MXN scenario (17.00):</strong> <strong>${(d.participation_rate*100).toFixed(0)}%</strong>
+      participation lowers effective rate to <strong>${bull.effective_rate.toFixed(4)}</strong>
+      — additional <strong style="color:var(--blue)">MX$ ${fmtN(bull.saving_mxn,0)}</strong> saving vs. Strike.`;
+  }
+
+  document.getElementById('pf-chart-desc').textContent=
+    `Effective ${PF.cur}/MXN buy rate at expiry. PF Strike ${d.pf_strike.toFixed(4)} vs. forward ${d.forward_rate.toFixed(4)}. Orange line shows the "kink" where participation kicks in.`;
+
+  const lbl=d.chart.s_range.map(v=>v.toFixed(1));
+  const cid='ch-pf';
+  if(ST.charts[cid])ST.charts[cid].destroy();
+  ST.charts[cid]=new Chart(document.getElementById(cid),{type:'line',
+    data:{labels:lbl,datasets:[
+      {label:'No Hedge (Spot)',data:d.chart.s_range,borderColor:'rgba(255,255,255,.3)',
+       borderWidth:1.5,borderDash:[3,3],fill:false,pointRadius:0,tension:0},
+      {label:'Vanilla Forward',data:d.chart.fwd_line,borderColor:'#60A5FA',
+       borderWidth:2,borderDash:[5,3],fill:false,pointRadius:0,tension:0},
+      {label:'Participating Forward',data:d.chart.pf_curve,borderColor:'#F97316',
+       borderWidth:2.5,fill:false,pointRadius:0,tension:0},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{labels:{boxWidth:10,font:{size:11},color:'#8B949E'}},
+        tooltip:{...TT,callbacks:{
+          title:i=>'Spot at expiry: '+i[0].label,
+          label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toFixed(4)}}},
+      scales:{
+        x:{title:{display:true,text:'Spot Rate at Expiry ('+PF.cur+'/MXN)',color:'#6E7681',font:{size:10}},
+           ticks:{color:'#6E7681',font:{size:9},maxTicksLimit:9},grid:{color:'rgba(255,255,255,.04)'}},
+        y:{title:{display:true,text:'Effective Buy Rate',color:'#6E7681',font:{size:10}},
+           ticks:{color:'#6E7681',font:{size:9}},grid:{color:'rgba(255,255,255,.04)'}}}}});
+}
 
 /* ── Utils ── */
 function fmtN(n,dec=0){return(n||0).toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec});}

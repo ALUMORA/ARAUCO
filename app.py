@@ -1,6 +1,6 @@
 """
-FX Cobertura Dashboard — Flask App
-Gestión de exposición cambiaria con coberturas de opciones (Garman-Kohlhagen 1983)
+FX Hedge Dashboard — Flask App
+FX exposure management with options hedging (Garman-Kohlhagen 1983)
 """
 
 from flask import Flask, render_template, request, jsonify
@@ -32,23 +32,23 @@ MACRO_DATA = {
 
 CHART_DATA = {
     "inflacion": {
-        "labels": ["2024","Q1-25","Q2-25","Q3-25","Q4-25","Abr-26","Fcst Q4-26"],
+        "labels": ["2024","Q1-25","Q2-25","Q3-25","Q4-25","Apr-26","Fcst Q4-26"],
         "mx": [4.66, 3.98, 4.2, 4.45, 4.6, 4.53, 3.5],
         "us": [3.4, 2.9, 2.7, 2.8, 2.9, 3.8, 3.5],
     },
     "tasas": {
-        "labels": ["Mar-24","Jun-24","Sep-24","Dic-24","Mar-25","Jun-25","Sep-25","Dic-25","Mar-26","May-26"],
+        "labels": ["Mar-24","Jun-24","Sep-24","Dec-24","Mar-25","Jun-25","Sep-25","Dec-25","Mar-26","May-26"],
         "banxico": [11.25, 11.0, 10.75, 10.0, 9.0, 8.0, 7.25, 6.75, 6.75, 6.5],
         "fed":     [5.25, 5.25, 5.0, 4.5, 4.25, 3.75, 3.75, 3.625, 3.625, 3.625],
     },
     "fx": {
-        "labels": ["Ene-26","Feb-26","Mar-26","Abr-26","May-26","Jun-26","Ago-26","Oct-26","Dic-26"],
+        "labels": ["Jan-26","Feb-26","Mar-26","Apr-26","May-26","Jun-26","Aug-26","Oct-26","Dec-26"],
         "spot":      [17.1, 17.2, 17.25, 17.3, 17.34, None, None, None, None],
         "consenso":  [None, None, None, None, 17.34, 17.4, 17.6, 17.9, 18.0],
         "pesimista": [None, None, None, None, 17.34, 17.5, 17.8, 18.2, 18.47],
     },
     "pib": {
-        "labels": ["MX 2024","MX 2025e","MX Q1-26","MX Fcst 26","EE.UU. 24","EE.UU. 25","EE.UU. Fcst 26"],
+        "labels": ["MX 2024","MX 2025e","MX Q1-26","MX Fcst 26","U.S. 24","U.S. 25","U.S. Fcst 26"],
         "valores": [1.5, -0.6, -0.8, 1.1, 2.9, 2.0, 1.7],
     },
 }
@@ -128,8 +128,8 @@ def calc_premium(txn):
     fx = fetch_fx(c)
     S_spot, sigma = fx["spot"], fx["vol_30d"]
     T = max((datetime.strptime(txn["fecha"], "%Y-%m-%d").date() - date.today()).days / 365.0, 1 / 365)
-    # Obligación (payable) → necesitas comprar divisa → CALL
-    # Derecho (receivable) → recibirás divisa → PUT
+    # Obligation (payable) → need to buy currency → CALL
+    # Right (receivable) → will receive currency → PUT
     opt_type = "call" if txn["tipo"] == "obligacion" else "put"
     opt = gk_option(S_spot, float(txn["strike"]), 0.065, FX_RF.get(c, 0.03), sigma, T, opt_type)
     unit = opt["price"]
@@ -145,6 +145,77 @@ def calc_premium(txn):
         "delta":             round(opt["delta"], 4),
         "source":            fx["source"],
     }
+
+# ── Participating Forward (Zero-Cost) ─────────────────────────────────────────
+def find_pf_strike(S, r_d, r_f, sigma, T, p):
+    """Find zero-cost PF strike via bisection.
+    Zero-cost condition: C(K_PF) = (1 - p) * P(K_PF)
+    K_PF > forward rate F — the spread funds the participation benefit.
+    """
+    F = S * math.exp((r_d - r_f) * T)
+
+    def obj(K):
+        c   = gk_option(S, K, r_d, r_f, sigma, T, "call")["price"]
+        put = gk_option(S, K, r_d, r_f, sigma, T, "put")["price"]
+        return c - (1 - p) * put
+
+    lo, hi = F, F * 2.5
+    for _ in range(60):
+        if obj(lo) > 0 >= obj(hi):
+            break
+        hi *= 1.2
+    for _ in range(90):
+        mid = (lo + hi) / 2
+        if abs(hi - lo) < 1e-7:
+            break
+        if obj(mid) > 0:
+            lo = mid
+        else:
+            hi = mid
+    return (lo + hi) / 2
+
+@app.route("/api/participating_forward", methods=["POST"])
+def api_participating_forward():
+    d = request.get_json()
+    currency = d.get("currency", "USD")
+    notional = float(d.get("notional", 1_000_000))
+    p = float(d.get("participation_rate", 0.30))
+    fecha = d.get("fecha")
+    fx = fetch_fx(currency)
+    S, sigma = fx["spot"], fx["vol_30d"]
+    r_d, r_f = 0.065, FX_RF.get(currency, 0.03)
+    T = max((datetime.strptime(fecha, "%Y-%m-%d").date() - date.today()).days / 365.0, 1 / 365)
+    F = S * math.exp((r_d - r_f) * T)
+    K_pf = find_pf_strike(S, r_d, r_f, sigma, T, p)
+
+    scen_list = [
+        ("Bullish MXN", 17.00), ("Current Spot", round(S, 4)),
+        ("Base Case",   18.50), ("Bearish MXN", 20.50),
+    ]
+    scenarios = []
+    for label, sv in scen_list:
+        eff  = K_pf if sv >= K_pf else (1 - p) * K_pf + p * sv
+        mode = ("Protected (100% at Strike)" if sv >= K_pf else
+                f"{round((1-p)*100)}% at Strike + {round(p*100)}% at Spot")
+        scenarios.append({
+            "label": label, "spot": sv,
+            "effective_rate": round(eff, 4),
+            "cost_mxn":      round(eff * notional, 0),
+            "saving_mxn":    round((sv - eff) * notional, 0),
+            "mode":          mode,
+        })
+
+    n_pts   = 41
+    s_range = [round(14 + i * 0.2, 2) for i in range(n_pts)]
+    pf_curve = [round(K_pf if s >= K_pf else (1 - p) * K_pf + p * s, 5) for s in s_range]
+    return jsonify({
+        "currency": currency, "spot": round(S, 4), "forward_rate": round(F, 4),
+        "pf_strike": round(K_pf, 4), "participation_rate": p, "notional": notional,
+        "T": round(T, 4), "sigma": round(sigma * 100, 2), "scenarios": scenarios,
+        "source": fx["source"],
+        "chart": {"s_range": s_range, "pf_curve": pf_curve,
+                  "fwd_line": [round(F, 5)] * n_pts},
+    })
 
 # ── Monte Carlo (GBM, 500 sim) ─────────────────────────────────────────────────
 def run_monte_carlo(currency, target_dates_str, n_sim=500):
@@ -324,6 +395,6 @@ def api_summary():
 
 # ── Main ───────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    print("\n  FX Cobertura Dashboard")
+    print("\n  FX Hedge Dashboard")
     print("  http://localhost:5000\n")
     app.run(debug=True, port=5000)
